@@ -1,0 +1,39 @@
+version: "3.2"
+services:
+  postgres:    
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=userdb
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - PGDATA=/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - user_net    
+  
+  mcs_usuarios:
+    restart: always
+    image: mcs_usuarios:latest
+    env_file: ./users/.env.development      
+    command: python ./src/main.py
+    volumes:
+      - ./users/:/backend/
+    build: ./users
+    working_dir: /backend/
+    container_name: mcs_usuarios
+    ports:
+      - "5000:5000"
+    networks:
+      - user_net
+      - app_net      
+    depends_on:
+      - postgres
+  
+networks:
+  app_net:
+    driver: bridge
+  user_net:
+    driver: bridge
