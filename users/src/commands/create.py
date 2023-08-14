@@ -4,7 +4,7 @@ from errors import ApiError, UserNameExists, UserEmailExists, BadRequest
 from validators.validators import validateSchema, createUserSchema
 from .base_command import BaseCommannd
 from models import db, User
-import sqlalchemy
+from sqlalchemy.exc import SQLAlchemyError
 import uuid
 import hashlib
 
@@ -19,13 +19,17 @@ class CreateUser(BaseCommannd):
         if userToConsult != None:
             raise UserNameExists
 
-    # Función que valida si existe un usuario con el username
+    # Función que valida si existe un usuario con el email
     def validateEmail(self, email):
         userToConsult = User.query.filter(User.email == email).first()
         if userToConsult != None:
             raise UserEmailExists
 
-    # Función que valida si existe un usuario con el username
+    # Función que permite generar el password
+    def generatePassword(self, salt):
+        return hashlib.sha512(self.password.encode('utf-8') + salt.encode('utf-8')).hexdigest()
+
+    # Función que valida el request del servicio
     def validateRequest(self, userJson):
         # Validacion del request
         validateSchema(userJson, createUserSchema)
@@ -58,14 +62,13 @@ class CreateUser(BaseCommannd):
                 phoneNumber=self.phoneNumber,
                 dni=self.dni,
                 fullName=self.fullName,
-                password=hashlib.sha512(self.password.encode(
-                    'utf-8') + salt.encode('utf-8')).hexdigest(),
+                password=self.generatePassword(salt),
                 salt=salt
             )
             db.session.add(newUser)
             db.session.commit()
             return newUser
-        except sqlalchemy.exc.IntegrityError as e:
+        except SQLAlchemyError as e:
             traceback.print_exc()
             raise ApiError(e)
         
