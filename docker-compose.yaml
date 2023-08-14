@@ -18,7 +18,12 @@ services:
     restart: always
     image: mcs_usuarios:latest
     env_file: ./users/.env.development      
-    command: python ./src/main.py
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /backend/src
+        sh run_commands.sh
     volumes:
       - ./users/:/backend/
     build: ./users

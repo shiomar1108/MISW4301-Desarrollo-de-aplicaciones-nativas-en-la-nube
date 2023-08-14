@@ -1,4 +1,5 @@
 from flask import request, Blueprint
+from flask.json import jsonify
 from commands.create import CreateUser
 from models import UserSchema
 
@@ -11,7 +12,7 @@ users_blueprint = Blueprint('users', __name__)
 def create():
     data = request.get_json()
     result = CreateUser(data).execute()
-    # return jsonify({ 'sum': str(result), 'version': os.environ["VERSION"] })
-    return userSchema.dump(result), 201
+    dateFormatted = str(result.createdAt).split('.')[0].replace(' ', 'T')
+    return jsonify({ 'id': result.id, 'createdAt': dateFormatted })
 
 
