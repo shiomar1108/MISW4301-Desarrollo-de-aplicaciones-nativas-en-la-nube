@@ -1,8 +1,8 @@
 version: "3.2"
 services:
-  postgresql_user_db:    
+  user_db:    
     image: postgres:latest
-    container_name: postgresql_user_db
+    container_name: user_db
     env_file: ./users/.env.database   
     restart: always
     ports:
@@ -31,7 +31,7 @@ services:
       - user_net
       - app_net      
     depends_on:
-      - postgresql_user_db
+      - user_db
   
 networks:
   app_net:
