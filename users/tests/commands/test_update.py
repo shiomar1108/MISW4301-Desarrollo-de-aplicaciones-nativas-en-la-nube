@@ -8,7 +8,7 @@ class TestUpdate():
     
     dataFactory = Faker()
     
-    # Función que valida la creación exitosa de un usuario
+    # Función que valida la actualización exitosa de un usuario
     def test_update_user(self):
         username = self.dataFactory.first_name() + str(self.dataFactory.random_int(1, 1000000))
         password = self.dataFactory.password(
