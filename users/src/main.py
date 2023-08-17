@@ -3,8 +3,8 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import users_blueprint
-from errors import ApiError
-from models import db
+from errors.errors import ApiError
+from models.models import db
 import os
 
 # Constantes

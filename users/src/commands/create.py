@@ -1,12 +1,12 @@
 # Importación de dependencias
-import traceback
-from errors import ApiError, UserNameExists, UserEmailExists, BadRequest
+from commands.base_command import BaseCommannd
+from errors.errors import ApiError, UserNameExists, UserEmailExists
 from validators.validators import validateSchema, createUserSchema
-from .base_command import BaseCommannd
-from models import db, User
+from models.models import db, User
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
 import hashlib
+import traceback
 
 # Clase que contiene la logica de creción de usuarios
 class CreateUser(BaseCommannd):

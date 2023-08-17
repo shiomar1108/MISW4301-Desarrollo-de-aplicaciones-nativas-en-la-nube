@@ -1,8 +1,8 @@
 # Importación de dependencias
+from errors.errors import BadRequest
+from jsonschema import validate
 import traceback
 import jsonschema
-from jsonschema import validate
-from errors import BadRequest
 
 # Esquemas
 # Esquema para la creación de usuarios

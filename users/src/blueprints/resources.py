@@ -5,7 +5,7 @@ from commands.reset import ResetUsers
 from commands.authenticate import Authenticate
 from queries.detail import GetUserDetail
 from commands.update import UpdateUser
-from utilities import formatDateTimeToUTC
+from utilities.utilities import formatDateTimeToUTC
 
 users_blueprint = Blueprint('users', __name__)
 

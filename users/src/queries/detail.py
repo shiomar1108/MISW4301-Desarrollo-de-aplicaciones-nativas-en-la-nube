@@ -1,10 +1,10 @@
 # Importación de dependencias
-import traceback
-from errors import ApiError, InvalidToken, MissingToken
-from .base_query import BaseQuery
-from models import User
+from queries.base_query import BaseQuery
+from errors.errors import ApiError, InvalidToken, MissingToken
+from models.models import User
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
+import traceback
 
 # Clase que contiene la logica de creción de usuarios
 class GetUserDetail(BaseQuery):

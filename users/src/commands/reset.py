@@ -1,8 +1,8 @@
 # Importación de dependencias
+from commands.base_command import BaseCommannd
+from errors.errors import ApiError
+from models.models import db, User
 import traceback
-from errors import ApiError
-from .base_command import BaseCommannd
-from models import db, User
 
 # Clase que contiene la logica de creción de usuarios
 class ResetUsers(BaseCommannd):

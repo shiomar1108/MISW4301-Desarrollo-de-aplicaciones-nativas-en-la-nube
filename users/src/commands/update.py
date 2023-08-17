@@ -1,10 +1,10 @@
 # Importación de dependencias
-import traceback
-from errors import ApiError, UserNameNotExists, BadRequest
+from commands.base_command import BaseCommannd
+from errors.errors import ApiError, UserNameNotExists, BadRequest
 from validators.validators import validateSchema, updateUserSchema
-from .base_command import BaseCommannd
-from models import db, User
+from models.models import db, User
 from sqlalchemy.exc import SQLAlchemyError
+import traceback
 
 # Clase que contiene la logica de creción de usuarios
 class UpdateUser(BaseCommannd):

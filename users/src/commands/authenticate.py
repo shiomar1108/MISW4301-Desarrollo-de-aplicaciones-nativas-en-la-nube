@@ -1,9 +1,8 @@
 # Importación de dependencias
-
-from errors import ApiError, UserNameNotExists, PasswordNotExists
-from validators import validateSchema, generateTokenSchema
-from .base_command import BaseCommannd
-from models import db, User
+from commands.base_command import BaseCommannd
+from models.models import db, User
+from errors.errors import ApiError, UserNameNotExists, PasswordNotExists
+from validators.validators import validateSchema, generateTokenSchema
 from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError
 import traceback
