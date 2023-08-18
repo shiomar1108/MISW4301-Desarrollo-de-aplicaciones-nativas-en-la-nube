@@ -1,5 +1,5 @@
 # Importación de dependencias
-from errors.errors import BadRequest, OfferFieldCreateError, IdNotUUID
+from errors.errors import BadRequest, OfferFieldCreateError, IdNotUUID, MissingToken
 from jsonschema import validate
 import traceback
 import jsonschema
@@ -53,3 +53,9 @@ def validateIDsUUID(value):
     except ValueError:
         traceback.print_exc()
         raise IdNotUUID
+    
+# Función que valida los headers
+def validateHeaders(headers):
+    if "Authorization" not in headers:
+        traceback.print_exc()
+        raise MissingToken

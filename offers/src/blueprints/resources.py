@@ -5,6 +5,7 @@ from commands.reset import ResetOffers
 from commands.delete import DeleteOffer
 from commands.get import GetOffer
 from utilities.utilities import formatDateTimeToUTC
+from validators.validators import validateHeaders
 
 offers_blueprint = Blueprint('offers', __name__)
 
@@ -19,17 +20,23 @@ def reset():
 
 @offers_blueprint.route('/offers', methods=['POST'])
 def create():
+    data = request.headers
+    validateHeaders(data)
     data = request.get_json()
     result = CreateOffer(data).execute()
     return jsonify({'id': result.id,'userId': result.userId, 'createdAt': formatDateTimeToUTC(str(result.createdAt))}), 201
 
 @offers_blueprint.route('/offers/<string:id>', methods=['DELETE'])
 def delete(id):
+    data = request.headers
+    validateHeaders(data)
     DeleteOffer(id).execute()
     return jsonify({'msg': 'La oferta fue eliminada'}), 200
 
 @offers_blueprint.route('/offers/<string:id>', methods=['GET'])
 def get(id):
+    data = request.headers
+    validateHeaders(data)
     result = GetOffer(id).execute()
     return jsonify({'id': result.id, 'postId': result.postId, 'description': result.description, 'size': result.size, 'fragile': result.fragile, 'offer': result.offer, 'createdAt': result.createdAt, 'userId': result.userId}), 200
 
