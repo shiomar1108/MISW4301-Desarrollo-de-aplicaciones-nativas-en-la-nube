@@ -4,6 +4,7 @@ from commands.create import CreateOffer
 from commands.reset import ResetOffers
 from commands.delete import DeleteOffer
 from commands.get import GetOffer
+from commands.list import ListOffer
 from utilities.utilities import formatDateTimeToUTC
 from validators.validators import validateHeaders
 
@@ -40,3 +41,11 @@ def get(id):
     result = GetOffer(id).execute()
     return jsonify({'id': result.id, 'postId': result.postId, 'description': result.description, 'size': result.size, 'fragile': result.fragile, 'offer': result.offer, 'createdAt': result.createdAt, 'userId': result.userId}), 200
 
+@offers_blueprint.route('/offers', methods=['GET'])
+def listOffer():
+    post = request.args.get('post', None)
+    owner = request.args.get('owner', None)
+    data = request.headers
+    validateHeaders(data)
+    result = ListOffer(post, owner).execute()
+    return jsonify(result)

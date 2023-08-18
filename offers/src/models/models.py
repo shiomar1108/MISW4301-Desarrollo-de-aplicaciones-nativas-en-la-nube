@@ -22,6 +22,17 @@ class Offer(db.Model):
     offer = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     createdAt = db.Column(DateTime, default=datetime.utcnow)
 
+    def obj_to_dict(self):  # for build json format
+        return {
+            "id": self.id,
+            "postId": self.postId,
+            "userId": self.userId,
+            "description": self.description,
+            "size": self.size,
+            "fragile": self.fragile,
+            "offer": self.offer,
+            "createdAt": self.createdAt
+        }
 
 # Clase que autogenera el esquema del modelo Usuario
 class OfferSchema(SQLAlchemyAutoSchema):
