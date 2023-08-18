@@ -1,7 +1,7 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
 from errors.errors import ApiError
-from validators.validators import validateSchema, createOfferSchema
+from validators.validators import validateSchema, validateFieldSchema, createOfferSchema, OfferFieldsSchema
 from models.models import db, Offer
 from sqlalchemy.exc import SQLAlchemyError
 import traceback
@@ -15,6 +15,7 @@ class CreateOffer(BaseCommannd):
     def validateRequest(self, offerJson):
         # Validacion del request
         validateSchema(offerJson, createOfferSchema)
+        validateFieldSchema(offerJson, OfferFieldsSchema)
         # Asignacion de variables
         self.postId = offerJson['postId']
         self.description = offerJson['description']

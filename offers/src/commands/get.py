@@ -3,6 +3,7 @@ from commands.base_command import BaseCommannd
 from errors.errors import ApiError, NotFound
 from models.models import db, Offer
 from sqlalchemy.exc import SQLAlchemyError
+from validators.validators import validateIDsUUID
 import traceback
 
 # Clase que contiene la logica de creción de usuarios
@@ -11,8 +12,9 @@ class GetOffer(BaseCommannd):
         self.offerId = offerId
 
     # Función que realiza creación del usuario
-    def query(self):
+    def execute(self):
         try:
+            validateIDsUUID(self.offerId)
             offerToConsult = Offer.query.filter(Offer.id == self.offerId).first()
             if offerToConsult == None:
                 raise NotFound

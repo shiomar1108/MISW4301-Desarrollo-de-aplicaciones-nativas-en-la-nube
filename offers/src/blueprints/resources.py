@@ -30,6 +30,6 @@ def delete(id):
 
 @offers_blueprint.route('/offers/<string:id>', methods=['GET'])
 def get(id):
-    result = GetOffer(id).query()
+    result = GetOffer(id).execute()
     return jsonify({'id': result.id, 'postId': result.postId, 'description': result.description, 'size': result.size, 'fragile': result.fragile, 'offer': result.offer, 'createdAt': result.createdAt, 'userId': result.userId}), 200
 

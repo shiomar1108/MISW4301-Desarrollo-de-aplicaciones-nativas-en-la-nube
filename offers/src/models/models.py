@@ -14,12 +14,12 @@ db = SQLAlchemy()
 class Offer(db.Model):
     __tablename__ = "offers"
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    postId = db.Column(db.String(64), unique=True)
-    userId = db.Column(db.String(64))
-    description = db.Column(db.String(140))
-    size = db.Column(db.String(140), default="SMALL")
-    fragile = db.Column(db.Boolean,default=True)
-    offer = db.Column(db.Float, precision=2)
+    postId = db.Column(db.String(64), unique=True, nullable=False)
+    userId = db.Column(db.String(64), nullable=True)
+    description = db.Column(db.String(140), nullable=False)
+    size = db.Column(db.String(140), default="SMALL", nullable=False)
+    fragile = db.Column(db.Boolean,default=True, nullable=False)
+    offer = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     createdAt = db.Column(DateTime, default=datetime.utcnow)
 
 
