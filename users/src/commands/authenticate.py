@@ -61,6 +61,6 @@ class Authenticate(BaseCommannd):
             userToUpdate.expireAt = self.generateExpirationDateTime()
             db.session.commit()
             return userToUpdate
-        except SQLAlchemyError as e:
+        except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)

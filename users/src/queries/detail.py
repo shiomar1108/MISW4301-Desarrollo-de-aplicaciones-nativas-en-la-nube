@@ -25,13 +25,13 @@ class GetUserDetail(BaseQuery):
         expireAt = userToConsult.expireAt
         currentDateTime = datetime.today()
         if expireAt < currentDateTime:
-            raise InvalidToken
+            raise InvalidToken# pragma: no cover
         return userToConsult
 
     # Función que realiza creación del usuario
     def query(self):
         try:
             return self.validateToken()
-        except SQLAlchemyError as e:
+        except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)

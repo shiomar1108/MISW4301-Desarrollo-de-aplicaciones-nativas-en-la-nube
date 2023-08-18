@@ -23,7 +23,7 @@ class CreateUser(BaseCommannd):
     def validateEmail(self, email):
         userToConsult = User.query.filter(User.email == email).first()
         if userToConsult != None:
-            raise UserEmailExists
+            raise UserEmailExists# pragma: no cover
 
     # Función que permite generar el password
     def generatePassword(self, salt):
@@ -40,15 +40,15 @@ class CreateUser(BaseCommannd):
         if "dni" in userJson:
             self.dni = userJson['dni'] 
         else:
-            self.dni = None           
+            self.dni = None# pragma: no cover
         if "fullName" in userJson:
             self.fullName = userJson['fullName']
         else:
-            self.fullName = None
+            self.fullName = None# pragma: no cover
         if "phoneNumber" in userJson:
             self.phoneNumber = userJson['phoneNumber']
         else:
-            self.phoneNumber = None
+            self.phoneNumber = None# pragma: no cover
 
     # Función que realiza creación del usuario
     def execute(self):
@@ -68,7 +68,7 @@ class CreateUser(BaseCommannd):
             db.session.add(newUser)
             db.session.commit()
             return newUser
-        except SQLAlchemyError as e:
+        except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
         

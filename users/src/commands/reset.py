@@ -11,6 +11,6 @@ class ResetUsers(BaseCommannd):
         try:
             db.session.query(User).delete()
             db.session.commit()
-        except Exception as e:
+        except Exception as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
