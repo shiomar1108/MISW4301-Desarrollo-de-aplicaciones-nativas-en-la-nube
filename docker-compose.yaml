@@ -21,7 +21,7 @@ services:
       # target: prod      
     container_name: mcs_users
     ports:
-      - "5000:5000"
+      - "3000:5000"
     networks:
       - user_net
       - app_net      
