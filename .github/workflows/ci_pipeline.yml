@@ -24,12 +24,9 @@ jobs:
       - name: Run unit tests for users mcs
         working-directory: ./users
         run: pytest --cov-fail-under=70 --cov=src
-      - name: CleanUp after test part 1
+      - name: CleanUp after test
         working-directory: ./users
-        run: docker rm -vf $(docker ps -aq) 
-      - name: CleanUp after test part 2
-        working-directory: ./users
-        run: docker rmi -f $(docker images -aq)
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
 
   Test_Coverage_Offers:
     runs-on: ubuntu-latest
@@ -50,10 +47,7 @@ jobs:
       - name: Run unit tests for offers mcs
         working-directory: ./offers
         run: pytest --cov-fail-under=70 --cov=src
-      - name: CleanUp after test part 1
+      - name: CleanUp after test
         working-directory: ./offers
-        run: docker rm -vf $(docker ps -aq) 
-      - name: CleanUp after test part 2
-        working-directory: ./offers
-        run: docker rmi -f $(docker images -aq)
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
 

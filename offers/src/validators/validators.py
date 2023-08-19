@@ -1,9 +1,11 @@
 # Importación de dependencias
-from errors.errors import BadRequest, OfferFieldCreateError, IdNotUUID, MissingToken
+from errors.errors import BadRequest, OfferFieldCreateError, IdNotUUID, InvalidToken, MissingToken
 from jsonschema import validate
 import traceback
 import jsonschema
 import uuid
+import requests
+import os
 
 # Esquemas para la creación de una Oferta
 createOfferSchema = {
@@ -55,7 +57,15 @@ def validateIDsUUID(value):
         raise IdNotUUID
     
 # Función que valida los headers
-def validateHeaders(headers):
-    if "Authorization" not in headers:
+def validateToken(headers):
+    USERS_PATH = os.environ["USERS_PATH"]
+    # call user/me
+    result =  requests.get(USERS_PATH+'/users/me', headers=headers)
+    if result.status_code == 401:
+        traceback.print_exc()
+        raise InvalidToken
+    if result.status_code == 403:
         traceback.print_exc()
         raise MissingToken
+    return result.json()["id"]
+        

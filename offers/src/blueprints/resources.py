@@ -6,7 +6,7 @@ from commands.delete import DeleteOffer
 from commands.get import GetOffer
 from commands.list import ListOffer
 from utilities.utilities import formatDateTimeToUTC
-from validators.validators import validateHeaders
+from validators.validators import validateToken
 
 offers_blueprint = Blueprint('offers', __name__)
 
@@ -22,22 +22,22 @@ def reset():
 @offers_blueprint.route('/offers', methods=['POST'])
 def create():
     data = request.headers
-    validateHeaders(data)
+    user = validateToken(data)
     data = request.get_json()
-    result = CreateOffer(data).execute()
+    result = CreateOffer(data, user).execute()
     return jsonify({'id': result.id,'userId': result.userId, 'createdAt': formatDateTimeToUTC(str(result.createdAt))}), 201
 
 @offers_blueprint.route('/offers/<string:id>', methods=['DELETE'])
 def delete(id):
     data = request.headers
-    validateHeaders(data)
+    validateToken(data)
     DeleteOffer(id).execute()
     return jsonify({'msg': 'La oferta fue eliminada'}), 200
 
 @offers_blueprint.route('/offers/<string:id>', methods=['GET'])
 def get(id):
     data = request.headers
-    validateHeaders(data)
+    validateToken(data)
     result = GetOffer(id).execute()
     return jsonify({'id': result.id, 'postId': result.postId, 'description': result.description, 'size': result.size, 'fragile': result.fragile, 'offer': result.offer, 'createdAt': result.createdAt, 'userId': result.userId}), 200
 
@@ -46,6 +46,9 @@ def listOffer():
     post = request.args.get('post', None)
     owner = request.args.get('owner', None)
     data = request.headers
-    validateHeaders(data)
+    if owner == 'me':
+        owner = validateToken(data)
+    else:
+        validateToken(data)
     result = ListOffer(post, owner).execute()
     return jsonify(result)
