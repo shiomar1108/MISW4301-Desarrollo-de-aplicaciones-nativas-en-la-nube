@@ -11,12 +11,22 @@ jobs:
         python-version: [ 3.10 ]
     steps:
       - uses: actions/checkout@v1
-      - name: Install pipenv
-        working-directory: ./calculator
+      - name: Install pipenv for users mcs
+        working-directory: ./users
         run: pip install pipenv
-      - name: Install dependencies
-        working-directory: ./calculator
+      - name: Install dependencies for users mcs
+        working-directory: ./users
         run: pipenv install --dev
-      - name: Run unit tests
-        working-directory: ./calculator
+      - name: Create the Test DB
+        working-directory: ./users
+        run: docker run -d -p 5432:5432 --name userdb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=userdb postgres:14.1
+      - name: Run unit tests for users mcs
+        working-directory: ./users
         run: pipenv run pytest --cov=src -v -s --cov-fail-under=70
+      - name: CleanUp after test part 1
+        working-directory: ./users
+        run: docker rm -vf $(docker ps -aq) 
+      - name: CleanUp after test part 2
+        working-directory: ./users
+        run: docker rmi -f $(docker images -aq)
+
