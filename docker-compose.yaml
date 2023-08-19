@@ -4,15 +4,20 @@ services:
     image: postgres:14.1-alpine
     container_name: user_db
     env_file: ./users/.env.database   
-  offers_db:    
+    restart: always
+    ports:
+      - "5432:5432"    
+    networks:
+      - user_net 
+  offer_db:    
     image: postgres:14.1-alpine
-    container_name: offers_db
+    container_name: offer_db
     env_file: ./offers/.env.database   
     restart: always
     ports:
       - "5432:5432"    
     networks:
-      - user_net
+      - offer_net
   
   mcs_users:
     restart: always
@@ -31,7 +36,6 @@ services:
       - app_net      
     depends_on:
       - user_db
-      - offer_net
   
   mcs_offers:
     restart: always
@@ -49,7 +53,7 @@ services:
       - offer_net
       - app_net      
     depends_on:
-      - offers_db
+      - offer_db
 
 networks:
   app_net:

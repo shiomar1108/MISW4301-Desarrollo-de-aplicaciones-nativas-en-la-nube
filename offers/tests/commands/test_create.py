@@ -22,15 +22,15 @@ class TestCreate():
         self.userId = self.dataFactory.uuid4()
         self.description = self.dataFactory.sentence(nb_words=8)
         self.size = random.choice(self.sizeList)
-        self.fragile = self.dataFactory.pybool(left_digits=6, right_digits=2, positive=True)
-        self.offer = self.dataFactory.pydecimal()
+        self.fragile = random.choice([True, False])
+        self.offer = self.dataFactory.pydecimal(left_digits=6, right_digits=2, positive=True)
         self.data = {
             "postId": f"{self.postId}",
             "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
-            "fragile": f"{self.fragile}",
-            "offer": f"{self.offer}"
+            "fragile": self.fragile,
+            "offer": self.offer
         }
 
     # Función que valida la creación exitosa de una oferta
@@ -50,14 +50,14 @@ class TestCreate():
             "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
-            "fragile": f"{self.fragile}"
+            "fragile": self.fragile
         }
             CreateOffer(data2).execute()
         except Exception as e:
             assert e.code == 400
 
     # Función que valida la creación de una oferta con un parametro mal
-    def test_create_new_offer_missing(self):
+    def test_create_new_offer_wrong(self):
         try:
             # Creación oferta
             self.set_up()
@@ -66,8 +66,8 @@ class TestCreate():
             "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
-            "fragile": f"{self.fragile}",
-            "offer": f"{-100}"
+            "fragile": self.fragile,
+            "offer": -100
         }
             CreateOffer(data3).execute()
         except Exception as e:
