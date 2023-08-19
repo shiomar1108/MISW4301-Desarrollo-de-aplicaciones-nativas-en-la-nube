@@ -4,15 +4,16 @@ from errors.errors import ApiError
 from validators.validators import validateSchema, validateFieldSchema, createOfferSchema, OfferFieldsSchema
 from models.models import db, Offer
 from sqlalchemy.exc import SQLAlchemyError
+from utilities.utilities import formatDateTimeToUTC
 import traceback
 
 # Clase que contiene la logica de creción de usuarios
 class CreateOffer(BaseCommannd):
-    def __init__(self, offer):
-        self.validateRequest(offer)
+    def __init__(self, offer, user):
+        self.validateRequest(offer, user)
 
     # Función que valida el request del servicio
-    def validateRequest(self, offerJson):
+    def validateRequest(self, offerJson, user):
         # Validacion del request
         validateSchema(offerJson, createOfferSchema)
         validateFieldSchema(offerJson, OfferFieldsSchema)
@@ -22,6 +23,7 @@ class CreateOffer(BaseCommannd):
         self.size = offerJson['size']
         self.fragile = offerJson['fragile']
         self.offer = offerJson['offer']
+        self.userId = user
 
     # Función que realiza creación del usuario
     def execute(self):
@@ -32,6 +34,7 @@ class CreateOffer(BaseCommannd):
                 size=self.size,
                 fragile=self.fragile,
                 offer=self.offer,
+                userId =  self.userId,
             )
             db.session.add(newOffer)
             db.session.commit()

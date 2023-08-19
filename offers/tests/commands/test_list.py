@@ -30,7 +30,6 @@ class TestCreate():
         self.offer = self.dataFactory.pydecimal(left_digits=6, right_digits=2, positive=True)
         self.data = {
             "postId": f"{self.postId}",
-            "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
             "fragile": self.fragile,
@@ -39,7 +38,7 @@ class TestCreate():
 
     # Función que valida la creación exitosa de una oferta
     def create_offer(self):
-        result = CreateOffer(self.data).execute()
+        result = CreateOffer(self.data, self.userId).execute()
         assert result != None
         self.owner = result.userId
         self.post = result.postId

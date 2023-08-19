@@ -26,7 +26,6 @@ class TestCreate():
         self.offer = self.dataFactory.pydecimal(left_digits=6, right_digits=2, positive=True)
         self.data = {
             "postId": f"{self.postId}",
-            "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
             "fragile": self.fragile,
@@ -37,7 +36,7 @@ class TestCreate():
     def test_create_new_offer(self):
         # Creación oferta
         self.set_up()
-        result = CreateOffer(self.data).execute()
+        result = CreateOffer(self.data, self.userId).execute()
         assert result != None
 
     # Función que valida la creación de una oferta con un parametro faltante
@@ -47,12 +46,11 @@ class TestCreate():
             self.set_up()
             data2 = {
             "postId": f"{self.postId}",
-            "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
             "fragile": self.fragile
         }
-            CreateOffer(data2).execute()
+            CreateOffer(data2, self.userId).execute()
         except Exception as e:
             assert e.code == 400
 
@@ -63,12 +61,11 @@ class TestCreate():
             self.set_up()
             data3 = {
             "postId": f"{self.postId}",
-            "userId": f"{self.userId}",
             "description": f"{self.description}",
             "size": f"{self.size}",
             "fragile": self.fragile,
             "offer": -100
         }
-            CreateOffer(data3).execute()
+            CreateOffer(data3, self.userId).execute()
         except Exception as e:
             assert e.code == 412
