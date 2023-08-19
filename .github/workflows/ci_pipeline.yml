@@ -1,8 +1,9 @@
 name: Test coverage
 on:
   push:
-    branches: 
-      - main
+  pull_request:
+    branches:
+      - master
 jobs:
   Test_Coverage_Users:
     runs-on: ubuntu-latest
