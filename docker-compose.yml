@@ -1,0 +1,35 @@
+version: "3.2"
+services:
+  route_db:    
+    image: postgres:14.1-alpine
+    container_name: route_db
+    env_file: ./routes/.env.database   
+    restart: always
+    ports:
+      - "5432:5432"    
+    networks:
+      - route_net
+  
+  mcs_routes:
+    restart: always
+    image: mcs_routes:latest
+    env_file: ./routes/.env.development      
+    build: 
+      context: ./routes
+      dockerfile: Dockerfile
+      target: dev
+      # target: prod      
+    container_name: mcs_routes
+    ports:
+      - "5000:5000"
+    networks:
+      - route_net
+      - app_net      
+    depends_on:
+      - route_db
+
+networks:
+  app_net:
+    driver: bridge
+  route_net:
+    driver: bridge
