@@ -8,7 +8,16 @@ services:
     ports:
       - "5432:5432"    
     networks:
-      - user_net
+      - user_net 
+  offer_db:    
+    image: postgres:14.1-alpine
+    container_name: offer_db
+    env_file: ./offers/.env.database   
+    restart: always
+    ports:
+      - "5433:5432"    
+    networks:
+      - offer_net
   
   mcs_users:
     restart: always
@@ -27,9 +36,29 @@ services:
       - app_net      
     depends_on:
       - user_db
+  
+  mcs_offers:
+    restart: always
+    image: mcs_offers:latest
+    env_file: ./offers/.env.development      
+    build: 
+      context: ./offers
+      dockerfile: Dockerfile
+      target: dev
+      # target: prod      
+    container_name: mcs_offers
+    ports:
+      - "3003:5000"
+    networks:
+      - offer_net
+      - app_net      
+    depends_on:
+      - offer_db
 
 networks:
   app_net:
     driver: bridge
   user_net:
+    driver: bridge
+  offer_net:
     driver: bridge
