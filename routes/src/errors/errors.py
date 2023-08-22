@@ -27,3 +27,13 @@ class MissingToken(ApiError):
 class BadRequest(ApiError):
     code = 400
     description = "Párametros de entrada invalidos"
+
+# Clase que contiene la estructura de error cuando no se encuentra el ID
+class NotFound(ApiError):
+    code = 404
+    description = "La Oferta con ese id no existe."
+
+# Clase que contiene la estructura de error cuando el ID no esta en Formato UUID
+class IdNotUUID(ApiError):
+    code = 400
+    description = "El ID dado no esta en formato UUID"

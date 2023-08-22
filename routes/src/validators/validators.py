@@ -2,7 +2,10 @@
 import traceback
 import jsonschema
 from jsonschema import validate
-from errors.errors import BadRequest
+from errors.errors import BadRequest, IdNotUUID, InvalidToken, MissingToken
+import uuid
+import os
+import requests
 
 
 # Esquemas
@@ -32,3 +35,25 @@ def validateSchema(jsonData, schema):
     except jsonschema.exceptions.ValidationError as err:
         traceback.print_exc()
         raise BadRequest
+
+# Función que valida el id en formato UUID
+def validateIDsUUID(value):
+    try:
+        uuid.UUID(str(value))
+    except ValueError:
+        traceback.print_exc()
+        raise IdNotUUID
+
+# Función que valida los headers
+def validateToken(headers):
+    USERS_PATH = os.environ["USERS_PATH"]
+    # call user/me
+    result =  requests.get(USERS_PATH+'/users/me', headers=headers)
+    if result.status_code == 401:
+        traceback.print_exc()
+        raise InvalidToken
+    if result.status_code == 403:
+        traceback.print_exc()
+        raise MissingToken
+    return result.json()["id"]
+        

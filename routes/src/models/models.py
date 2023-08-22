@@ -25,6 +25,21 @@ class Route(db.Model):
     createdAt = db.Column(DateTime, default=datetime.utcnow)
     updatedAt = db.Column(DateTime, default=datetime.utcnow)
 
+    def obj_to_dict(self):  # for build json format
+        return {
+            "id": self.id,
+            "flightId": self.flightId,
+            "sourceAirportCode": self.sourceAirportCode,
+            "sourceCountry": self.sourceCountry,
+            "destinyAirportCode": self.destinyAirportCode,
+            "destinyCountry": self.destinyCountry,
+            "bagCost": self.bagCost,
+            "plannedStartDate": self.plannedStartDate,
+            "plannedEndDate": self.plannedEndDate,
+            "createdAt": self.createdAt
+        }
+
+
 # Clase que autogenera el esquema del modelo Usuario
 class RouteSchema(SQLAlchemyAutoSchema):
     class Meta:

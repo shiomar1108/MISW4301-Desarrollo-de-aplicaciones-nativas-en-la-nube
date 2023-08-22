@@ -7,43 +7,28 @@ from sqlalchemy.exc import SQLAlchemyError
 import uuid
 import hashlib
 import traceback
+import json
 from datetime import datetime
 
 
+def dict_helper(objlist):
+    result2 = [item.obj_to_dict() for item in objlist]
+    return result2
 
-# Clase que contiene la logica de creción de rutas
+# Clase que contiene la logica de Consulta de rutas
 class QueryRoute(BaseCommannd):
-    def __init__(self,flightId):
-        self.validateRequest(flightId)
-
-
-    # Función que valida el request del servicio
-    def validateRequest(self,flightId):
-        # Validacion del request
-        if flightId is None:
-            raise UserEmailExists  # pragma: no cover
-        
-        
-
+    def __init__(self, flightId):        
+        self.flightId = flightId
 
     # Función que realiza creación del usuario
-    def execute(self,flightId):
+    def execute(self):
         try:
-            routeToConsult = Route.query.filter(Route.flightId == flightId).first()    
-            print(routeToConsult)
-            newRoute = Route(
-                flightId=routeToConsult.flightId,
-                sourceAirportCode=routeToConsult.sourceAirportCode,
-                sourceCountry=routeToConsult.sourceCountry,
-                destinyAirportCode=routeToConsult.destinyAirportCode,
-                destinyCountry=routeToConsult.destinyCountry,
-                bagCost=routeToConsult.bagCost,
-                plannedStartDate=routeToConsult.plannedStartDate,
-                plannedEndDate=routeToConsult.plannedEndDate,
-                createdAt=routeToConsult.createdAt                
-            )
-            
-            return newRoute
+            if self.flightId is None:
+                routeList = Route.query.all()
+            else:
+                routeList = Route.query.filter(Route.flightId == self.flightId)
+            print(routeList) 
+            return  dict_helper(routeList)
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
