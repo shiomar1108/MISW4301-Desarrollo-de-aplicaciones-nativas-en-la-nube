@@ -1,6 +1,6 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
-from errors.errors import ApiError,  NotFound
+from errors.errors import ApiError,  NotFound, IdNotUUID, NotFound
 from validators.validators import validateSchema, createRouteSchema,validateIDsUUID
 from models.models import db, Route
 from sqlalchemy.exc import SQLAlchemyError
@@ -23,3 +23,9 @@ class GetRoute(BaseCommannd):
         except SQLAlchemyError as e:
             traceback.print_exc()
             raise ApiError(e)
+        except IdNotUUID as e:
+            traceback.print_exc()
+            raise IdNotUUID(e)
+        except NotFound as e:
+            traceback.print_exc()
+            raise NotFound(e)

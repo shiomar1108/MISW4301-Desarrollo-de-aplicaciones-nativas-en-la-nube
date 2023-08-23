@@ -6,7 +6,7 @@ from errors.errors import BadRequest, IdNotUUID, InvalidToken, MissingToken
 import uuid
 import os
 import requests
-
+import re
 
 # Esquemas
 # Esquema para la creación de usuarios
@@ -44,6 +44,16 @@ def validateIDsUUID(value):
         traceback.print_exc()
         raise IdNotUUID
 
+    user = validateToken(header)
+
+# Funcion Validar Si existe el Token 
+def validateExistTokenHeader(headers):
+    token = headers.get('Authorization')
+    if token is None:
+        raise MissingToken
+
+
+
 # Función que valida los headers
 def validateToken(headers):
     USERS_PATH = os.environ["USERS_PATH"]
@@ -56,4 +66,13 @@ def validateToken(headers):
         traceback.print_exc()
         raise MissingToken
     return result.json()["id"]
+
+
+def validateFlight(flight):
+    regex = e.compile('[A-Z]{2}[0-9]{3}')
+    result = regex.match(flight)
+    if result is None:
+        raise validateFlightError
+
+
         

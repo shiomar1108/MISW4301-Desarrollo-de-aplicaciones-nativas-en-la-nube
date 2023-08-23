@@ -25,3 +25,9 @@ class DeleteRoute(BaseCommannd):
         except SQLAlchemyError as e:
             traceback.print_exc()
             raise ApiError(e)
+        except IdNotUUID as e:
+            traceback.print_exc()
+            raise IdNotUUID(e)
+        except NotFound as e:
+            traceback.print_exc()
+            raise NotFound(e)

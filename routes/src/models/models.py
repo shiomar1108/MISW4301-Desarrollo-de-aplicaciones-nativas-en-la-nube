@@ -15,7 +15,7 @@ class Route(db.Model):
     __tablename__ = "routes"
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     flightId = db.Column(db.String(5), unique=True)
-    sourceAirportCode = db.Column(db.String(5), unique=True)
+    sourceAirportCode = db.Column(db.String(5),nullable=True)
     sourceCountry = db.Column(db.String(64), nullable=True)
     destinyAirportCode = db.Column(db.String(5), nullable=True)
     destinyCountry = db.Column(db.String(64), nullable=True)

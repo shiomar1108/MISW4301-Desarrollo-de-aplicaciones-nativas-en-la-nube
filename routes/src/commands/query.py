@@ -1,7 +1,7 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
-from errors.errors import ApiError,  UserEmailExists
-from validators.validators import validateSchema, createRouteSchema
+from errors.errors import ApiError, validateFlightError  
+from validators.validators import validateSchema, createRouteSchema, validateFlight
 from models.models import db, Route
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
@@ -24,11 +24,15 @@ class QueryRoute(BaseCommannd):
     def execute(self):
         try:
             if self.flightId is None:
+                validateFlight(flightId)
                 routeList = Route.query.all()
             else:
                 routeList = Route.query.filter(Route.flightId == self.flightId)
             print(routeList) 
             return  dict_helper(routeList)
+        except SQLAlchemyError as e:# pragma: no cover
+            traceback.print_exc()
+            raise ApiError(e)
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
