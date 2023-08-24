@@ -55,6 +55,8 @@ jobs:
         uses: mikefarah/yq@v4.30.8
       - name: Save folder name to env variable
         run: echo "CONFIG_PATH=$(yq '.route-management.folder' config.yaml)" >> $GITHUB_ENV
+      - name: Save port to env variable
+        run: echo "CONFIG_PORT=$(yq '.user-management.port' config.yaml)" >> $GITHUB_ENV
       - name: Install newman
         run: npm install -g newman
       - name: Create evaluator folder
