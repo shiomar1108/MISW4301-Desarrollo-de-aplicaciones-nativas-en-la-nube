@@ -5,33 +5,31 @@ from models.model import PostSchema
 from validators.validators import validateToken
 
 
+
 publicacion_schema = PostSchema()
 
 class VistaPosts(Resource):
 
-    def post(self):
-        validateToken(request.headers)
-        try:
-            newPostObj = create.CreatePost(post_request_json=request.get_json())
-        except Exception as e:
-            if e.__class__.__name__=='InvalidExpirationDate':
-                return jsonify({"msg": "La fecha de expiración no es válida"})
-        else:
-            new_post = newPostObj.execute()
-            return jsonify({"id":new_post.id, "userId":new_post.userId, "createdAt":new_post.createdAt.replace(microsecond=0).isoformat()}), 201        
+    def post(self):        
+        userId = validateToken(request.headers)
+        newPostObj = create.CreatePost(post_request_json=request.get_json(), userId=userId)
+        new_post = newPostObj.execute()           
+        return publicacion_schema.dump(new_post), 201
 
-    def get(self):
-        validateToken(request.headers)
-        PostQueryObj = query.QueryPost(post_request_args=request.args)        
-        return [publicacion_schema.dump(post) for post in PostQueryObj.execute()]
+
+    def get(self):        
+        userId = validateToken(request.headers)
+        PostQueryObj = query.QueryPost(post_request_args=request.args, userId=userId)
+        posts = PostQueryObj.execute()
+        return [publicacion_schema.dump(post) for post in posts], 200
 
 
 class VistaPostsReset(Resource):
 
-    def delete(self):        
+    def post(self):        
         PostResetObj = reset.ResetPosts()
         PostResetObj.execute()        
-        return jsonify({"msg": "Todos los datos fueron eliminados"})
+        return jsonify({"msg": "Todos los datos fueron eliminados"}), 200
 
 
 class VistaPost(Resource):
@@ -39,15 +37,16 @@ class VistaPost(Resource):
     def get(self, postId):
         validateToken(request.headers)
         PostGetObj = get.GetPost(postId=postId)
-        return publicacion_schema.dump(PostGetObj.execute())
+        post = PostGetObj.execute()
+        return publicacion_schema.dump(post), 200
 
     def delete(self, postId):
         validateToken(request.headers)
         PostDeleteObj = delete.DeletePost(postId=postId)
-        PostDeleteObj.execute()        
-        return jsonify({"msg": "la publicación fue eliminada"})        
+        PostDeleteObj.execute()
+        return jsonify({"msg": "la publicación fue eliminada"}), 200        
        
 
 class VistaPostHealthCheck(Resource):
     def get(self):
-        return jsonify({'status': 'pong'})
+        return jsonify({'status': 'pong'}), 200

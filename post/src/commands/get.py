@@ -8,11 +8,14 @@ import traceback
 
 class GetPost(BaseCommannd):
     def __init__(self, postId):
-        self.postId = postId        
+        self.validateRequest(postId)
+
+    def validateRequest(self, postId):
+        self.postId = postId
+        validateUUID(self.postId)        
 
     def execute(self):
-        try:
-            validateUUID(self.postId)
+        try:            
             post = Post.query.filter(Post.id == self.postId).first()
             if post is None:
                 raise PostDoNotExist   

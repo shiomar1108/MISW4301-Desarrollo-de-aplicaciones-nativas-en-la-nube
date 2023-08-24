@@ -1,7 +1,6 @@
-from dotenv import load_dotenv
 from os import environ as env
 
-load_dotenv('.env.development')
+
 DB_USER = env['DB_USER']
 DB_PASSWORD = env['DB_PASSWORD']
 DB_HOST = env['DB_HOST']

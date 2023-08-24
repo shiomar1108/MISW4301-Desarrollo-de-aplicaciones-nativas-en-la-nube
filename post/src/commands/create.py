@@ -1,26 +1,27 @@
 from commands.base_command import BaseCommannd
 from errors.errors import ApiError
-from validators.validators import validateSchema, validateToken, validateUUID, validateDateString, createPostSchema
+from validators.validators import validateSchema, validateUUID, validateDateString, createPostSchema
 from models.model import db, Post
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
 import traceback
 from datetime import datetime
+from dateutil.parser import parse
 
 
 class CreatePost(BaseCommannd):
-    def __init__(self, post_request_json):
-        self.validateRequest(post_request_json)
+    def __init__(self, post_request_json, userId):
+        self.validateRequest(post_request_json, userId)
     
-    def validateRequest(self, post_request_json):
+    def validateRequest(self, post_request_json, userId):
         validateSchema(post_request_json, createPostSchema)
-        validateUUID(post_request_json['routeId'])
+        validateUUID(post_request_json['routeId'])        
         validateDateString(post_request_json['expireAt'])            
         self.id = str(uuid.uuid1())
         self.routeId = post_request_json['routeId']
-        self.userId = validateToken()
+        self.userId = userId
         self.createdAt = datetime.now()
-        self.expireAt = post_request_json['expireAt']        
+        self.expireAt = parse(post_request_json['expireAt'])
 
     def execute(self):
         try:    
