@@ -1,7 +1,7 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
 from errors.errors import ApiError, validateFlightError  
-from validators.validators import validateSchema, createRouteSchema, validateFlight
+from validators.validators import validateFlight
 from models.models import db, Route
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
@@ -23,10 +23,10 @@ class QueryRoute(BaseCommannd):
     # Función que realiza creación del usuario
     def execute(self):
         try:
-            if self.flightId is None:
-                validateFlight(flightId)
+            if self.flightId is None:                
                 routeList = Route.query.all()
             else:
+                validateFlight(self.flightId)
                 routeList = Route.query.filter(Route.flightId == self.flightId)
             print(routeList) 
             return  dict_helper(routeList)

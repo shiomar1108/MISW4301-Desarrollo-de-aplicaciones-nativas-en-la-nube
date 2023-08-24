@@ -19,17 +19,19 @@ class CreateRoute(BaseCommannd):
     def validateDates(self, plannedStartDate, plannedEndDate):
         formatting = "%Y-%m-%dT%H:%M:%S.%fZ"
         date1 = datetime.strptime(plannedStartDate, formatting)
-        date2 = datetime.strptime(plannedEndDate,formatting)
-        if date1 > date2:
+        date2 = datetime.strptime(plannedEndDate, formatting)
+        actualDate = datetime.now()
+        if actualDate > date1:
             raise ValidateDates  # pragma: no cover
-        else:
-            if date1 == date2:
+        elif date1 > date2:
+            raise ValidateDates  # pragma: no cover
+        elif date1 == date2:
                 raise ValidateDates  # pragma: no cover
     
     #Funcion para vlaidar si existe un fligthID
     def existFligthId(self):
         result = QueryRoute(self.flightId).execute()
-        if result.count() > 0:
+        if result is None:
             raise fligthExists 
 
     # Función que valida el request del servicio
@@ -50,10 +52,11 @@ class CreateRoute(BaseCommannd):
 
     # Función que realiza creación del usuario
     def execute(self):
+        self.validateDates(self.plannedStartDate, self.plannedEndDate)
+        
         try:
-            self.validateDates(self.plannedStartDate, self.plannedEndDate)
             #validate flighId
-            self.existFligthId()    
+            self.existFligthId()   
             newRoute = Route(
                 flightId=self.flightId,
                 sourceAirportCode=self.sourceAirportCode,

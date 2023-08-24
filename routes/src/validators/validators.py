@@ -2,7 +2,7 @@
 import traceback
 import jsonschema
 from jsonschema import validate
-from errors.errors import BadRequest, IdNotUUID, InvalidToken, MissingToken
+from errors.errors import BadRequest, IdNotUUID, InvalidToken, MissingToken,validateFlightError
 import uuid
 import os
 import requests
@@ -69,8 +69,8 @@ def validateToken(headers):
 
 
 def validateFlight(flight):
-    regex = e.compile('[A-Z]{2}[0-9]{3}')
-    result = regex.match(flight)
+    regex = re.compile('[0-9]{5}')
+    result = regex.match(str(flight))
     if result is None:
         raise validateFlightError
 
