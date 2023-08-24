@@ -1,12 +1,76 @@
 version: '3'
 services:
+  users_db:
+    container_name: users_db
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: usersdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - user_net   
+  
+  users:
+    container_name: users
+    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/entrega1-users:latest
+    ports:
+      - "3000:3000"
+    environment:
+      DB_NAME: usersdb
+      DB_HOST: users_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    restart: always
+    networks:
+      - user_net 
+      - app_net
+    depends_on:
+      - users_db
+  
+  posts_db:
+    container_name: posts_db  
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: postsdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    restart: always
+    networks:
+      - post_net
+
+  posts:
+    container_name: posts
+    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/entrega1-posts:latest
+    ports:
+      - "3001:3000"
+    environment:
+      DB_NAME: postsdb
+      DB_HOST: posts_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      USERS_PATH: "http://users:3000"
+    restart: always
+    networks:
+      - post_net 
+      - app_net
+    depends_on:
+      - posts_db
+      - users 
+
   route_db:    
     image: postgres:14.1-alpine
     container_name: route_db
     env_file: ./routes/.env.database   
     restart: always
     ports:
-      - "5432:5432"    
+      - "5435:5432"    
     networks:
       - route_net
   
@@ -27,9 +91,48 @@ services:
       - app_net      
     depends_on:
       - route_db
+  
+  offers_db:
+    container_name: offers_db  
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: offersdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    restart: always
+    networks:
+      - offer_net 
+
+  offers:
+    container_name: offers
+    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/entrega1-offers:latest
+    ports:
+      - "3003:3000"
+    environment:
+      DB_NAME: offersdb
+      DB_HOST: offers_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      USERS_PATH: "http://users:3000"
+    restart: always
+    networks:
+      - offer_net
+      - app_net
+    depends_on:
+      - offers_db
+      - users
 
 networks:
   app_net:
     driver: bridge
+  user_net:
+    driver: bridge
+  offer_net:
+    driver: bridge
   route_net:
+    driver: bridge    
+  post_net:
     driver: bridge

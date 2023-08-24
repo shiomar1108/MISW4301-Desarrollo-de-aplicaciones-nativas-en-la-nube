@@ -28,7 +28,7 @@ def create():
     try:
         header = request.headers
         validateExistTokenHeader(header)
-        #user = validateToken(header)
+        user = validateToken(header)
         data = request.get_json()
         result = CreateRoute(data).execute()
         return jsonify({'id': result.id, 'createdAt': formatDateTimeToUTC(str(result.createdAt))}), 201
@@ -43,7 +43,7 @@ def create():
 def queryflightId():
     try:
         header = request.headers
-        #user = validateToken(header) 
+        user = validateToken(header) 
         args = request.args
         flight =  args.get('flight')
         result = QueryRoute(flight).execute()
@@ -60,7 +60,7 @@ def queryflightId():
 def getRouteId(id):
     try:
         header = request.headers
-        #user = validateToken(header)
+        user = validateToken(header)
         result = GetRoute(id).execute()
         return jsonify({'id': result.id,'flightId':result.flightId,'sourceAirportCode': result.sourceAirportCode, 'sourceCountry': result.sourceCountry, 'destinyAirportCode': result.destinyAirportCode, 'destinyCountry': result.destinyCountry, 'bagCost': result.bagCost, 'plannedStartDate': result.plannedStartDate,'plannedEndDate':result.plannedEndDate, 'createdAt':result.createdAt}), 200
     except InvalidToken as e:  # pragma: no cover
@@ -76,7 +76,7 @@ def getRouteId(id):
 def deleteRoute(id):
     try:
         header = request.headers
-        #user = validateToken(header)
+        user = validateToken(header)
         DeleteRoute(id).execute()
         return jsonify({'msg': 'El trayecto fue eliminado.'}), 200
     except InvalidToken as e:  # pragma: no cover
