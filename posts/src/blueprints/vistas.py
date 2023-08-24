@@ -49,4 +49,4 @@ class VistaPost(Resource):
 
 class VistaPostHealthCheck(Resource):
     def get(self):
-        return jsonify({'status': 'pong'}), 200
+        return "pong"

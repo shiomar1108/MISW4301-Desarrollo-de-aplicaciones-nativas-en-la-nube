@@ -34,41 +34,41 @@ services:
     depends_on:
       - users_db
   
-  # posts_db:
-  #   container_name: posts_db  
-  #   image: postgres:14.1-alpine
-  #   environment:
-  #     POSTGRES_DB: postsdb
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5433:5432"
-  #   restart: always
-  #   networks:
-  #     - post_net
+  posts_db:
+    container_name: posts_db  
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: postsdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    restart: always
+    networks:
+      - post_net
 
-  # posts:
-  #   container_name: posts
-  #   build: 
-  #     context: ./posts
-  #     dockerfile: Dockerfile
-  #     target: prod
-  #   ports:
-  #     - "3001:3000"
-  #   environment:
-  #     DB_NAME: postsdb
-  #     DB_HOST: posts_db
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: postgres
-  #     USERS_PATH: "http://users:3000"
-  #   restart: always
-  #   networks:
-  #     - post_net 
-  #     - app_net
-  #   depends_on:
-  #     - posts_db
-  #     - users 
+  posts:
+    container_name: posts
+    build: 
+      context: ./posts
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "3001:3000"
+    environment:
+      DB_NAME: postsdb
+      DB_HOST: posts_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      USERS_PATH: "http://users:3000"
+    restart: always
+    networks:
+      - post_net 
+      - app_net
+    depends_on:
+      - posts_db
+      - users 
 
   # routes_db:
   #   container_name: routes_db  
