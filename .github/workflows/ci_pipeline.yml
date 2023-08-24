@@ -1,22 +1,98 @@
 name: Test coverage
 on:
   push:
-    branches: 
-      - main
+  pull_request:
+    branches:
+      - master
 jobs:
-  test_calculator:
+  Test_Coverage_Users:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [ 3.10 ]
     steps:
       - uses: actions/checkout@v1
-      - name: Install pipenv
-        working-directory: ./calculator
+      - name: Create the Test DB
+        working-directory: ./users
+        run: docker run -d -p 5432:5432 --name userdb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=userdb postgres:14.1
+      - name: Install pipenv for users mcs
+        working-directory: ./users
         run: pip install pipenv
-      - name: Install dependencies
-        working-directory: ./calculator
-        run: pipenv install --dev
-      - name: Run unit tests
-        working-directory: ./calculator
-        run: pipenv run pytest --cov=src -v -s --cov-fail-under=70
+      - name: Install dependencies for users mcs
+        working-directory: ./users
+        run: pipenv install --system --deploy
+      - name: Run unit tests for users mcs
+        working-directory: ./users
+        run: pytest --cov-fail-under=70 --cov=src
+      - name: CleanUp after test
+        working-directory: ./users
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
+  Test_Coverage_Offers:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.10 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create the Test DB
+        working-directory: ./offers
+        run: docker run -d -p 5432:5432 --name offerdb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=offerdb postgres:14.1
+      - name: Install pipenv for offers mcs
+        working-directory: ./offers
+        run: pip install pipenv
+      - name: Install dependencies for offers mcs
+        working-directory: ./offers
+        run: pipenv install --system --deploy
+      - name: Run unit tests for offers mcs
+        working-directory: ./offers
+        run: pytest --cov-fail-under=70 --cov=src
+      - name: CleanUp after test
+        working-directory: ./offers
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
+  Test_Coverage_Posts:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.10 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create the Test DB
+        working-directory: ./posts
+        run: docker run -d -p 5432:5432 --name offerdb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=offerdb postgres:14.1
+      - name: Install pipenv for posts mcs
+        working-directory: ./posts
+        run: pip install pipenv
+      - name: Install dependencies for posts mcs
+        working-directory: ./posts
+        run: pipenv install --system --deploy
+      - name: Run unit tests for posts mcs
+        working-directory: ./posts
+        run: pytest --cov-fail-under=70 --cov=src
+      - name: CleanUp after test
+        working-directory: ./posts
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
+  Test_Coverage_Routes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.10 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create the Test DB
+        working-directory: ./routes
+        run: docker run -d -p 5432:5432 --name route_db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=routedb postgres:14.1
+      - name: Install pipenv for routes mcs
+        working-directory: ./routes
+        run: pip install pipenv
+      - name: Install dependencies for routes mcs
+        working-directory: ./routes
+        run: pipenv install --system --deploy
+      - name: Run unit tests for routes mcs
+        working-directory: ./routes
+        run: pytest --cov-fail-under=70 --cov=src
+      - name: CleanUp after test
+        working-directory: ./routes
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)

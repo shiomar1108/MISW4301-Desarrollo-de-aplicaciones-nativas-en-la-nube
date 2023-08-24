@@ -1,4 +1,4 @@
-version: "3.2"
+version: '3'
 services:
   route_db:    
     image: postgres:14.1-alpine
@@ -21,7 +21,7 @@ services:
       # target: prod      
     container_name: mcs_routes
     ports:
-      - "5000:5000"
+      - "3002:3000"
     networks:
       - route_net
       - app_net      

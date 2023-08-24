@@ -24,4 +24,4 @@ CMD ["python", "main.py"]
 FROM release AS prod
 RUN pipenv install --system --deploy
 USER appuser
-CMD ["gunicorn", "--bind", ":5000", "main:app"]
+CMD ["gunicorn", "--bind", ":3000", "main:app"]
