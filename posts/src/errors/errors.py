@@ -31,7 +31,7 @@ class PostDoNotExist(ApiError):
 # Clase que contiene la estructura de error cuando la fecha de expiracion no es valida
 class InvalidExpirationDate(ApiError):
     code = 412
-    description = "La fecha de expiracion no es valida o no es posterior a la fecha actual" 
+    description = "La fecha expiración no es válida" 
 
 
 
