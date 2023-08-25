@@ -56,7 +56,7 @@ class TestCreate():
             "sourceCountry":f"{self.sourceCountry}",
             "destinyAirportCode":f"{self.destinyAirportCode}",
             "destinyCountry":f"{self.destinyCountry}",
-            "bagCost":self.bagCost,
+            "bagCost": int(self.bagCost),
             "plannedStartDate":f"{self.plannedStartDate}",
             "plannedEndDate":f"{self.plannedEndDate}"
         }
