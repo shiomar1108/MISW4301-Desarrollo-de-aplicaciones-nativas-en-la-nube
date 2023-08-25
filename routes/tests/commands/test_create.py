@@ -47,8 +47,8 @@ class TestCreate():
         self.destinyAirportCode = self.dataFactory.sourceAirportCode_provider()
         self.destinyCountry = self.dataFactory.sourceCountry_provider()
         self.bagCost = self.dataFactory.pydecimal(left_digits=3, right_digits=0, positive=True)
-        self.plannedStartDate = '2022-09-01T21:20:53.214Z'
-        self.plannedEndDate = '2022-09-27T21:20:53.214Z'
+        self.plannedStartDate = '2023-09-01T21:20:53.214Z'
+        self.plannedEndDate = '2023-09-27T21:20:53.214Z'
         
         self.data = {
             "flightId":f"{self.flightId}",
