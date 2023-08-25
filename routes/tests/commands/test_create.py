@@ -50,12 +50,12 @@ class TestCreate():
         self.plannedEndDate = '2022-09-27T21:20:53.214Z'
         
         self.data = {
-            "flightId"=f"{self.flightId}",
-            "sourceAirportCode"=f"{self.sourceAirportCode}",
-            "sourceCountry"=f"{self.sourceCountry}",
-            "destinyAirportCode"=f"{self.destinyAirportCode}",
-            "destinyCountry"=f"{self.destinyCountry}",
-            "bagCost"=f"{self.bagCost}",
-            "plannedStartDate"=f"{self.plannedStartDate}",
-            "plannedEndDate"=f"{self.plannedEndDate}",
+            "flightId":f"{self.flightId}",
+            "sourceAirportCode":f"{self.sourceAirportCode}",
+            "sourceCountry":f"{self.sourceCountry}",
+            "destinyAirportCode":f"{self.destinyAirportCode}",
+            "destinyCountry":f"{self.destinyCountry}",
+            "bagCost":f"{self.bagCost}",
+            "plannedStartDate":f"{self.plannedStartDate}",
+            "plannedEndDate":f"{self.plannedEndDate}"
         }
