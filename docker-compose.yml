@@ -100,7 +100,6 @@ services:
     depends_on:
       - route_db
   
-=======
   # routes_db:
   #   container_name: routes_db  
   #   image: postgres:14.1-alpine
