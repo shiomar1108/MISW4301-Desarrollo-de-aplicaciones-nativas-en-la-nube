@@ -66,8 +66,7 @@ class CreateRoute(BaseCommannd):
         current_app.logger.info('se finalizo la asignación')
         
         self.validateDates(self.plannedStartDate, self.plannedEndDate)
-        current_app.logger.info('se finalizo validacion de fechas')
-        len(mi_lista)
+        current_app.logger.info('se finalizo validacion de fechas')        
         if validateExistFligthId(self.flightId):
             current_app.logger.info('se genera error porque el  vuelo ya existe')
             raise FligthExists
@@ -77,11 +76,8 @@ class CreateRoute(BaseCommannd):
         
 
     # Función que realiza creación del usuario
-    def execute(self):
-        current_app.logger.info('Se realiza inicio de la ejecucion')                
-        current_app.logger.info('paso validación de fechas')            
-            
-        current_app.logger.info('paso validacion de vuelo existente')
+    def execute(self):            
+        current_app.logger.info('paso ejecucion')
         newRoute = Route(
             flightId=self.flightId,
             sourceAirportCode=self.sourceAirportCode,

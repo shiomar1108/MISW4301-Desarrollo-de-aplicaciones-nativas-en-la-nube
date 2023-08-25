@@ -9,9 +9,12 @@ def validateExistFligthId(flightId):
     result = QueryRoute(flightId).execute()
     current_app.logger.info('despues de resultado')
     current_app.logger.info(result)
-    if result is None:
-        current_app.logger.info('No tiene resultados se genera error')
-        #raise FligthExists
-    else:
+    current_app.logger.info('tamaño del resultado')
+    current_app.logger.info(len(result))
+    if len(result) > 0 :
         current_app.logger.info('Si tiene resultados')
         return True
+        #raise FligthExists
+    else:
+        current_app.logger.info('No tiene resultados se genera error')
+        return False

@@ -1,6 +1,6 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
-from errors.errors import ApiError, NotFound
+from errors.errors import ApiError, NotFound,IdNotUUID, 
 from models.models import db, Route
 from sqlalchemy.exc import SQLAlchemyError
 from validators.validators import validateIDsUUID, validateSchema, createRouteSchema
