@@ -2,6 +2,7 @@
 import random
 from src.commands.create import CreateRoute
 from faker import Faker
+from faker.providers import DynamicProvider
 
 
 # Clase que contiene la logica de las pruebas del servicio de trayectos
