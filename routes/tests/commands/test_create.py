@@ -38,7 +38,7 @@ class TestCreate():
     data = {}
     
 
-    # Función que genera datos del la oferta
+    # Función que genera datos del la ruta
     def set_up(self): 
         
         self.flightId = self.dataFactory.flightId_provider()
@@ -62,7 +62,7 @@ class TestCreate():
         }
 
 
-    # Función que valida la creación exitosa de una oferta
+    # Función que valida la creación exitosa de una ruta
     def test_create_new_route(self):
         # Creación oferta
         self.set_up()

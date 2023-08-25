@@ -10,17 +10,20 @@ class TestCreate():
         provider_name="flightId_provider",
         elements=["686", "687", "688", "689", "690"],
         )
-        
+    dataFactory = Faker()
+    dataFactory.add_provider(flightId_values_provider)
+    
     flightId = None
     
     
-    # Función que genera datos del la oferta
+    # Función que genera datos del la ruta
     def set_up(self): 
+        
         self.flightId = self.dataFactory.flightId_provider()
         
-        
+    # consulta de una ruta
     def test_create_get_route(self):
-        # Creación oferta
+        # consulta de una ruta
         self.set_up()
         result = QueryRoute(flight).execute()
         assert result != None
