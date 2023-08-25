@@ -60,9 +60,9 @@ def getRouteId(id):
         result = GetRoute(id).execute()
         return jsonify({'id': result.id,'flightId':result.flightId,'sourceAirportCode': result.sourceAirportCode, 'sourceCountry': result.sourceCountry, 'destinyAirportCode': result.destinyAirportCode, 'destinyCountry': result.destinyCountry, 'bagCost': result.bagCost, 'plannedStartDate': result.plannedStartDate,'plannedEndDate':result.plannedEndDate, 'createdAt':result.createdAt}), 200
     except InvalidToken as e:  # pragma: no cover
-        return '', 403
-    except MissingToken as e:  # pragma: no cover
         return '', 401
+    except MissingToken as e:  # pragma: no cover
+        return '', 403
     except IdNotUUID as e:
         return '', 400
     except NotFound as e:
@@ -74,11 +74,11 @@ def deleteRoute(id):
         header = request.headers
         user = validateToken(header)
         DeleteRoute(id).execute()
-        return jsonify({'msg': 'El trayecto fue eliminado.'}), 200
+        return jsonify({'msg': 'el trayecto fue eliminado'}), 200
     except InvalidToken as e:  # pragma: no cover
-        return '', 403
-    except MissingToken as e:  # pragma: no cover
         return '', 401
+    except MissingToken as e:  # pragma: no cover
+        return '', 403
     except IdNotUUID as e:
         return '', 400
     except NotFound as e:
