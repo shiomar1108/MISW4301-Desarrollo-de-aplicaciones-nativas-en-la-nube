@@ -15,7 +15,10 @@ services:
   
   users:
     container_name: users
-    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/entrega1-users:latest
+    build: 
+      context: ./users
+      dockerfile: Dockerfile
+      target: prod
     ports:
       - "3000:3000"
     environment:
@@ -46,7 +49,10 @@ services:
 
   posts:
     container_name: posts
-    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/entrega1-posts:latest
+    build: 
+      context: ./posts
+      dockerfile: Dockerfile
+      target: prod
     ports:
       - "3001:3000"
     environment:
@@ -94,6 +100,44 @@ services:
     depends_on:
       - route_db
   
+=======
+  # routes_db:
+  #   container_name: routes_db  
+  #   image: postgres:14.1-alpine
+  #   environment:
+  #     POSTGRES_DB: routesdb
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #   ports:
+  #     - "5435:5432"
+  #   restart: always
+  #   networks:
+  #     - route_net 
+
+  # routes:
+  #   container_name: routes
+  #   build: 
+  #     context: ./routes
+  #     dockerfile: Dockerfile
+  #     target: prod
+  #   ports:
+  #     - "3002:3000"
+  #   environment:
+  #     DB_NAME: routesdb
+  #     DB_HOST: routes_db
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASSWORD: postgres
+  #     USERS_PATH: "http://users:3000"
+  #   restart: always
+  #   networks:
+  #     - route_net 
+  #     - app_net
+  #   depends_on:
+  #     - routes_db
+  #     - users
+
+
   offers_db:
     container_name: offers_db  
     image: postgres:14.1-alpine
@@ -109,7 +153,10 @@ services:
 
   offers:
     container_name: offers
-    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/entrega1-offers:latest
+    build: 
+      context: ./offers
+      dockerfile: Dockerfile
+      target: prod
     ports:
       - "3003:3000"
     environment:

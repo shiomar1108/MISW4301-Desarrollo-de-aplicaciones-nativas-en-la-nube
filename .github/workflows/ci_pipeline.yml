@@ -74,6 +74,7 @@ jobs:
         working-directory: ./posts
         run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
 
+
   Test_Coverage_Routes:
     runs-on: ubuntu-latest
     strategy:
@@ -96,3 +97,4 @@ jobs:
       - name: CleanUp after test
         working-directory: ./routes
         run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
