@@ -39,6 +39,7 @@ def validateUUID(value):
 # Funcion que valida si un string es un tipo de dato fecha y es una fecha de expiracion valida
 def validateDateString(value):
     try:        
+        value = value.replace("Z", "")
         fecha = parse(value)
         if fecha <= datetime.now():
             raise InvalidExpirationDate
