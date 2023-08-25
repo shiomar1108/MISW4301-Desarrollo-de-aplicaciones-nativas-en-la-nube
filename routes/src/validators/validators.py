@@ -44,7 +44,7 @@ def validateIDsUUID(value):
         traceback.print_exc()
         raise IdNotUUID
 
-    user = validateToken(header)
+    #user = validateToken(header)
 
 # Funcion Validar Si existe el Token 
 def validateExistTokenHeader(headers):

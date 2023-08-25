@@ -67,7 +67,11 @@ class CreateRoute(BaseCommannd):
         
         self.validateDates(self.plannedStartDate, self.plannedEndDate)
         current_app.logger.info('se finalizo validacion de fechas')
-        validateExistFligthId(self.flightId)
+        len(mi_lista)
+        if validateExistFligthId(self.flightId):
+            current_app.logger.info('se genera error porque el  vuelo ya existe')
+            raise FligthExists
+        
         current_app.logger.info('se finalizo validacion de validateExistFligthId')
         
         
