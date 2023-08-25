@@ -60,3 +60,11 @@ class TestCreate():
             "plannedStartDate":f"{self.plannedStartDate}",
             "plannedEndDate":f"{self.plannedEndDate}"
         }
+
+
+    # Función que valida la creación exitosa de una oferta
+    def test_create_new_route(self):
+        # Creación oferta
+        self.set_up()
+        result = CreateRoute(self.data).execute()
+        assert result != None
