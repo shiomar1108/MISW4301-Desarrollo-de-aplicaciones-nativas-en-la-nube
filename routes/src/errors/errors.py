@@ -4,9 +4,9 @@ class ApiError(Exception):
     description = "Error interno, por favor revise el log"
     
 # Clase que contiene la estructura de error cuando ya esta registrado el email
-class fligthExists(ApiError):
+class FligthExists(ApiError):
     code = 412
-    #description = "El flightId ya existe."
+    description = "El flightId ya existe."
 
 class ValidateDates(ApiError):
     code = 412

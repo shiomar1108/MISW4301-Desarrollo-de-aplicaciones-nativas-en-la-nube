@@ -5,11 +5,13 @@ from commands.query import QueryRoute
 from commands.reset import ResetRoutes
 from commands.get import GetRoute
 from commands.delete import DeleteRoute
-from queries.detail import GetRouteDetail
+#from queries.detail import GetRouteDetail
 from commands.update import UpdateRoute
 from utilities.utilities import formatDateTimeToUTC
 from validators.validators import validateToken, validateExistTokenHeader
-from errors.errors import ApiError,  fligthExists, ValidateDates, InvalidToken, MissingToken, validateFlightError
+import traceback
+from errors.errors import ApiError,  FligthExists, ValidateDates, InvalidToken, MissingToken, validateFlightError,IdNotUUID
+from flask import abort, render_template, current_app
 
 routes_blueprint = Blueprint('routes', __name__)
 
@@ -24,36 +26,30 @@ def reset():
 
 
 @routes_blueprint.route('/routes', methods=['POST'])
-def create():
-    try:
-        header = request.headers
-        validateExistTokenHeader(header)
-        user = validateToken(header)
-        data = request.get_json()
-        result = CreateRoute(data).execute()
-        return jsonify({'id': result.id, 'createdAt': formatDateTimeToUTC(str(result.createdAt))}), 201
-    except fligthExists as e:  # pragma: no cover
-        return '', 412
-    except InvalidToken as e:  # pragma: no cover
-        return '', 403
-    except MissingToken as e:  # pragma: no cover
-        return '', 401
-
+def create():  
+    current_app.logger.info('CReacion*********')  
+    header = request.headers
+    current_app.logger.info('se asignan headers')
+    validateExistTokenHeader(header)
+    current_app.logger.info('pasa validacion de header')
+    user = validateToken(header)
+    current_app.logger.info('pasa validacion deusuario')
+    data = request.get_json()
+    current_app.logger.info('se asigna request')
+    result = CreateRoute(data).execute()
+    current_app.logger.info('se realizo creación antes de respuesta')
+    return jsonify({'id': result.id, 'createdAt': formatDateTimeToUTC(str(result.createdAt))}), 201
+    
 @routes_blueprint.route('/routes', methods=['GET'])
 def queryflightId():
-    try:
-        header = request.headers
-        user = validateToken(header) 
-        args = request.args
-        flight =  args.get('flight')
-        result = QueryRoute(flight).execute()
-        return jsonify(result), 200
-    except InvalidToken as e:  # pragma: no cover
-        return '', 403
-    except MissingToken as e:  # pragma: no cover
-        return '', 401
-    except validateFlightError as e:
-        return '', 400
+    
+    header = request.headers
+    user = validateToken(header) 
+    args = request.args
+    flight =  args.get('flight')
+    result = QueryRoute(flight).execute()
+    return jsonify(result), 200
+    
 
 
 @routes_blueprint.route('/routes/<string:id>', methods=['GET'])

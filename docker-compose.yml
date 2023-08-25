@@ -84,6 +84,8 @@ services:
       target: dev
       # target: prod      
     container_name: mcs_routes
+    environment:
+      USERS_PATH: "http://users:3000"
     ports:
       - "3002:3000"
     networks:
