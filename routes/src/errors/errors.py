@@ -10,7 +10,7 @@ class FligthExists(ApiError):
 
 class ValidateDates(ApiError):
     code = 412
-    description = "Las fechas del trayecto no son validas"
+    description = "Las fechas del trayecto no son válidas"
 
 
 # Clase que contiene la estructura de error cuando no esta registra el password
