@@ -70,6 +70,37 @@ services:
       - posts_db
       - users 
 
+  route_db:    
+    image: postgres:14.1-alpine
+    container_name: route_db
+    env_file: ./routes/.env.database   
+    restart: always
+    ports:
+      - "5435:5432"    
+    networks:
+      - route_net
+  
+  mcs_routes:
+    restart: always
+    image: mcs_routes:latest
+    env_file: ./routes/.env.development      
+    build: 
+      context: ./routes
+      dockerfile: Dockerfile
+      target: dev
+      # target: prod      
+    container_name: mcs_routes
+    environment:
+      USERS_PATH: "http://users:3000"
+    ports:
+      - "3002:3000"
+    networks:
+      - route_net
+      - app_net      
+    depends_on:
+      - route_db
+  
+=======
   # routes_db:
   #   container_name: routes_db  
   #   image: postgres:14.1-alpine
@@ -105,6 +136,7 @@ services:
   #   depends_on:
   #     - routes_db
   #     - users
+
 
   offers_db:
     container_name: offers_db  

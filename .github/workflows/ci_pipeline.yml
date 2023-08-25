@@ -73,3 +73,28 @@ jobs:
       - name: CleanUp after test
         working-directory: ./posts
         run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
+
+  Test_Coverage_Routes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.10 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create the Test DB
+        working-directory: ./routes
+        run: docker run -d -p 5432:5432 --name route_db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=routedb postgres:14.1
+      - name: Install pipenv for routes mcs
+        working-directory: ./routes
+        run: pip install pipenv
+      - name: Install dependencies for routes mcs
+        working-directory: ./routes
+        run: pipenv install --system --deploy
+      - name: Run unit tests for routes mcs
+        working-directory: ./routes
+        run: pytest --cov-fail-under=70 --cov=src
+      - name: CleanUp after test
+        working-directory: ./routes
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
