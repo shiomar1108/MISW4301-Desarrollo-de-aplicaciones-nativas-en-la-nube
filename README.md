@@ -22,6 +22,17 @@
 
 ## Estructura de las carpetas del Proyecto
 
+### Microservicios
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/2c2f2bbc-9a66-405a-bd1c-959687d0f160" alt="Screenshot" width="800">
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/a220c4c9-0caf-4678-9493-f39456d24ea2" alt="Screenshot" width="800">
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/4f56caf0-a6c5-4af1-82f4-b19333b67f2e" alt="Screenshot" width="800">
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/5e2a21c0-2ab8-4cd5-bcda-84670280bd5a" alt="Screenshot" width="800">
+
+
 ### Estructura general de cada microservicio
 
 ```
