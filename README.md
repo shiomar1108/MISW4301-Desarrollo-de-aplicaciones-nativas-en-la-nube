@@ -14,9 +14,9 @@
 ## Tabla de contenido
 - [Estructura de las carpetas del Proyecto](#estructura-de-las-carpetas-del-proyecto)
 - [Pre-requisitos para cada microservicio](#pre-requisitos-para-cada-microservicio)
-- [Pre-requisitos para el despliegue y pruebas del Proyecto](#Pre-requisitos-para-el-despliegue-y-pruebas-del-Proyecto)
+- [Pre-requisitos para el despliegue y pruebas del Proyecto](#pre-requisitos-para-el-despliegue-y-pruebas-del-proyecto)
 - [Despliegue del Proyecto](#despliegue-del-proyecto)
-- [Ejecución de Pruebas Unitarias y covertura con Pytest](#Ejecución-de-Pruebas-Unitarias-y-covertura-con-Pytest)
+- [Ejecución de Pruebas Unitarias y covertura con Pytest](#ejecución-de-pruebas-unitarias-y-covertura-con-pytest)
 - [Ejecución de Pruebas con Postman](#ejecución-de-pruebas-con-postman)
 - [Ejecución del Validador en Github Action Flow](#ejecución-del-validador-en-github-action-flow)
 
@@ -272,7 +272,8 @@ $> docker-compose -f "docker-compose.yml" up -d
 ```
 
 Una vez se realice el despliegue correspondiente, se debe visualizar en el Docker Desktop lo siguiente:
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/proyecto-202314-base/assets/78829363/f5ca6f7c-e4f4-4209-a949-dcf3a6dab9e3" alt="DockerComposeSuccesfull" width="800">
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/0d92fb6d-7926-4843-b7a5-aa6419214e7c" alt="DockerComposeSuccesfull" width="800">
 
 ## Ejecución de Pruebas Unitarias y covertura con Pytest
 
@@ -288,6 +289,7 @@ $> pytest --cov-fail-under=70 --cov=src
 ```
 
 El resultado obtenido deber muy parecido a:
+
 <img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/proyecto-202314-base/assets/78829363/f5ca6f7c-e4f4-4209-a949-dcf3a6dab9e3" alt="DockerComposeSuccesfull" width="800">
 
 Si se desea realizar las pruebas pero que nos genere un reporte en HTML con el resultado obtenido, se debe ejecutar el siguiente comando:
