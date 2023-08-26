@@ -68,4 +68,5 @@ class TestQuery():
         result1 = CreateRoute(self.data).execute()
         print(result1.id)
         result2 = DeleteRoute(result1.id).execute()
+        print(result2)
         assert result2 != None
