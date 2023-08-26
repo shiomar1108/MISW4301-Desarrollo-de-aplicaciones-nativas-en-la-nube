@@ -1,6 +1,7 @@
 from src.commands.create import CreatePost
 from faker import Faker
 from datetime import datetime, timedelta
+import src.main
 
 class TestCreate():
 
