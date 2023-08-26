@@ -66,7 +66,7 @@ class TestQuery():
         # Creación trayecyo
         self.set_up()
         result1 = CreateRoute(self.data).execute()
-        datos_route = json.loads(datos_JSON)
+        datos_route = json.loads(result1)
         
         result2 = GetRoute(datos_route["id"]).execute()
         assert result2 != None
