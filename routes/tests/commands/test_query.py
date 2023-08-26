@@ -25,5 +25,5 @@ class TestCreate():
     def test_create_get_route(self):
         # consulta de una ruta
         self.set_up()
-        result = QueryRoute(flight).execute()
+        result = QueryRoute(self.flightId).execute()
         assert result != None
