@@ -1,5 +1,5 @@
 import random
-from src.commands.query import QueryRoute
+from src.commands.create import CreateRoute
 from commands.get import GetRoute
 from faker import Faker
 from faker.providers import DynamicProvider
