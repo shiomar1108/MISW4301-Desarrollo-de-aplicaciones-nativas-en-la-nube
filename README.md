@@ -290,7 +290,7 @@ $> pytest --cov-fail-under=70 --cov=src
 
 El resultado obtenido deber muy parecido a:
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/proyecto-202314-base/assets/78829363/f5ca6f7c-e4f4-4209-a949-dcf3a6dab9e3" alt="DockerComposeSuccesfull" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/7b99ccf4-77b5-4bb7-8b47-3b55a2d9c1eb" alt="DockerComposeSuccesfull" width="800">
 
 Si se desea realizar las pruebas pero que nos genere un reporte en HTML con el resultado obtenido, se debe ejecutar el siguiente comando:
 
