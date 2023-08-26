@@ -1,17 +1,17 @@
 import random
 from src.commands.create import CreateRoute
-from src.commands.get import GetRoute
+from src.commands.delete import DeleteRoute
 from faker import Faker
 from faker.providers import DynamicProvider
 import json
 
 
-# Clase que contiene la logica de las pruebas del servicio de consulta de trayectos
+# Clase que contiene la logica de las pruebas del servicio de eliminiacion de trayectos
 class TestQuery():
     
     flightId_values_provider = DynamicProvider(
         provider_name="flightId_provider",
-        elements=[ "688", "689", "690","686","687"],
+        elements=[ "689", "690","686", "687", "688"],
         )
     
     sourceAirportCode_values_provider = DynamicProvider(
@@ -61,11 +61,11 @@ class TestQuery():
             "plannedEndDate":f"{self.plannedEndDate}"
         }
         
-    # Función que valida la creación exitosa de una ruta
-    def test_get_route(self):
+    # Función que valida la eliminacion exitosa de una ruta
+    def test_delete_route(self):
         # Creación trayecyo
         self.set_up()
         result1 = CreateRoute(self.data).execute()
         print(result1.id)
-        result2 = GetRoute(result1.id).execute()
+        result2 = DeleteRoute(result1.id).execute()
         assert result2 != None
