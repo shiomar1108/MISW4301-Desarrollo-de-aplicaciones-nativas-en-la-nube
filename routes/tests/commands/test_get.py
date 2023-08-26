@@ -1,12 +1,12 @@
-
 import random
-from src.commands.create import CreateRoute
+from src.commands.query import QueryRoute
+from commands.get import GetRoute
 from faker import Faker
 from faker.providers import DynamicProvider
 
-
-# Clase que contiene la logica de las pruebas del servicio de trayectos
-class TestCreate():
+# Clase que contiene la logica de las pruebas del servicio de consulta de trayectos
+class TestQuery():
+    
     flightId_values_provider = DynamicProvider(
         provider_name="flightId_provider",
         elements=["686", "687", "688", "689", "690"],
@@ -37,10 +37,8 @@ class TestCreate():
     plannedEndDate = None
     data = {}
     
-
     # Función que genera datos del la ruta
-    def set_up(self): 
-        
+    def set_up(self):         
         self.flightId = self.dataFactory.flightId_provider()
         self.sourceAirportCode = self.dataFactory.sourceAirportCode_provider()
         self.sourceCountry = self.dataFactory.sourceCountry_provider()
@@ -60,11 +58,12 @@ class TestCreate():
             "plannedStartDate":f"{self.plannedStartDate}",
             "plannedEndDate":f"{self.plannedEndDate}"
         }
-
-
+        
     # Función que valida la creación exitosa de una ruta
     def test_create_new_route(self):
         # Creación trayecyo
         self.set_up()
         result = CreateRoute(self.data).execute()
+        
+        result = GetRoute(result["id"]).execute()
         assert result != None

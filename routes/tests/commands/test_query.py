@@ -4,7 +4,7 @@ from faker import Faker
 from faker.providers import DynamicProvider
 
 # Clase que contiene la logica de las pruebas del servicio de consulta de trayectos
-class TestCreate():
+class TestQuery():
     
     flightId_values_provider = DynamicProvider(
         provider_name="flightId_provider",
