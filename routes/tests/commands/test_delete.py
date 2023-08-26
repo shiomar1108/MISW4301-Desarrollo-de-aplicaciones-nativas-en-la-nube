@@ -69,4 +69,4 @@ class TestQuery():
         print(result1.id)
         result2 = DeleteRoute(result1.id).execute()
         print(result2)
-        assert result2 != None
+        assert result2 == None
