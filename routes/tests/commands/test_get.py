@@ -3,6 +3,8 @@ from src.commands.create import CreateRoute
 from src.commands.get import GetRoute
 from faker import Faker
 from faker.providers import DynamicProvider
+import json
+
 
 # Clase que contiene la logica de las pruebas del servicio de consulta de trayectos
 class TestQuery():
@@ -64,6 +66,7 @@ class TestQuery():
         # Creación trayecyo
         self.set_up()
         result1 = CreateRoute(self.data).execute()
+        datos_route = json.loads(datos_JSON)
         
-        result2 = GetRoute(result1["id"]).execute()
-        assert result != None
+        result2 = GetRoute(datos_route["id"]).execute()
+        assert result2 != None
