@@ -70,9 +70,9 @@ services:
       - posts_db
       - users 
 
-  route_db:    
+  routes_db:    
     image: postgres:14.1-alpine
-    container_name: route_db
+    container_name: routes_db
     env_file: ./routes/.env.database   
     restart: always
     ports:
@@ -91,6 +91,11 @@ services:
       # target: prod      
     container_name: mcs_routes
     environment:
+      DB_NAME: routedb
+      DB_HOST: routes_db
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: admin
       USERS_PATH: "http://users:3000"
     ports:
       - "3002:3000"
@@ -98,9 +103,8 @@ services:
       - route_net
       - app_net      
     depends_on:
-      - route_db
+      - routes_db
   
-=======
   # routes_db:
   #   container_name: routes_db  
   #   image: postgres:14.1-alpine
