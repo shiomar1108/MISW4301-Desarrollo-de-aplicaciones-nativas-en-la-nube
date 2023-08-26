@@ -1,6 +1,6 @@
 import random
 from src.commands.create import CreateRoute
-from commands.get import GetRoute
+from src.commands.get import GetRoute
 from faker import Faker
 from faker.providers import DynamicProvider
 
@@ -60,10 +60,10 @@ class TestQuery():
         }
         
     # Función que valida la creación exitosa de una ruta
-    def test_create_new_route(self):
+    def test_get_route(self):
         # Creación trayecyo
         self.set_up()
-        result = CreateRoute(self.data).execute()
+        result1 = CreateRoute(self.data).execute()
         
-        result = GetRoute(result["id"]).execute()
+        result2 = GetRoute(result1["id"]).execute()
         assert result != None
