@@ -3,12 +3,12 @@ services:
   users_db:
     container_name: users_db
     image: postgres:14.1-alpine
-    environment:
-      POSTGRES_DB: usersdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_DB: usersdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     restart: always
     networks:
       - user_net   
@@ -25,8 +25,8 @@ services:
       DB_NAME: usersdb
       DB_HOST: users_db
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: admin
+      DB_PASSWORD: admin
     restart: always
     networks:
       - user_net 
@@ -37,12 +37,12 @@ services:
   posts_db:
     container_name: posts_db  
     image: postgres:14.1-alpine
-    environment:
-      POSTGRES_DB: postsdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     ports:
       - "5433:5432"
+    environment:
+      POSTGRES_DB: postsdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     restart: always
     networks:
       - post_net
@@ -59,8 +59,8 @@ services:
       DB_NAME: postsdb
       DB_HOST: posts_db
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: admin
+      DB_PASSWORD: admin
       USERS_PATH: "http://users:3000"
     restart: always
     networks:
@@ -71,27 +71,26 @@ services:
       - users 
 
   routes_db:    
-    image: postgres:14.1-alpine
     container_name: routes_db
-    env_file: ./routes/.env.database   
-    restart: always
+    image: postgres:14.1-alpine
     ports:
-      - "5435:5432"    
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: routesdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin  
+    restart: always
     networks:
       - route_net
   
-  mcs_routes:
-    restart: always
-    image: mcs_routes:latest
-    env_file: ./routes/.env.development      
+  routes:
+    container_name: routes
     build: 
       context: ./routes
       dockerfile: Dockerfile
-      target: dev
-      # target: prod      
-    container_name: mcs_routes
+      target: prod     
     environment:
-      DB_NAME: routedb
+      DB_NAME: routesdb
       DB_HOST: routes_db
       DB_PORT: 5432
       DB_USER: admin
@@ -99,58 +98,23 @@ services:
       USERS_PATH: "http://users:3000"
     ports:
       - "3002:3000"
+    restart: always      
     networks:
       - route_net
       - app_net      
     depends_on:
       - routes_db
+      - users       
   
-  # routes_db:
-  #   container_name: routes_db  
-  #   image: postgres:14.1-alpine
-  #   environment:
-  #     POSTGRES_DB: routesdb
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5435:5432"
-  #   restart: always
-  #   networks:
-  #     - route_net 
-
-  # routes:
-  #   container_name: routes
-  #   build: 
-  #     context: ./routes
-  #     dockerfile: Dockerfile
-  #     target: prod
-  #   ports:
-  #     - "3002:3000"
-  #   environment:
-  #     DB_NAME: routesdb
-  #     DB_HOST: routes_db
-  #     DB_PORT: 5432
-  #     DB_USER: postgres
-  #     DB_PASSWORD: postgres
-  #     USERS_PATH: "http://users:3000"
-  #   restart: always
-  #   networks:
-  #     - route_net 
-  #     - app_net
-  #   depends_on:
-  #     - routes_db
-  #     - users
-
-
   offers_db:
     container_name: offers_db  
     image: postgres:14.1-alpine
+    ports:
+      - "5435:5432"
     environment:
       POSTGRES_DB: offersdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5434:5432"
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     restart: always
     networks:
       - offer_net 
@@ -167,8 +131,8 @@ services:
       DB_NAME: offersdb
       DB_HOST: offers_db
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: admin
+      DB_PASSWORD: admin
       USERS_PATH: "http://users:3000"
     restart: always
     networks:
