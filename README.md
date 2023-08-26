@@ -7,7 +7,7 @@ Equipo Tupperware
 
 
 ## Estructura de las carpetas del Proyecto
-
+```
 .
 ├── .github
 │   └── workflows
@@ -200,7 +200,7 @@ Equipo Tupperware
 ├── README.md
 ├── config.yaml
 └── docker-compose.yml
-
+```
 
 ## Despliegue de Produccion
 
