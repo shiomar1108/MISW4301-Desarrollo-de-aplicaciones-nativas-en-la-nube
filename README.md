@@ -20,9 +20,7 @@
 - [Ejecución de Pruebas con Postman](#ejecución-de-pruebas-con-postman)
 - [Ejecución del Validador en Github Action Flow](#ejecución-del-validador-en-github-action-flow)
 
-## Estructura de las carpetas del Proyecto
-
-### Microservicios
+## Microservicios Implementados
 
 <img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/2c2f2bbc-9a66-405a-bd1c-959687d0f160" alt="Screenshot" width="800">
 
@@ -32,6 +30,7 @@
 
 <img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/5e2a21c0-2ab8-4cd5-bcda-84670280bd5a" alt="Screenshot" width="800">
 
+## Estructura de las carpetas del Proyecto
 
 ### Estructura general de cada microservicio
 
