@@ -43,7 +43,7 @@ class VistaPost(Resource):
         validateToken(request.headers)
         PostDeleteObj = delete.DeletePost(postId=postId)
         PostDeleteObj.execute()
-        return jsonify({"msg": "la publicación fue eliminada"}), 200        
+        return jsonify({'msg': 'Todos los datos fueron eliminados'})        
        
 
 class VistaPostHealthCheck(Resource):
