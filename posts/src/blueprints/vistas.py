@@ -26,10 +26,9 @@ class VistaPosts(Resource):
 
 class VistaPostsReset(Resource):
 
-    def post(self):        
-        PostResetObj = reset.ResetPosts()
-        PostResetObj.execute()        
-        return jsonify({"msg": "Todos los datos fueron eliminados"}), 200
+    def post(self): 
+        reset.ResetPosts().execute()        
+        return jsonify({'msg': 'Todos los datos fueron eliminados'})
 
 
 class VistaPost(Resource):
