@@ -1,0 +1,78 @@
+###################################
+# SCORES
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scores
+  labels:
+    app: scores
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scores
+  template:
+    metadata:
+      labels:
+        app: scores
+    spec:
+      containers:
+        - name: scores
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/scores:1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: "DB_NAME"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: DB_NAME
+            - name: "DB_HOST"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: DB_HOST
+            - name: "DB_PORT"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: DB_PORT
+            - name: "DB_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: DB_USER
+            - name: "DB_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: DB_PASSWORD
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: scores-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3000
+    type: HTTP
+    requestPath: /scores/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: scores-service
+  annotations:
+    cloud.google.com/backend-config: '{"default": "scores-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: scores
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 31021
