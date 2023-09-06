@@ -141,6 +141,31 @@ services:
     depends_on:
       - offers_db
       - users
+      - routes
+
+  rf005:
+    container_name: rf005
+    build: 
+      context: ./rf005
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "3004:3000"
+    environment:      
+      ROUTES_PATH: "http://routes:3000"
+      OFFERS_PATH: "http://offers:3000"
+      USERS_PATH: "http://users:3000"
+    restart: always
+    networks:
+      - rf005_net
+      - route_net
+      - offer_net
+      - app_net
+    depends_on:
+      - users
+      - offers
+      - routes
+
 
 networks:
   app_net:
@@ -152,4 +177,6 @@ networks:
   route_net:
     driver: bridge    
   post_net:
+    driver: bridge
+  rf005_net:
     driver: bridge
