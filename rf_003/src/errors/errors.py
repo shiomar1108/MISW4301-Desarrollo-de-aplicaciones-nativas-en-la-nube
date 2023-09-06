@@ -5,5 +5,5 @@ class ApiError(Exception):
 
 
 class SequenceError(ApiError):
-    code = 300
-    description = "Alguno de los pasos fallo."
+    code = 418 
+    description = "I'm a teapot - Alguno de los pasos fallo."
