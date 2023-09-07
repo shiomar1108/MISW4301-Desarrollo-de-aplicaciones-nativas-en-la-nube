@@ -2,7 +2,7 @@
 import os
 import traceback
 import requests
-from errors.errors import ApiError
+from errors.errors import ApiError, RouteDateError
 from rollbacks.routes import RF003CreateRouteRollback
 
 # funcion que valida si el route existe
@@ -27,15 +27,20 @@ def route_check(data, headers):
             creation = requests.post(
                 ROUTES_PATH + "/routes", json=body, headers=headers
             )
-            if 201 != creation.status_code:
-                raise ApiError
-            RF003CreateRouteRollback.set_flag(creation.json()["id"])
+            if 412 == creation.status_code:
+                raise RouteDateError
+            routeId = creation.json().get("id")
+            RF003CreateRouteRollback().set_flag()
             return creation.json()
         elif 200 == result.status_code:
-            RF003CreateRouteRollback.clear_flag()
+            RF003CreateRouteRollback().clear_flag()
             return respuesta[0]
         else:
             raise ApiError
+    except RouteDateError as e:
+        traceback.print_exc()
+        raise RouteDateError(e)
     except ApiError as e:
         traceback.print_exc()
         raise ApiError(e)
+    

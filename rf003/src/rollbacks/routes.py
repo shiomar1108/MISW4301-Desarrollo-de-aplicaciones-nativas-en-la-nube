@@ -3,20 +3,18 @@ import os
 
 
 class RF003CreateRouteRollback:
-    def __init__(self, header):
+    def __init__(self):
         self.flag = False
-        self.header = header
 
     def clear_flag(self):
         self.flag = False
 
-    def set_flag(self, routeId):
+    def set_flag(self):
         self.flag = True
-        self.routeId = routeId
 
-    def execute(self):
+    def execute(self, header, routeId):
         if self.flag:
             ROUTES_PATH = os.environ["ROUTES_PATH"]
             result = requests.delete(
-                ROUTES_PATH + "/routes/" + self.routeId, headers=self.header
+                ROUTES_PATH + "/routes/" + routeId, headers=header
             )

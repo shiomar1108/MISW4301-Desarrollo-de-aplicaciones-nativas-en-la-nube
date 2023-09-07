@@ -31,10 +31,13 @@ def createPost():
         validateSchema(data)
         route = route_check(data, head)
         if not validate_expiration_date(data["expireAt"]):
+            RF003CreateRouteRollback().execute(head, route["id"])
             raise ExpirationDateError
         if not validateDates(data["plannedStartDate"], data["expireAt"]):
+            RF003CreateRouteRollback().execute(head, route["id"])
             raise RouteDateError
         if not post_user_route_check(route["id"], user, head):
+            RF003CreateRouteRollback().execute(head, route["id"])
             raise UserPostRouteError
         result = rf003_post_create(route["id"], data["expireAt"], head)
         return (
@@ -56,10 +59,9 @@ def createPost():
             201,
         )
     except RouteDateError as e:
-        RF003CreateRouteRollback.execute()
+        
         traceback.print_exc()
         raise RouteDateError(e)
     except UserPostRouteError as e:
-        RF003CreateRouteRollback.execute()
         traceback.print_exc()
         raise UserPostRouteError(e)

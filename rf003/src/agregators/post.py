@@ -26,9 +26,9 @@ def rf003_post_create(routeid, expireDate, headers):
         info = {"routeId": routeid, "expireAt": expireDate}
         result = requests.post(POSTS_PATH + "/posts", json=info, headers=headers)
         if result.status_code != 201:
+            RF003CreateRouteRollback().execute(headers, routeid)
             raise ApiError
         return result.json() 
     except ApiError as e:
-            RF003CreateRouteRollback.execute()
             traceback.print_exc()
             raise ApiError(e)
