@@ -157,12 +157,10 @@ services:
     restart: always
     networks:
       - rf003_net
-      - route_net
-      - offer_net
       - app_net
     depends_on:
       - users
-      - offers
+      - posts
       - routes
 
 networks:

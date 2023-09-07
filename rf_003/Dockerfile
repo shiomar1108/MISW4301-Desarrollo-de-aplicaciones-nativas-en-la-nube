@@ -12,7 +12,7 @@ COPY ["Pipfile", "Pipfile.lock", "./"]
 COPY src/. /home/apprf003/app
 
 FROM app AS release
-EXPOSE 5000
+EXPOSE 3000
 
 FROM release AS dev
 ENV FLASK_ENV=development
