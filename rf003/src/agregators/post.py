@@ -22,7 +22,7 @@ def post_user_route_check(routeId, userId, headers):
 def rf003_post_create(routeid, expireDate, headers):
     try:
         POSTS_PATH = os.environ["POSTS_PATH"]
-        info = jsonify({"routeId": routeid, "expireAt": expireDate})
+        info = {"routeId": routeid, "expireAt": expireDate}
         result = requests.post(POSTS_PATH + "/posts", json=info, headers=headers)
         if result.status_code != 201:
             raise ApiError

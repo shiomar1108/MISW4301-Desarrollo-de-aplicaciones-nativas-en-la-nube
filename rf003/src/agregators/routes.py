@@ -15,27 +15,24 @@ def route_check(data, headers):
         )
         respuesta = result.json()
         if len(respuesta) == 0:
-            body = jsonify(
-                {
-                    "flightId": data["flightId"],
-                    "sourceAirportCode": data["origin"]["airportCode"],
-                    "sourceCountry": data["origin"]["country"],
-                    "destinyAirportCode": data["destiny"]["airportCode"],
-                    "destinyCountry": data["destiny"]["country"],
-                    "bagCost": data["bagCost"],
-                    "plannedStartDate": data["plannedStartDate"],
-                    "plannedEndDate": data["plannedEndDate"],
-                }
-            )
+            body = {
+                "flightId": data["flightId"],
+                "sourceAirportCode": data["origin"]["airportCode"],
+                "sourceCountry": data["origin"]["country"],
+                "destinyAirportCode": data["destiny"]["airportCode"],
+                "destinyCountry": data["destiny"]["country"],
+                "bagCost": data["bagCost"],
+                "plannedStartDate": data["plannedStartDate"],
+                "plannedEndDate": data["plannedEndDate"],
+            }
             creation = requests.post(
                 ROUTES_PATH + "/routes", json=body, headers=headers
             )
-            bandera = True
             if 201 != creation.status_code:
                 raise ApiError
-            return creation.json().get("id")
+            return creation.json()
         elif 200 == result.status_code:
-            return respuesta[0]["id"]
+            return respuesta[0]
         else:
             raise ApiError
     except ApiError as e:

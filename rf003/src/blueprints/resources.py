@@ -8,6 +8,7 @@ from validators.validators import (
 )
 from agregators.post import post_user_route_check, rf003_post_create
 from agregators.routes import route_check
+from utilities.utilities import formatDateTimeToUTC
 from errors.errors import RouteDateError, UserPostRouteError, ExpirationDateError
 import traceback
 
@@ -26,20 +27,37 @@ def createPost():
         data = request.get_json()
         user = validateToken(head)
         validateSchema(data)
-        routeId = route_check(data, head)
+        route = route_check(data, head)
         if not validate_expiration_date(data["expireAt"]):
             raise ExpirationDateError
         if not validateDates(data["plannedStartDate"], data["expireAt"]):
             raise RouteDateError
-        if not post_user_route_check(routeId, user, head):
+        if not post_user_route_check(route["id"], user, head):
             raise UserPostRouteError
-        result = rf003_post_create(routeId, data["expireAt"], head)
-        return jsonify("test"), 200
+        result = rf003_post_create(route["id"], data["expireAt"], head)
+        return (
+            jsonify(
+                {
+                    "data": {
+                        "id": result["id"],
+                        "userId": result["userId"],
+                        "createdAt": formatDateTimeToUTC(str(result["createdAt"])),
+                        "expireAt": data["expireAt"],
+                        "route": {
+                            "id": route["id"],
+                            "createdAt": formatDateTimeToUTC(str(route["createdAt"])),
+                        },
+                    },
+                    "msg": "Publicacion creada Exitosamente",
+                }
+            ),
+            201,
+        )
     except RouteDateError as e:
-        #rollback
+        # rollback
         traceback.print_exc()
         raise RouteDateError(e)
     except UserPostRouteError as e:
-        #rollback
+        # rollback
         traceback.print_exc()
         raise UserPostRouteError(e)
