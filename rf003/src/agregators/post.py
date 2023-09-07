@@ -4,6 +4,7 @@ import os
 import requests
 from errors.errors import ApiError
 import traceback
+from rollbacks.routes import RF003CreateRouteRollback
 
 
 # Funcion que verifica que el usuario no haya creado otra publicacion para la misma ruta
@@ -28,5 +29,6 @@ def rf003_post_create(routeid, expireDate, headers):
             raise ApiError
         return result.json() 
     except ApiError as e:
+            RF003CreateRouteRollback.execute()
             traceback.print_exc()
             raise ApiError(e)

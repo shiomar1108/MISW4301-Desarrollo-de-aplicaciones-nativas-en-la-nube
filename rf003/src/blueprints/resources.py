@@ -11,6 +11,8 @@ from agregators.routes import route_check
 from utilities.utilities import formatDateTimeToUTC
 from errors.errors import RouteDateError, UserPostRouteError, ExpirationDateError
 import traceback
+from rollbacks.routes import RF003CreateRouteRollback
+
 
 rf003_blueprint = Blueprint("rf003", __name__)
 
@@ -54,10 +56,10 @@ def createPost():
             201,
         )
     except RouteDateError as e:
-        # rollback
+        RF003CreateRouteRollback.execute()
         traceback.print_exc()
         raise RouteDateError(e)
     except UserPostRouteError as e:
-        # rollback
+        RF003CreateRouteRollback.execute()
         traceback.print_exc()
         raise UserPostRouteError(e)

@@ -1,10 +1,9 @@
 # Importación de dependencias
-from flask.json import jsonify
-import json
 import os
 import traceback
 import requests
 from errors.errors import ApiError
+from rollbacks.routes import RF003CreateRouteRollback
 
 # funcion que valida si el route existe
 def route_check(data, headers):
@@ -30,8 +29,10 @@ def route_check(data, headers):
             )
             if 201 != creation.status_code:
                 raise ApiError
+            RF003CreateRouteRollback.set_flag(creation.json()["id"])
             return creation.json()
         elif 200 == result.status_code:
+            RF003CreateRouteRollback.clear_flag()
             return respuesta[0]
         else:
             raise ApiError
