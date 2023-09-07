@@ -45,4 +45,11 @@ spec:
           service:
             name: scores-service
             port: 
-              number: 80              
+              number: 80
+      - path: /rf003/posts/
+        pathType: Prefix
+        backend:
+          service:
+            name: rf003-service
+            port: 
+              number: 80                 
