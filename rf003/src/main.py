@@ -6,12 +6,7 @@ from blueprints.resources import rf003_blueprint
 from errors.errors import ApiError
 import os
 
-ROUTES_PATH = os.environ["ROUTES_PATH"]
-OFFERS_PATH = os.environ["OFFERS_PATH"]
-POSTS_PATH = os.environ["POSTS_PATH"]
-USERS_PATH = os.environ["USERS_PATH"]
 APP_PORT =  int(os.getenv("APP_PORT", default=3000))
-
 
 # Configuracion app
 app = Flask(__name__)
