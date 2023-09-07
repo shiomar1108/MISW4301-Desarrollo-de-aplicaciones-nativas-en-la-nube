@@ -24,7 +24,15 @@ rf003Schema = {
         },
         "bagCost": {"type": "integer"},
     },
-    "required": ["postId", "description", "size", "fragile", "offer"],
+    "required": [
+        "flightId",
+        "expireAt",
+        "plannedStartDate",
+        "plannedEndDate",
+        "bagCost",
+        "origin",
+        "destiny",
+    ],
 }
 
 # Función que valida el request para rf003
@@ -56,7 +64,7 @@ def validateDates(dateFlight, dateExpirePost):
     dateF = datetime.strptime(dateFlight, formatting)
     dateP = datetime.strptime(dateExpirePost, formatting)
     actualDate = datetime.now()
-    if (dateF > actualDate) and (dateF >= dateP):
+    if (dateF > actualDate) and (dateP >= dateF):
         return True
     else:
         return False

@@ -23,7 +23,7 @@ def health():
 def createPost():
     try:
         head = request.headers
-        data = request.args
+        data = request.get_json()
         user = validateToken(head)
         validateSchema(data)
         routeId = route_check(data, head)
@@ -36,8 +36,10 @@ def createPost():
         result = rf003_post_create(routeId, data["expireAt"], head)
         return jsonify("test"), 200
     except RouteDateError as e:
+        #rollback
         traceback.print_exc()
         raise RouteDateError(e)
     except UserPostRouteError as e:
+        #rollback
         traceback.print_exc()
         raise UserPostRouteError(e)
