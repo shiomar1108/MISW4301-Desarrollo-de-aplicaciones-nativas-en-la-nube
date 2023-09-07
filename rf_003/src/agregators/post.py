@@ -1,10 +1,7 @@
 # Importación de dependencias
 from flask.json import jsonify
-from models.models import Post
 import os
-import traceback
 import requests
-from errors.errors import SequenceError
 
 
 # Funcion que verifica que el usuario no haya creado otra publicacion para la misma ruta

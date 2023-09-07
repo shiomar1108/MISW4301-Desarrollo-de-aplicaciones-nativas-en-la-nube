@@ -3,7 +3,7 @@ from flask.json import jsonify
 import os
 import traceback
 import requests
-from errors.errors import SequenceError
+from errors.errors import ApiError
 
 # funcion que valida si el route existe
 def route_check(data, headers):
@@ -29,12 +29,12 @@ def route_check(data, headers):
                 ROUTES_PATH + "/routes", json=body, headers=headers
             )
             if 201 != creation.status_code:
-                raise SequenceError
+                raise ApiError
             return creation.json()["id"]
         elif 200 == result.status_code:
             return result.json()["id"]
         else:
-            raise SequenceError
-    except SequenceError as e:
+            raise ApiError
+    except ApiError as e:
         traceback.print_exc()
-        raise SequenceError(e)
+        raise ApiError(e)

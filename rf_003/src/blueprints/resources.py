@@ -1,9 +1,14 @@
 from flask import Blueprint, request
 from flask.json import jsonify
-from validators.validators import validateToken, validateDates
+from validators.validators import (
+    validateToken,
+    validateDates,
+    validateSchema,
+    validate_expiration_date,
+)
 from agregators.post import post_user_route_check, rf003_post_create
 from agregators.routes import route_check
-from errors.errors import SequenceError
+from errors.errors import RouteDateError, UserPostRouteError, ExpirationDateError
 import traceback
 
 rf003_blueprint = Blueprint("rf003", __name__)
@@ -15,19 +20,24 @@ def health():
 
 
 @rf003_blueprint.route("/rf003/posts", methods=["POST"])
-def createPost(id):
+def createPost():
     try:
         head = request.headers
         data = request.args
         user = validateToken(head)
+        validateSchema(data)
         routeId = route_check(data, head)
+        if not validate_expiration_date(data["expireAt"]):
+            raise ExpirationDateError
         if not validateDates(data["plannedStartDate"], data["expireAt"]):
-            raise SequenceError
+            raise RouteDateError
         if not post_user_route_check(routeId, user, head):
-            # Reject Request
-            raise SequenceError
+            raise UserPostRouteError
         result = rf003_post_create(routeId, data["expireAt"], head)
         return jsonify("test"), 200
-    except SequenceError as e:
+    except RouteDateError as e:
         traceback.print_exc()
-        raise SequenceError(e)
+        raise RouteDateError(e)
+    except UserPostRouteError as e:
+        traceback.print_exc()
+        raise UserPostRouteError(e)
