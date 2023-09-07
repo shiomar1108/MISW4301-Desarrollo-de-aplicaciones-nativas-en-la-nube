@@ -1,21 +1,21 @@
-# from blueprints.api import api_blueprint
-from flask import Flask
-from flask_cors import CORS
-from errors.errors import ApiError
-from flask import jsonify
-import os
+# Importación de dependencias
+from flask import Flask, jsonify
 from flask_restful import Api
-from blueprints.vistas import VistaOffer
+from flask_cors import CORS
+from blueprints.resources import rf004_blueprint
+from errors.errors import ApiError
+import os
 
+# Constantes
 APP_PORT =  int(os.getenv("APP_PORT", default=3000))
 
+# Configuracion app
 app = Flask(__name__)
+app.register_blueprint(rf004_blueprint)
 app_context = app.app_context()
 app_context.push()
-# app.register_blueprint(api_blueprint)
 cors = CORS(app)
 api = Api(app)
-api.add_resource(VistaOffer, '/rf004/posts/<string:postId>/offers')
 
 # Manejador de errores
 @app.errorhandler(ApiError)

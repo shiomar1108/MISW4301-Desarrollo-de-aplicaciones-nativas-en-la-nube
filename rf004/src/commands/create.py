@@ -1,10 +1,8 @@
 from commands.base_command import BaseCommannd
 from errors.errors import ApiError
-from validators.validators import validateSchema, createOfferSchema # validatePostId, validatePostExpired, validatePostOwner 
-from sqlalchemy.exc import SQLAlchemyError
+from validators.validators import validateSchema, createOfferSchema, validatePostId, validatePostExpired, validatePostOwner 
 import requests
 import traceback
-import json
 import os
 
 
@@ -14,9 +12,9 @@ class CreateOffer(BaseCommannd):
     
     def validateRequest(self, postId, post_request_json, headers):        
         validateSchema(post_request_json, createOfferSchema)
-        # validatePostId(postId, headers)
-        # validatePostExpired(postId, headers)
-        # validatePostOwner(postId, headers)
+        validatePostId(postId, headers)
+        validatePostExpired(postId, headers)
+        validatePostOwner(postId, headers)
         self.headers = headers
         self.postId = postId
         self.description = post_request_json['description']
@@ -35,6 +33,6 @@ class CreateOffer(BaseCommannd):
             OFFERS_PATH = os.environ["OFFERS_PATH"]            
             result = requests.post(f"{OFFERS_PATH}/offers", json=data, headers=self.headers)
             return result            
-        except SQLAlchemyError as e:
+        except Exception as e:
             traceback.print_exc()
             raise ApiError(e)
