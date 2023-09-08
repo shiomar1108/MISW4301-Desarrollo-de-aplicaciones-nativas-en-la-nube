@@ -1,5 +1,6 @@
 from flask import request, Blueprint
 from flask.json import jsonify
+from agregators.posts import agregator
 import traceback
 from flask import abort, render_template, current_app
 
@@ -12,13 +13,12 @@ def health():
     return "pong"
 
 @rf05_blueprint.route('/rf005/posts/<string:id>', methods=['GET'])
-def getPostById(id):
+def getInfoPostById(id):
 #    try:
-#        header = request.headers
+    header = request.headers
 #        user = validateToken(header)
-#        result = GetRoute(id).execute()
-#        return jsonify({'id': result.id,'flightId':result.flightId,'sourceAirportCode': result.sourceAirportCode, 'sourceCountry': result.sourceCountry, 'destinyAirportCode': result.destinyAirportCode, 'destinyCountry': result.destinyCountry, 'bagCost': result.bagCost, 'plannedStartDate': result.plannedStartDate,'plannedEndDate':result.plannedEndDate, 'createdAt':result.createdAt}), 200
-    return jsonify('test'), 200
+    result = agregator(id, header)        
+    return jsonify(result), 200
 #    except InvalidToken as e:  # pragma: no cover
 #        return '', 401
 #    except MissingToken as e:  # pragma: no cover

@@ -17,6 +17,7 @@ ROUTES_PATH = os.environ["ROUTES_PATH"]
 OFFERS_PATH = os.environ["OFFERS_PATH"]
 POSTS_PATH = os.environ["POSTS_PATH"]
 USERS_PATH = os.environ["USERS_PATH"]
+SCORES_PATH = os.environ["SCORES_PATH"]
 APP_PORT =  int(os.getenv("APP_PORT", default=3000))
 
 
