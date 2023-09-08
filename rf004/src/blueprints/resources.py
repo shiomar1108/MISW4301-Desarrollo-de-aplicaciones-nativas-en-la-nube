@@ -16,10 +16,10 @@ def health():
 def create(postId):
     validateToken(request.headers)
     newOfferObj = CreateOffer(postId=postId, post_request_json=request.get_json(), headers=request.headers)
-    newOffer_response = newOfferObj.execute()          
-    if newOffer_response.status_code == 201:
-        data = {"id": newOffer_response.json()["id"], "userId": newOffer_response.json()["userId"], "createdAt": newOffer_response.json()["createdAt"], "postId": postId}
-        resp = Response(response=json.dumps({"data": data, "msg": "offer created successfully"}), status=201, mimetype='application/json')
+    offer_resp, score_resp = newOfferObj.execute()          
+    if offer_resp.status_code == 201:
+        data = {"id": offer_resp.json()["id"], "userId": offer_resp.json()["userId"], "createdAt": offer_resp.json()["createdAt"], "postId": postId}
+        resp = Response(response=json.dumps({"data": data, "msg": {"score": score_resp.json()["score"]}}), status=201, mimetype='application/json')
     else:
-        resp = Response(response=json.dumps({"data": {}, "msg": newOffer_response.reason}, status=newOffer_response.status_code), mimetype='application/json')    
+        resp = Response(response=json.dumps({"data": {}, "msg": offer_resp.reason}, status=offer_resp.status_code), mimetype='application/json')    
     return resp

@@ -24,15 +24,26 @@ class CreateOffer(BaseCommannd):
 
     def execute(self):
         try:
-            data = {"postId": self.postId,
-                    "description": self.description,
-                    "size": self.size,
-                    "fragile": self.fragile,
-                    "offer": self.offer
-                    }
+            data_offer = {"postId": self.postId,
+                          "description": self.description,
+                          "size": self.size,
+                          "fragile": self.fragile,
+                          "offer": self.offer
+                         }
             OFFERS_PATH = os.environ["OFFERS_PATH"]            
-            result = requests.post(f"{OFFERS_PATH}/offers", json=data, headers=self.headers)
-            return result            
+            result_offer = requests.post(f"{OFFERS_PATH}/offers", json=data_offer, headers=self.headers)
+            data_score = {"packageAmount": "1",
+                          "packageSize": self.size,
+                          "offerAmount": str(self.offer),
+                          "packageDescription": self.description,
+                          "isPackageFragile": self.fragile,
+                          "offerId": result_offer.json()["id"],
+                          "postId": self.postId,
+                          "userId": result_offer.json()["userId"]
+                         }            
+            SCORES_PATH = os.environ["SCORES_PATH"]
+            result_score = requests.post(f"{SCORES_PATH}/scores", json=data_score, headers=self.headers)
+            return result_offer, result_score
         except Exception as e:
             traceback.print_exc()
             raise ApiError(e)

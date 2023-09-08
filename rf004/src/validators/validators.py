@@ -10,10 +10,10 @@ import os
 createOfferSchema = {
     "type": "object",
     "properties": {        
-        "description": {"type": "string"},
-        "size":  {"type": "string"},
+        "description": {"type": "string", "minimum": 4, "maximum": 140},
+        "size":  {"type": "string", "enum": ["LARGE", "MEDIUM", "SMALL"]},
         "fragile": {"type": "boolean"},
-        "offer": {"type": "number"},
+        "offer": {"type": "number", "minimum": 0},
     },
     "required": ["description","size","fragile","offer"]
 }
