@@ -29,7 +29,6 @@ def route_check(data, headers):
             )
             if 412 == creation.status_code:
                 raise RouteDateError
-            routeId = creation.json().get("id")
             RF003CreateRouteRollback().set_flag()
             return creation.json()
         elif 200 == result.status_code:
