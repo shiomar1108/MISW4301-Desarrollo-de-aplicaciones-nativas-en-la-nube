@@ -2,13 +2,19 @@
 from agregators.base_command import BaseCommannd
 import traceback
 from errors.errors import  InvalidToken, MissingToken
-from models.models import Origin, Destiny, Route, Offers, Post
+from models.models import Origin, Destiny, Route, Offers, Post, Data
 import uuid
 import os
 import requests
 import re
 import json
 from flask import abort, render_template, current_app
+import logging
+
+
+def dict_helper(objlist):
+    result2 = [item.obj_to_dict() for item in objlist]
+    return result2
 
 
 def dict_helper(objlist):
@@ -112,21 +118,41 @@ def agregator (id, headers):
     newRoute = Route(
         id = responseRoute.get('id'),
         flightId = responseRoute.get('flightId'),
-        origin = newOrigin,
-        destiny = newDestiny,
+        origin = newOrigin.__dict__,
+        destiny = newDestiny.__dict__,
         bagcost = responseRoute.get('bagCost')
     )
     
-       
+    listOffer = []
+    
+    for offers in responseOffers:        
+        newOffers = Offers(
+            id = offers.get('id'),
+            userId = offers.get('userId'),
+            description = offers.get('userId'),
+            size = offers.get('packageSize'),
+            fragile = offers.get('isPackageFragile'),
+            offer = offers.get('offerAmount'),
+            score = offers.get('score'),
+            createdAt = offers.get('createdAt')
+        )
+        listOffer.append(newOffers) 
+    
+    
     newPost = Post(
         id = responsePost.get('id'),
         expireAt = responsePost.get('expireAt') ,
-        route = newRoute,
+        route = newRoute.__dict__,
         plannedStartDate = responsePost.get('plannedStartDate'),
         plannedEndDate = responsePost.get('plannedEndDate'),
         createdAt = responsePost.get('createdAt'),
-        offers = "" #Offers
+        offers = dict_helper(listOffer)
     )
     
-    return json.loads(str(newPost))
+    
+    newData = Data(
+        data = newPost.__dict__
+    )
+    
+    return newData.__dict__
     

@@ -1,4 +1,8 @@
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+
+# Creación de variable db
+db = SQLAlchemy()
 
 class Origin():
     airportCode : str
@@ -8,6 +12,12 @@ class Origin():
         self.airportCode = airportCode
         self.country = country
     
+    def obj_to_dict(self):  # for build json format
+        return {
+            "airportCode": self.country,
+            "country": self.country
+        }
+    
 class Destiny():
     airportCode : str
     country : str
@@ -15,6 +25,12 @@ class Destiny():
     def __init__(self, airportCode, country):
         self.airportCode = airportCode
         self.country = country
+        
+    def obj_to_dict(self):  # for build json format
+        return {
+            "airportCode": self.country,
+            "country": self.country
+        }
     
     
 class Route():
@@ -30,6 +46,15 @@ class Route():
         self.origin = origin
         self.destiny = destiny
         self.bagcost = bagcost
+    
+    def obj_to_dict(self):  # for build json format
+        return {
+            "id": self.id,
+            "flightId": self.flightId,
+            "origin": self.origin,
+            "destiny": self.destiny,
+            "bagcost": self.bagcost
+        }
     
     
 class Offers():
@@ -52,13 +77,25 @@ class Offers():
         self.score = score
         self.createdAt = createdAt
     
+    def obj_to_dict(self):  # for build json format
+        return {
+            "id": self.id,
+            "userId": self.userId,
+            "description": self.description,
+            "size": self.size,
+            "fragile": self.fragile,
+            "offer": self.offer,
+            "score": self.score,
+            "createdAt": self.createdAt,
+        }
+    
     
 class Post():
     id : str
     expireAt : datetime
     route : Route
-    plannedStartDate : datetime
-    plannedEndDate : datetime
+    plannedStartDate : str
+    plannedEndDate : str
     createdAt : datetime
     offers : Offers
 
@@ -71,4 +108,29 @@ class Post():
         self.plannedEndDate = plannedEndDate
         self.createdAt = createdAt
         self.offers = offers
+
+    def obj_to_dict(self):  # for build json format
+        return {
+            "id": self.id,
+            "expireAt": self.expireAt,
+            "route": self.route,
+            "plannedStartDate": self.plannedStartDate,
+            "plannedEndDate": self.plannedEndDate,
+            "createdAt": self.createdAt,
+            "score": self.score,
+            "offers": self.offers,
+        }
+        
+
+class Data():    
+    data : Post
+    
+    def __init__(self, data):
+        self.data = data
+    
+
+    def obj_to_dict(self):  # for build json format
+        return {
+            "data": self.data
+        }
         
