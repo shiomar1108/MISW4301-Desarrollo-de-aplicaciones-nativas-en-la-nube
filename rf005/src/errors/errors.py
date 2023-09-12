@@ -12,3 +12,12 @@ class InvalidToken(ApiError):
 class MissingToken(ApiError):
     code = 403
     description = "No hay token en la solicitud"
+    
+# Clase que contiene la estructura de error cuando no se encuentra el ID
+class NotFound(ApiError):
+    code = 404
+    description = "La publicación no existe."
+    
+class InvalidUserPost(ApiError):
+    code = 403
+    description = "El usuario no tiene permiso para ver el contenido de esta publicación."

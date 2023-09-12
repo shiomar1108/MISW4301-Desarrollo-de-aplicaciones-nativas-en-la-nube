@@ -64,7 +64,7 @@ class Offers():
     size : str
     fragile : str
     offer : str
-    score : str
+    score : float
     createdAt : datetime
     
     def __init__(self,id, userId, description,size,fragile,offer,score,createdAt):

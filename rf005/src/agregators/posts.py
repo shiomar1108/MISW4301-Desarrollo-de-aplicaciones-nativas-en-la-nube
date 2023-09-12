@@ -1,7 +1,7 @@
 # Importación de dependencias
 from agregators.base_command import BaseCommannd
 import traceback
-from errors.errors import  InvalidToken, MissingToken
+from errors.errors import  InvalidToken, MissingToken, NotFound, InvalidUserPost
 from models.models import Origin, Destiny, Route, Offers, Post, Data
 import uuid
 import os
@@ -34,7 +34,27 @@ def getPostById( id, headers):
     if result.status_code == 403:
         traceback.print_exc()
         raise MissingToken
+    if result.status_code == 404:
+        raise NotFound
+    
     return result.json()
+
+# Función que retorna la información del post
+def getPostHealth( id, headers):
+    POSTS_PATH = os.environ["POSTS_PATH"]
+    # call post/id
+    result =  requests.get(POSTS_PATH+'/posts/ping', headers=headers)
+    #post = json.loads(result.json())
+    if result.status_code == 401:
+        traceback.print_exc()
+        raise InvalidToken
+    if result.status_code == 403:
+        traceback.print_exc()
+        raise MissingToken
+    if result.status_code == 404:
+        raise NotFound
+    
+    return result
 
 
 # Función que retorna la información del trayecto
@@ -81,6 +101,19 @@ def getScoreByPostId( id, headers):
         raise MissingToken
     return result.json()
 
+def validateToken(headers):
+    USERS_PATH = os.environ["USERS_PATH"]
+    # call user/me
+    result =  requests.get(USERS_PATH+'/users/me', headers=headers)
+    if result.status_code == 401:
+        traceback.print_exc()
+        raise InvalidToken
+    if result.status_code == 403:
+        traceback.print_exc()
+        raise MissingToken
+    return result.json()["id"]
+
+
 
 #Agregator
 def agregator (id, headers):
@@ -89,6 +122,14 @@ def agregator (id, headers):
     current_app.logger.info('paso 1 obtener información del post por ID')
     responsePost = getPostById(id, headers)    
     
+    ### paso 1.1 validar que la publicaicón pertenezca al usuario
+    idUser = validateToken(headers)
+    
+    if idUser != responsePost['userId']:
+        traceback.print_exc()
+        raise InvalidUserPost
+    
+     
     ##Pas2 consultar Route asociada al POST
     current_app.logger.info('paso 1 obtener información del trayecto por ID')
     current_app.logger.info('responsePost' + str(responsePost))
@@ -133,7 +174,7 @@ def agregator (id, headers):
             size = offers.get('packageSize'),
             fragile = offers.get('isPackageFragile'),
             offer = offers.get('offerAmount'),
-            score = offers.get('score'),
+            score = float(offers.get('score')),
             createdAt = offers.get('createdAt')
         )
         listOffer.append(newOffers) 
