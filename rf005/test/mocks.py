@@ -11,12 +11,12 @@ def mock_post_rf005_success(url, request):
         "status_code": 201,
         "content": {  
             
-             "data": {
+             "data": "\{
                 "createdAt": "2023-09-12T03:02:22.247160",
                 "expireAt": "2023-09-19T03:02:22.207000",
                 "id": "7db2089e-51e7-11ee-a25b-0242ac120005",
-                "offers": [
-                    {
+                "offers": "\[
+                    "\{
                     "createdAt": "2023-09-12T03:03:42.024589",
                     "description": "c2f4a7d1-267c-42ee-a990-349171aa5a12",
                     "fragile": true,
@@ -25,8 +25,8 @@ def mock_post_rf005_success(url, request):
                     "score": 42.9,
                     "size": "SMALL",
                     "userId": "ddb14b0f-bba1-41af-bace-a59b310483a5"
-                },
-                {
+                "\},
+                "\{
                     "createdAt": "2023-09-12T03:03:18.421256",
                     "description": "c2f4a7d1-267c-42ee-a990-349171aa5a12",
                     "fragile": false,
@@ -35,22 +35,22 @@ def mock_post_rf005_success(url, request):
                     "score": 29.57,
                     "size": "LARGE",
                     "userId": "ddb14b0f-bba1-41af-bace-a59b310483a5"
-                }
-            ],
+                "\}
+            "\],
             "plannedEndDate": null,
             "plannedStartDate": null,
-            "route": {
+            "route": "\{
                 "bagcost": 728,
-                "destiny": {
+                "destiny": "\{
                     "airportCode": "LGW",
                     "country": "Inglaterra"
-                },
+                "\},
                 "flightId": "634",
                 "id": "a66afbbc-7347-4e8d-b849-95f35a584ce3",
-                "origin": {
+                "origin": "\{
                     "airportCode": "BOG",
                     "country": "BOG"
-                }
+                "\"}
             }
         }
           

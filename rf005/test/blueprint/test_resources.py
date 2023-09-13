@@ -21,10 +21,8 @@ class TestRF005Resources:
         with app.test_client() as test_client:
             with HTTMock(                               
                 mock_post_rf005_success
-                
             ):
                 response = test_client.get(
                     "/rf005/posts/7db2089e-51e7-11ee-a25b-0242ac120005"                   
-                    
                 )
         assert response.status_code == 201
