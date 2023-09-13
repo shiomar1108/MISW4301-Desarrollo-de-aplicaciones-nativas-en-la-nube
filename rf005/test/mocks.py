@@ -22,7 +22,7 @@ def mock_post_route_success(url, request):
     }
 
 
-@urlmatch(path=r".*post/7db2089e-51e7-11ee-a25b-0242ac120005", method="GET")
+@urlmatch(path=r".*/post/7db2089e-51e7-11ee-a25b-0242ac120005", method="GET")
 def mock_post_posts_success(url, request):
     return {
         "status_code": 201,

@@ -20,8 +20,7 @@ class TestRF005Resources:
     def test_rf005_success(self):
         # Verificacion de Happy Path        
         with app.test_client() as test_client:
-            with HTTMock(               
-                mock_post_posts_success,
+            with HTTMock(                               
                 mock_post_rf005_success
                 
             ):
