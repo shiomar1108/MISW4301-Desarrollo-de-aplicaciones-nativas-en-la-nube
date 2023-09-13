@@ -26,3 +26,13 @@ class TestRF005Resources:
                     "/rf005/posts/7db2089e-51e7-11ee-a25b-0242ac120005"                   
                 )
         assert response.status_code == 201
+        
+    
+    # Funciones de pruebas de RF005
+    def test_health_check(self):
+        # Salud microservicio de rf005
+        with app.test_client() as test_client:
+            response = test_client.get("/rf005/ping")
+            data = str(response.data)
+        assert response.status_code == 200
+        assert "pong" in data
