@@ -3,7 +3,6 @@ from faker import Faker
 from datetime import datetime, timedelta
 
 from test.mocks import ( 
-    mock_post_posts_success, 
     mock_post_rf005_success
 )
 from faker.providers import DynamicProvider
