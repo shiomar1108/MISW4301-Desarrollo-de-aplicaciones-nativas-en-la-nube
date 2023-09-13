@@ -32,7 +32,7 @@ class TestRF005Resources:
                 
             ):
                 response = test_client.post(
-                    "/rf005/posts/"+uuid4(),                   
+                    "/rf005/posts/"+ str(uuid4()),                   
                     headers={"Authorization": f"Bearer {uuid4()}"},
                 )
         assert response.status_code == 201
