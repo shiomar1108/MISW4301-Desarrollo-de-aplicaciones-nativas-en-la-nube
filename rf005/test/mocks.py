@@ -83,7 +83,7 @@ def mock_post_scores_success(url, request):
 
 
 
-@urlmatch(path=r".*/rf005/posts/.*", method="GET")
+@urlmatch(path=r".*/rf005/posts/7db2089e-51e7-11ee-a25b-0242ac120005", method="GET")
 def mock_post_rf005_success(url, request):
     return {
         "status_code": 201,
