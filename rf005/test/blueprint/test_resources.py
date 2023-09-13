@@ -7,7 +7,8 @@ from test.mocks import (
     mock_post_posts_success,
     mock_post_users_success,
     mock_post_offers_success,
-    mock_post_scores_success
+    mock_post_scores_success,
+    mock_post_rf005_success
 )
 from faker.providers import DynamicProvider
 from httmock import HTTMock
