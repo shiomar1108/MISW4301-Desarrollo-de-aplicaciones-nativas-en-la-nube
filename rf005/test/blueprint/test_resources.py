@@ -34,7 +34,7 @@ class TestRF005Resources:
                 
             ):
                 response = test_client.get(
-                    "/rf005/posts/"+ str(uuid4()),                   
-                    headers={"Authorization": f"Bearer {uuid4()}"},
+                    "/rf005/posts/cb08a884-5118-11ee-b571-0242ac190005"),                   
+                    headers={"Authorization": f"Bearer 1fbb9f16-67f4-44c9-964a-6282210673d9"},
                 )
         assert response.status_code == 201
