@@ -31,7 +31,7 @@ class TestRF005Resources:
                 mock_post_scores_success,
                 
             ):
-                response = test_client.post(
+                response = test_client.get(
                     "/rf005/posts/"+ str(uuid4()),                   
                     headers={"Authorization": f"Bearer {uuid4()}"},
                 )
