@@ -3,7 +3,7 @@ from faker import Faker
 from datetime import datetime, timedelta
 
 from test.mocks import (
-    mmock_post_route_success,
+    mock_post_route_success,
     mock_post_posts_success,
     mock_post_users_success,
     mock_post_offers_success,
