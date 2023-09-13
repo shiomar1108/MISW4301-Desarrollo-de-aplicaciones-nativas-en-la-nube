@@ -79,3 +79,58 @@ def mock_post_scores_success(url, request):
             "userId": f"uuid4()"
         },
     }
+
+
+
+
+@urlmatch(path=r".*/rf005/posts/.*", method="POST")
+def mock_post_scores_success(url, request):
+    return {
+        "status_code": 201,
+        "content": {  
+            
+             "data": {
+                "createdAt": "2023-09-12T03:02:22.247160",
+                "expireAt": "2023-09-19T03:02:22.207000",
+                "id": "cb08a884-5118-11ee-b571-0242ac190005",
+                "offers": [
+                    {
+                    "createdAt": "2023-09-12T03:03:42.024589",
+                    "description": "c2f4a7d1-267c-42ee-a990-349171aa5a12",
+                    "fragile": true,
+                    "id": "14490464-5585-46bc-bf48-a872dfb7729b",
+                    "offer": "45.64",
+                    "score": 42.9,
+                    "size": "SMALL",
+                    "userId": "c2f4a7d1-267c-42ee-a990-349171aa5a12"
+                },
+                {
+                    "createdAt": "2023-09-12T03:03:18.421256",
+                    "description": "c2f4a7d1-267c-42ee-a990-349171aa5a12",
+                    "fragile": false,
+                    "id": "1c3be390-d57c-4c2c-9183-fca18b47f53b",
+                    "offer": "43.31",
+                    "score": 29.57,
+                    "size": "LARGE",
+                    "userId": "c2f4a7d1-267c-42ee-a990-349171aa5a12"
+                }
+            ],
+            "plannedEndDate": null,
+            "plannedStartDate": null,
+            "route": {
+                "bagcost": 728,
+                "destiny": {
+                    "airportCode": "LGW",
+                    "country": "Inglaterra"
+                },
+                "flightId": "634",
+                "id": "cc9700ec-dbb1-4316-82f0-c35551c79481",
+                "origin": {
+                    "airportCode": "BOG",
+                    "country": "BOG"
+                }
+            }
+        }
+          
+        },
+    }
