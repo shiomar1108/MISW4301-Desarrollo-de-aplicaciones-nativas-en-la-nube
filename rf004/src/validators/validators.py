@@ -44,6 +44,7 @@ def validatePostId(id, headers):
     if result.status_code == 400 or result.status_code == 404:
         traceback.print_exc()
         raise PostDoNotExist
+    return result
 
 # Función que valida que una Publicacion no ha expirado
 def validatePostExpired(id, headers):

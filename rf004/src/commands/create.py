@@ -12,15 +12,22 @@ class CreateOffer(BaseCommannd):
     
     def validateRequest(self, postId, post_request_json, headers):        
         validateSchema(post_request_json, createOfferSchema)
-        validatePostId(postId, headers)
         validatePostExpired(postId, headers)
         validatePostOwner(postId, headers)
+        result_post = validatePostId(postId, headers)
+        routeId = result_post.json()["routeId"]
+        self.bagCost = self.getBagCost(routeId, headers)
         self.headers = headers
         self.postId = postId
-        self.description = post_request_json['description']
-        self.size = post_request_json['size']
-        self.fragile = post_request_json['fragile']
-        self.offer = post_request_json['offer']
+        self.description = post_request_json["description"]
+        self.size = post_request_json["size"]
+        self.fragile = post_request_json["fragile"]
+        self.offer = post_request_json["offer"]
+
+    def getBagCost(self, routeId, headers):
+        ROUTES_PATH = os.environ["ROUTES_PATH"]
+        result_route = requests.get(f"{ROUTES_PATH}/routes/{routeId}", headers=headers)
+        return result_route.json()["bagCost"]
 
     def execute(self):
         try:
@@ -32,7 +39,7 @@ class CreateOffer(BaseCommannd):
                          }
             OFFERS_PATH = os.environ["OFFERS_PATH"]            
             result_offer = requests.post(f"{OFFERS_PATH}/offers", json=data_offer, headers=self.headers)
-            data_score = {"packageAmount": "1",
+            data_score = {"packageAmount": str(self.bagCost),
                           "packageSize": self.size,
                           "offerAmount": str(self.offer),
                           "packageDescription": self.description,
