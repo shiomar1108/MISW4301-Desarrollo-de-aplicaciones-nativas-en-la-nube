@@ -29,6 +29,7 @@ class TestRF005Resources:
                 mock_post_users_success,
                 mock_post_offers_success,
                 mock_post_scores_success,
+                mock_post_rf005_success
                 
             ):
                 response = test_client.get(

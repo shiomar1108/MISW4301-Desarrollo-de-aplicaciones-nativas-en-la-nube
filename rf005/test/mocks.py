@@ -3,7 +3,7 @@ from uuid import uuid4
 from datetime import datetime, timedelta
 
 
-@urlmatch(path=r".*routes.*", method="POST")
+@urlmatch(path=r".*routes.*", method="GET")
 def mock_post_route_success(url, request):
     return {
         "status_code": 201,
@@ -22,7 +22,7 @@ def mock_post_route_success(url, request):
     }
 
 
-@urlmatch(path=r".*post.*", method="POST")
+@urlmatch(path=r".*post.*", method="GET")
 def mock_post_posts_success(url, request):
     return {
         "status_code": 201,
@@ -36,7 +36,7 @@ def mock_post_posts_success(url, request):
     }
 
 
-@urlmatch(path=r".*users.*", method="POST")
+@urlmatch(path=r".*users.*", method="GET")
 def mock_post_users_success(url, request):
     return {
         "status_code": 201,
@@ -48,7 +48,7 @@ def mock_post_users_success(url, request):
 
 
 
-@urlmatch(path=r".*offers.*", method="POST")
+@urlmatch(path=r".*offers.*", method="GET")
 def mock_post_offers_success(url, request):
     return {
         "status_code": 201,
@@ -61,7 +61,7 @@ def mock_post_offers_success(url, request):
 
 
 
-@urlmatch(path=r".*scores.*", method="POST")
+@urlmatch(path=r".*scores.*", method="GET")
 def mock_post_scores_success(url, request):
     return {
         "status_code": 201,
@@ -83,8 +83,8 @@ def mock_post_scores_success(url, request):
 
 
 
-@urlmatch(path=r".*/rf005/posts/.*", method="POST")
-def mock_post_scores_success(url, request):
+@urlmatch(path=r".*/rf005/posts/.*", method="GET")
+def mock_post_rf005_success(url, request):
     return {
         "status_code": 201,
         "content": {  
