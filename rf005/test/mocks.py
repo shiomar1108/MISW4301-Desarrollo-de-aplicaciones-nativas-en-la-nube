@@ -3,7 +3,7 @@ from uuid import uuid4
 from datetime import datetime, timedelta
 
 
-@urlmatch(path=r".*routes.*", method="GET")
+@urlmatch(path=r".*routes/.*", method="GET")
 def mock_post_route_success(url, request):
     return {
         "status_code": 201,
@@ -22,14 +22,14 @@ def mock_post_route_success(url, request):
     }
 
 
-@urlmatch(path=r".*post.*", method="GET")
+@urlmatch(path=r".*post/7db2089e-51e7-11ee-a25b-0242ac120005", method="GET")
 def mock_post_posts_success(url, request):
     return {
         "status_code": 201,
         "content": {
-            "id": f"uuid4()",
-            "routeId":  f"uuid4()",
-            "userId": "BOG",
+            "id": "7db2089e-51e7-11ee-a25b-0242ac120005",
+            "routeId":  "a66afbbc-7347-4e8d-b849-95f35a584ce3",
+            "userId": "ddb14b0f-bba1-41af-bace-a59b310483a5",
             "createdAt": f"{str(datetime.today()).split('.')[0].replace(' ', 'T')}.214Z",
             "expireAt": f"{str(datetime.today()).split('.')[0].replace(' ', 'T')}.214Z"            
         },
@@ -92,7 +92,7 @@ def mock_post_rf005_success(url, request):
              "data": {
                 "createdAt": "2023-09-12T03:02:22.247160",
                 "expireAt": "2023-09-19T03:02:22.207000",
-                "id": "cb08a884-5118-11ee-b571-0242ac190005",
+                "id": "7db2089e-51e7-11ee-a25b-0242ac120005",
                 "offers": [
                     {
                     "createdAt": "2023-09-12T03:03:42.024589",
@@ -102,7 +102,7 @@ def mock_post_rf005_success(url, request):
                     "offer": "45.64",
                     "score": 42.9,
                     "size": "SMALL",
-                    "userId": "c2f4a7d1-267c-42ee-a990-349171aa5a12"
+                    "userId": "ddb14b0f-bba1-41af-bace-a59b310483a5"
                 },
                 {
                     "createdAt": "2023-09-12T03:03:18.421256",
@@ -112,7 +112,7 @@ def mock_post_rf005_success(url, request):
                     "offer": "43.31",
                     "score": 29.57,
                     "size": "LARGE",
-                    "userId": "c2f4a7d1-267c-42ee-a990-349171aa5a12"
+                    "userId": "ddb14b0f-bba1-41af-bace-a59b310483a5"
                 }
             ],
             "plannedEndDate": null,
@@ -124,7 +124,7 @@ def mock_post_rf005_success(url, request):
                     "country": "Inglaterra"
                 },
                 "flightId": "634",
-                "id": "cc9700ec-dbb1-4316-82f0-c35551c79481",
+                "id": "a66afbbc-7347-4e8d-b849-95f35a584ce3",
                 "origin": {
                     "airportCode": "BOG",
                     "country": "BOG"

@@ -34,7 +34,7 @@ class TestRF005Resources:
                 
             ):
                 response = test_client.get(
-                    "/rf005/posts/cb08a884-5118-11ee-b571-0242ac190005",                   
-                    headers={"Authorization": f"Bearer 1fbb9f16-67f4-44c9-964a-6282210673d9"},
+                    "/rf005/posts/7db2089e-51e7-11ee-a25b-0242ac120005",                   
+                    headers={"Authorization": "Bearer fd40ff29-457f-477e-a78f-3bb22cc4db95"},
                 )
         assert response.status_code == 201
