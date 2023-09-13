@@ -3,7 +3,7 @@ from faker import Faker
 from datetime import datetime, timedelta
 
 from test.mocks import (
-    mmock_post_route_success,
+    mock_post_route_success,
     mock_post_posts_success,
     mock_post_users_success,
     mock_post_offers_success,
@@ -21,8 +21,7 @@ class TestRF005Resources:
 
 
     def test_rf005_success(self):
-        # Verificacion de Happy Path
-        self.set_up_working()
+        # Verificacion de Happy Path        
         with app.test_client() as test_client:
             with HTTMock(
                 mock_post_route_success,
