@@ -136,6 +136,6 @@ jobs:
       - name: Run unit tests for rf004 mcs
         working-directory: ./rf004
         run: pytest --cov-fail-under=70 --cov=src
-      - name: CleanUp after test
-        working-directory: ./rf004
-        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+      # - name: CleanUp after test
+      #   working-directory: ./rf004
+      #   run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
