@@ -71,7 +71,12 @@ spec:
   type: NodePort
   selector:
     app: scores
-
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 31021
+---
 ###################################
 # RF003
 ###################################
@@ -93,7 +98,7 @@ spec:
     spec:
       containers:
         - name: rf003
-          image: <URL>
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf003:1.0
           ports:
             - containerPort: 3000
           env:
@@ -128,7 +133,7 @@ spec:
     checkIntervalSec: 30
     port: 3000
     type: HTTP
-    requestPath: /rf003/posts/ping
+    requestPath: /rf003/ping
 ---
 kind: Service
 apiVersion: v1
@@ -144,9 +149,8 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 3000
-      nodePort: 31021
-
-
+      nodePort: 31022
+---
 ###################################
 # RF004
 ###################################
@@ -168,7 +172,7 @@ spec:
     spec:
       containers:
         - name: rf004
-          image: <URL>
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf004:1.0
           ports:
             - containerPort: 3000
           env:
@@ -196,7 +200,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: appsecrets 
-                  key: SCORES_PATH                  
+                  key: SCORES_PATH
           imagePullPolicy: Always                  
 ---
 apiVersion: cloud.google.com/v1
@@ -224,9 +228,8 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 3000
-      nodePort: 31022
-
-
+      nodePort: 31023
+---
 ###################################
 # RF005
 ###################################
@@ -248,7 +251,7 @@ spec:
     spec:
       containers:
         - name: rf005
-          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/offers:1.0
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf005:1.0
           ports:
             - containerPort: 3000
           env:
@@ -288,7 +291,7 @@ spec:
     checkIntervalSec: 30
     port: 3000
     type: HTTP
-    requestPath: /rf005/posts/ping
+    requestPath: /rf005/ping
 ---
 kind: Service
 apiVersion: v1
@@ -304,4 +307,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 3000
-      nodePort: 31023
+      nodePort: 31024

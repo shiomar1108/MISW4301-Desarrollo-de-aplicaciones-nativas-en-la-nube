@@ -21,7 +21,15 @@
 		
 	-> Imagen de scores:
 		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/scores:1.0 --target prod .
+	
+	-> Imagen de rf003:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf003:1.0 --target prod .
 
+	-> Imagen de rf004:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf004:1.0 --target prod .
+
+	-> Imagen de rf005:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf005:1.0 --target prod .
 
 -> Publicar imagenes en Artifact Registry:
 	
@@ -39,6 +47,15 @@
 		
 	-> Publicar de scores:
 		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/scores:1.0
+
+	-> Publicar de rf003:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf003:1.0
+		
+	-> Publicar de rf004:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf004:1.0
+
+	-> Publicar de rf005:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf005:1.0
 
 -> Crear red virtual:
 	gcloud compute networks create vpn-s202314-proyecto-grupo8 --project=s202314-proyecto-grupo8 --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
@@ -90,7 +107,7 @@
 	kubectl delete all --all -n default
 
 -> Aplicar Secrets:
-	kubectl apply -f secrets.yaml
+	kubectl apply -f secrets.yml
 
 -> Aplicar deployment servicios entrega 1:
 	kubectl apply -f k8s-base-layer-deployment.yaml
