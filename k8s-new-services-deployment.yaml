@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: scores
-          image: <IMAGE-URI-SCORES>
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/scores:1.0
           ports:
             - containerPort: 3000
           env:
@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
         - name: rf003
-          image: <IMAGE-URI-RF003>
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf003:1.0
           ports:
             - containerPort: 3000
           env:
@@ -172,7 +172,7 @@ spec:
     spec:
       containers:
         - name: rf004
-          image: <IMAGE-URI-RF004>
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf004:1.0
           ports:
             - containerPort: 3000
           env:
@@ -251,7 +251,7 @@ spec:
     spec:
       containers:
         - name: rf005
-          image: <IMAGE-URI-RF005>
+          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf005:1.0
           ports:
             - containerPort: 3000
           env:
