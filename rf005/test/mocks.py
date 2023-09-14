@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 
 
-@urlmatch(path=r".*/rf005/posts.*", method="GET")
+@urlmatch(path=r".*/posts.*", method="GET")
 def mock_post_rf005_success(url, request):
     return {
         "status_code": 200,
