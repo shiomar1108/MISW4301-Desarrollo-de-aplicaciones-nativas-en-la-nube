@@ -25,7 +25,7 @@ class TestRF005Resources:
                 response = test_client.get(
                     "/rf005/posts/7db2089e-51e7-11ee-a25b-0242ac120005"                   
                 )
-        assert response.status_code == 201
+        assert response.status_code == 200
         
     
     # Funciones de pruebas de RF005
