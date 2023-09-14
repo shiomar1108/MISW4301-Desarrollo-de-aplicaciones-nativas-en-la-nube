@@ -30,5 +30,5 @@ class PostExpired(ApiError):
     
 # Clase que contiene la estructura de un error de tipo Bad Request
 class PostInvalidOwner(ApiError):
-    code = 413
+    code = 412
     description = "La publicación es del mismo usuario y no se puede ofertar por ella" 
