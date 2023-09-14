@@ -52,4 +52,11 @@ spec:
           service:
             name: rf003-service
             port: 
+              number: 80
+      - path: /rf004/posts/
+        pathType: Prefix
+        backend:
+          service:
+            name: rf004-service
+            port: 
               number: 80                 

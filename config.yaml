@@ -35,3 +35,8 @@ rf003-management:
   port: 3000
   authors:
     - s.salazarc@uniandes.edu.co
+rf004-management:
+  folder: rf004
+  port: 3000
+  authors:
+    - jm.carrillo@uniandes.edu.co

@@ -154,6 +154,7 @@ services:
       USERS_PATH: "http://users:3000"
       POSTS_PATH: "http://posts:3000"
       OFFERS_PATH: "http://offers:3000"
+      ROUTES_PATH: "http://routes:3000"      
       SCORES_PATH: "http://scores:3000"
     restart: always
     networks:
@@ -161,7 +162,9 @@ services:
     depends_on:
       - posts
       - offers
+      - routes
       - users
+      - scores
 
   rf003:
     container_name: rf003

@@ -145,3 +145,82 @@ spec:
       port: 80
       targetPort: 3000
       nodePort: 31021
+
+###################################
+# RF004
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rf004
+  labels:
+    app: rf004
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rf004
+  template:
+    metadata:
+      labels:
+        app: rf004
+    spec:
+      containers:
+        - name: rf004
+          image: <URL>
+          ports:
+            - containerPort: 3000
+          env:
+            - name: "ROUTES_PATH"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: ROUTES_PATH
+            - name: "OFFERS_PATH"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: OFFERS_PATH
+            - name: "USERS_PATH"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: USERS_PATH
+            - name: "POSTS_PATH"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: POSTS_PATH
+            - name: "SCORES_PATH"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: SCORES_PATH                  
+          imagePullPolicy: Always                  
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: rf004-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3000
+    type: HTTP
+    requestPath: /rf004/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rf004-service
+  annotations:
+    cloud.google.com/backend-config: '{"default": "rf004-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: rf004
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 31023

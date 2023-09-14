@@ -119,3 +119,23 @@ jobs:
       - name: CleanUp after test
         working-directory: ./scores
         run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
+
+  Test_Coverage_rf004:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.10 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install pipenv for rf004 mcs
+        working-directory: ./rf004
+        run: pip install pipenv
+      - name: Install dependencies for rf004 mcs
+        working-directory: ./rf004
+        run: pipenv install --system --deploy
+      - name: Run unit tests for rf004 mcs
+        working-directory: ./rf004
+        run: pytest --cov-fail-under=70 --cov=src
+      - name: CleanUp after test
+        working-directory: ./rf004
+        run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
