@@ -30,8 +30,16 @@ route-management:
   port: 3000
   authors:
     - jf.guzmanc1@uniandes.edu.co
+    
 rf005-management:
   folder: rf005
   port: 3000
   authors:
     - jf.guzmanc1@uniandes.edu.co
+
+rf003-management:
+  folder: rf003
+  port: 3000
+  authors:
+    - s.salazarc@uniandes.edu.co
+

@@ -107,7 +107,7 @@ jobs:
       - name: Create the Test DB
         working-directory: ./scores
         run: docker run -d -p 5436:5432 --name scoresdb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=scoresdb postgres:14.1
-      - name: Install pipenv for routes mcs
+      - name: Install pipenv for scores mcs
         working-directory: ./scores
         run: pip install pipenv
       - name: Install dependencies for scores mcs
@@ -120,7 +120,24 @@ jobs:
         working-directory: ./scores
         run: docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq)
 
-  Test_Coverage_rf005:
+  Test_Coverage_rf003:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.10 ]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install pipenv for rf003 mcs
+        working-directory: ./rf003
+        run: pip install pipenv
+      - name: Install dependencies for rf003 mcs
+        working-directory: ./rf003
+        run: pipenv install --system --deploy
+      - name: Run unit tests for rf003 mcs
+        working-directory: ./rf003
+        run: pytest --cov-fail-under=70 --cov=src
+        
+   Test_Coverage_rf005:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -136,3 +153,4 @@ jobs:
       - name: Run unit tests for rf005 mcs
         working-directory: ./rf005
         run: pytest --cov-fail-under=70 --cov=src
+        
