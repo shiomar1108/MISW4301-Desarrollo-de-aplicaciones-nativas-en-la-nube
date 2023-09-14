@@ -59,7 +59,6 @@ def createPost():
             201,
         )
     except RouteDateError as e:
-        
         traceback.print_exc()
         raise RouteDateError(e)
     except UserPostRouteError as e:

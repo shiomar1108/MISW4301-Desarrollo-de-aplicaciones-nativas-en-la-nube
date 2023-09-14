@@ -40,3 +40,13 @@ rf004-management:
   port: 3000
   authors:
     - jm.carrillo@uniandes.edu.co
+rf005-management:
+  folder: rf005
+  port: 3000
+  authors:
+    - jf.guzmanc1@uniandes.edu.co    
+score-management:
+  folder: scores
+  port: 3000
+  authors:
+    - h.galindos@uniandes.edu.co
