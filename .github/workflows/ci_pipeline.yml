@@ -137,7 +137,7 @@ jobs:
         working-directory: ./rf003
         run: pytest --cov-fail-under=70 --cov=src
         
-   Test_Coverage_rf005:
+  Test_Coverage_rf005:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -153,4 +153,3 @@ jobs:
       - name: Run unit tests for rf005 mcs
         working-directory: ./rf005
         run: pytest --cov-fail-under=70 --cov=src
-        
