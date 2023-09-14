@@ -63,7 +63,7 @@ class TestRF003Resources:
     # Funciones que generan datos para las pruebas de RF003
     def set_up_working(self):
         self.flightId = self.dataFactory.uuid4()
-        self.expireAt = f"{str(datetime.today() + timedelta(days=self.dataFactory.random_int(1, 30))).split('.')[0].replace(' ', 'T')}.214Z"
+        self.expireAt = f"{str(datetime.today() + timedelta(days=1)).split('.')[0].replace(' ', 'T')}.214Z"
         self.plannedStartDate = f"{str(datetime.today() + timedelta(days=1)).split('.')[0].replace(' ', 'T')}.214Z"
         self.plannedEndDate = f"{str(datetime.today() + timedelta(days=10)).split('.')[0].replace(' ', 'T')}.214Z"
         self.origin_airportCode = self.dataFactory.sourceAirportCode_provider()

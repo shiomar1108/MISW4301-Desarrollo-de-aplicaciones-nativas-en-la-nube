@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: users
-          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/users:1.0
+          image: <IMAGE-URI-USERS>
           ports:
             - containerPort: 3000
           env:
@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
         - name: posts
-          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/posts:1.0
+          image: <IMAGE-URI-POSTS>
           ports:
             - containerPort: 3000
           env:
@@ -182,7 +182,7 @@ spec:
     spec:
       containers:
         - name: routes
-          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/routes:1.0
+          image: <IMAGE-URI-ROUTES>
           ports:
             - containerPort: 3000
           env:
@@ -266,7 +266,7 @@ spec:
     spec:
       containers:
         - name: offers
-          image: us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/offers:1.0
+          image: <IMAGE-URI-OFFERS>
           ports:
             - containerPort: 3000
           env:

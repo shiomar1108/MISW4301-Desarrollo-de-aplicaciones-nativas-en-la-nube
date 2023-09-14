@@ -64,7 +64,7 @@ def validateDates(dateFlight, dateExpirePost):
     dateF = datetime.strptime(dateFlight, formatting)
     dateP = datetime.strptime(dateExpirePost, formatting)
     actualDate = datetime.now()
-    if (dateF > actualDate) and (dateP >= dateF):
+    if (dateF > actualDate) and (dateP <= dateF):
         return True
     else:
         return False
