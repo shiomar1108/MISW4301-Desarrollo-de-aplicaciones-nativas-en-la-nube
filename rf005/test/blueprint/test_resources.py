@@ -5,7 +5,9 @@ from datetime import datetime, timedelta
 from test.mocks import ( 
     mock_post_rf005_success,
     mock_post_users_success,
-    mock_post_route_success
+    mock_post_route_success,
+    mock_post_offers_success,
+    mock_post_scores_success
 )
 from faker.providers import DynamicProvider
 from httmock import HTTMock
@@ -18,13 +20,17 @@ import json
 class TestRF005Resources:
 
 
+
+
     def test_rf005_success(self):
         # Verificacion de Happy Path        
         with app.test_client() as test_client:
             with HTTMock(                               
                 mock_post_rf005_success,
                 mock_post_users_success,
-                mock_post_route_success
+                mock_post_route_success,
+                mock_post_offers_success,
+                mock_post_scores_success
             ):
                 response = test_client.get(
                     "/rf005/posts/7db2089e-51e7-11ee-a25b-0242ac120005"                   

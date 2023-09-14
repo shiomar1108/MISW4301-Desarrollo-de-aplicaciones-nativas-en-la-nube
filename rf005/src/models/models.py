@@ -59,34 +59,37 @@ class Route():
     
 class Offers():
     id : str
-    userId : str
+    postId : str
     description : str
     size : str
     fragile : str
     offer : str
     score : float
     createdAt : datetime
+    userId : str
     
-    def __init__(self,id, userId, description,size,fragile,offer,score,createdAt):
+    def __init__(self,id, postId, description,size,fragile,offer,score,createdAt, userId):
         self.id = id
-        self.userId = userId
+        self.postId = postId
         self.description = description
         self.size = size
         self.fragile = fragile
         self.offer = offer
         self.score = score
         self.createdAt = createdAt
+        self.userId = userId
     
     def obj_to_dict(self):  # for build json format
         return {
             "id": self.id,
-            "userId": self.userId,
+            "postId" : self.postId,            
             "description": self.description,
             "size": self.size,
             "fragile": self.fragile,
             "offer": self.offer,
             "score": self.score,
             "createdAt": self.createdAt,
+            "userId": self.userId
         }
     
     

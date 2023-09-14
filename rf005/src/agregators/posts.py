@@ -92,6 +92,8 @@ def getScoreByPostId( id, headers):
     SCORES_PATH = os.environ["SCORES_PATH"]    
     # call Offers/postid
     result =  requests.get(SCORES_PATH+'/scores/posts/'+id, headers=headers)
+    print("==================================")
+    print(result.json())
     #post = json.loads(result.json())
     if result.status_code == 401:
         traceback.print_exc()
@@ -143,7 +145,7 @@ def agregator (id, headers):
     current_app.logger.info('response Offers' + str(responseOffers))
     
     current_app.logger.info('paso 4 obtener el score de un post' )
-    responseOffers = getScoreByPostId(id, headers) 
+    responseScore = getScoreByPostId(id, headers) 
     
     newOrigin = Origin(
         airportCode = responseRoute.get('sourceAirportCode'),
@@ -166,18 +168,22 @@ def agregator (id, headers):
     
     listOffer = []
     
-    for offers in responseOffers:        
-        newOffers = Offers(
-            id = offers.get('id'),
-            userId = offers.get('userId'),
-            description = offers.get('userId'),
-            size = offers.get('packageSize'),
-            fragile = offers.get('isPackageFragile'),
-            offer = offers.get('offerAmount'),
-            score = float(offers.get('score')),
-            createdAt = offers.get('createdAt')
+    print(responseScore)
+    print()   
+    print(responseScore.get('score'))   
+         
+    newOffers = Offers(
+        id = responseOffers.get('id'),
+        postId = responseOffers.get('postId'),               
+        description =responseOffers.get('description'),
+        size = responseOffers.get('size'),
+        fragile = responseOffers.get('fragile'),
+        offer = responseOffers.get('offer'),
+        score = float(responseScore.get('score')),
+        createdAt = responseOffers.get('createdAt'),
+        userId = responseOffers.get('userId')        
         )
-        listOffer.append(newOffers) 
+       
     
     
     newPost = Post(
