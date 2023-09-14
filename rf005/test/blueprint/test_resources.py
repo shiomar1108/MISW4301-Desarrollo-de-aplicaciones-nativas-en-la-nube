@@ -18,7 +18,7 @@ class TestRF005Resources:
 
     def test_rf005_success(self):
         # Verificacion de Happy Path        
-        with rc.main.app.test_client() as test_client:
+        with app.test_client() as test_client:
             with HTTMock(                               
                 mock_post_rf005_success
             ):
@@ -31,7 +31,7 @@ class TestRF005Resources:
     # Funciones de pruebas de RF005
     def test_health_check(self):
         # Salud microservicio de rf005
-        with src.main.app.test_client() as test_client:
+        with app.test_client() as test_client:
             response = test_client.get("/rf005/ping")
             data = str(response.data)
         assert response.status_code == 200
