@@ -78,7 +78,7 @@ class TestCreate():
         with src.main.app.test_client() as test_client:
             with HTTMock(tests.mocks.mock_success_auth, tests.mocks.mock_post_expired, tests.mocks.mock_post_invalid_owner):                
                 response = test_client.post(f"/rf004/posts/{postId}/offers", json=self.data, headers={"Authorization": f"Bearer {uuid1()}"})
-        assert response.status_code == 413
+        assert response.status_code == 412
    
 
     def test_post_invalid_id(self):
