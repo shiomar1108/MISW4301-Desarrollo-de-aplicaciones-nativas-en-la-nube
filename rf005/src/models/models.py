@@ -38,14 +38,14 @@ class Route():
     flightId : str
     origin : Origin
     destiny: Destiny
-    bagcost: int
+    bagCost: str
     
-    def __init__(self,id, flightId, origin,destiny,bagcost):
+    def __init__(self,id, flightId, origin,destiny,bagCost):
         self.id = id
         self.flightId = flightId
         self.origin = origin
         self.destiny = destiny
-        self.bagcost = bagcost
+        self.bagCost = bagCost
     
     def obj_to_dict(self):  # for build json format
         return {
@@ -53,7 +53,7 @@ class Route():
             "flightId": self.flightId,
             "origin": self.origin,
             "destiny": self.destiny,
-            "bagcost": self.bagcost
+            "bagCost": self.bagcost
         }
     
     
