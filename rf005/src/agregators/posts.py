@@ -1,5 +1,6 @@
 # Importación de dependencias
 from agregators.base_command import BaseCommannd
+from operator import itemgetter, attrgetter
 import traceback
 from errors.errors import  InvalidToken, MissingToken, NotFound, InvalidUserPost
 from models.models import Origin, Destiny, Route, Offers, Post, Data
@@ -163,27 +164,33 @@ def agregator (id, headers):
         flightId = responseRoute.get('flightId'),
         origin = newOrigin.__dict__,
         destiny = newDestiny.__dict__,
-        bagcost = responseRoute.get('bagCost')
+        bagCost = responseRoute.get('bagCost')
     )
     
     listOffer = []
+    listScore = []
     
     print(responseScore)
-    print()   
-    print(responseScore.get('score'))   
-         
-    newOffers = Offers(
-        id = responseOffers.get('id'),
-        postId = responseOffers.get('postId'),               
-        description =responseOffers.get('description'),
-        size = responseOffers.get('size'),
-        fragile = responseOffers.get('fragile'),
-        offer = responseOffers.get('offer'),
-        score = float(responseScore.get('score')),
-        createdAt = responseOffers.get('createdAt'),
-        userId = responseOffers.get('userId')        
-        )
-       
+    #print()   
+    #print(responseScore.get('score'))   
+
+    for offer in responseOffers:
+        for score in responseScore:
+            if score.get('userId') == offer.get('userId'):
+                newOffers = Offers(
+                    id = offer.get('id'),
+                    postId = offer.get('postId'),               
+                    description =offer.get('description'),
+                    size = offer.get('size'),
+                    fragile = offer.get('fragile'),
+                    offer = offer.get('offer'),
+                    score = float(score.get('score')),
+                    createdAt = offer.get('createdAt'),
+                    userId = offer.get('userId')        
+                    )
+                listOffer.append(newOffers)
+    
+    sorted(listOffer, key=attrgetter('score'),reverse=True)      
     
     
     newPost = Post(
@@ -193,7 +200,7 @@ def agregator (id, headers):
         plannedStartDate = responsePost.get('plannedStartDate'),
         plannedEndDate = responsePost.get('plannedEndDate'),
         createdAt = responsePost.get('createdAt'),
-        offers = dict_helper(listOffer)
+        offers = dict_helper(sorted(listOffer, key=attrgetter('score'),reverse=True)  )
     )
     
     
