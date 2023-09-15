@@ -63,6 +63,13 @@
 -> Crear subred para los pods:
 	gcloud compute networks subnets create red-s202314-proyecto-grupo8 --range=192.168.32.0/19 --network=vpn-s202314-proyecto-grupo8 --region=us-central1 --project=s202314-proyecto-grupo8
 
+-> Crear Kubernetes:
+	Nombre Kubernetes: s202314-proyecto-grupo8-k8s
+	Red: vpn-s202314-proyecto-grupo8
+	Subred del nodo: red-s202314-proyecto-grupo8
+	Rango de direcciones del pod: 192.168.64.0/21
+	Rango de direcciones del servicio: 192.168.72.0/21
+
 -> Crear sub red para la base de datos:
 	gcloud compute addresses create red-dbs-s202314-proyecto-grupo8 --global --purpose=VPC_PEERING --addresses=192.168.0.0 --prefix-length=24 --network=vpn-s202314-proyecto-grupo8 --project=s202314-proyecto-grupo8
 
@@ -92,13 +99,6 @@
 		
 	-> Etiquetas:
 		basesdedatos
-
--> Crear Kubernetes:
-	Nombre Kubernetes: s202314-proyecto-grupo8-k8s
-	Red: vpn-s202314-proyecto-grupo8
-	Subred del nodo: red-s202314-proyecto-grupo8
-	Rango de direcciones del pod: 192.168.64.0/21
-	Rango de direcciones del servicio: 192.168.72.0/21
 
 -> Conectarse a Kuberneters en GCP:
 	gcloud container clusters get-credentials s202314-proyecto-grupo8-k8s --region us-central1 --project s202314-proyecto-grupo8
