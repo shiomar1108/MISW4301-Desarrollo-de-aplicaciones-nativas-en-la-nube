@@ -103,6 +103,8 @@
 -> Conectarse a Kuberneters en GCP:
 	gcloud container clusters get-credentials s202314-proyecto-grupo8-k8s --region us-central1 --project s202314-proyecto-grupo8
 
+	gcloud container clusters get-credentials misw-app-nativas-nube-proyecto-grupo8-k8 --region us-central1 --project misw-app-nativas-nube
+
 -> Borrar todo en kubernetes lo referente a pods, services y deployments:	
 	kubectl delete all --all -n default
 
