@@ -8,6 +8,17 @@ import requests
 import os
 
 
+CrearTarjetaSchema = {
+    "type": "object",
+    "properties": {
+        "cardNumber": {"type": "string", "minimum": 16, "maximum": 16},
+        "cvv": {"type": "string", "minimum": 3, "maximum": 3},
+        "expirationDate":  {"type": "string", "minimum": 19, "maximum": 26},
+        "cardHolderName": {"type": "string", "minimum": 4, "maximum": 20}
+    },
+    "required": ["cardNumber","cvv","expirationDate","cardHolderName"]
+}
+
 registrarTarjetaSchema = {
     "type": "object",
     "card": {
