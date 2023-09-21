@@ -66,7 +66,8 @@ class Authenticate(BaseCommannd):
             userToUpdate.token = None
             userToUpdate.expireAt = None
             db.session.commit()
-            logging.error(f"{LOG} User Info [{userSchema.dump(userToUpdate)}]")
+            logging.error(f"{LOG} User with status [{userToUpdate.status}]")
+            logging.error(f"{LOG} User information [{userSchema.dump(userToUpdate)}]")
             raise InvalidUserStatus
     
     # Función que realiza la autenticación del usuario

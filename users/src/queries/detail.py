@@ -27,12 +27,14 @@ class GetUserDetail(BaseQuery):
     def validateToken(self):
         userToConsult = User.query.filter(User.token == self.token.replace("Bearer ", "")).first()
         if userToConsult == None:
+            logging.error(f"{LOG} Token [{userToConsult.status}] invalid")
             raise InvalidToken
         if userToConsult.status != "VERIFICADO":
             userToConsult.token = None
             userToConsult.expireAt = None
             db.session.commit()
-            logging.error(f"{LOG} User Info [{userSchema.dump(userToConsult)}]")
+            logging.error(f"{LOG} User with status [{userToConsult.status}]")
+            logging.error(f"{LOG} User information [{userSchema.dump(userToConsult)}]")
             raise InvalidUserStatus
         
         expireAt = userToConsult.expireAt
