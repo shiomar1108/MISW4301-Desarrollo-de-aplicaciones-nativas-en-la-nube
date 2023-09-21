@@ -5,7 +5,11 @@ from flask_cors import CORS
 from blueprints.resources import users_blueprint
 from errors.errors import ApiError
 from models.models import db
+import logging
 import os
+
+# Configuración logger
+logging.basicConfig(level=logging.INFO)
 
 # Constantes
 DB_USER = os.environ["DB_USER"]

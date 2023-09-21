@@ -1,20 +1,29 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
 from models.models import db, User
-from errors.errors import ApiError, UserNameNotExists, PasswordNotExists
+from errors.errors import ApiError, UserNameNotExists, PasswordNotExists, InvalidUserStatus
 from validators.validators import validateSchema, generateTokenSchema
 from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError
-import traceback
+from utilities.utilities import formatDateTimeToUTC
+from models.models import UserSchema
+from flask.json import jsonify
+import logging
 import hashlib
 import uuid
 import os
 
 # Constantes
 TOKEN_DURATION_MIN =  os.getenv("TOKEN_DURATION_MIN", default=10)
+LOG = "[Authenticate]"
+
+# Esquemas 
+userSchema = UserSchema()
+
 # Clase que contiene la logica de creción de usuarios
 class Authenticate(BaseCommannd):
     def __init__(self, user):
+        self.data = user
         self.validateRequest(user)
 
     # Función que valida si existe un usuario con el username
@@ -50,17 +59,32 @@ class Authenticate(BaseCommannd):
         # Asignacion de variables
         self.username = userJson['username']
         self.password = userJson['password']
+
+    # Función que valida el estado del usuario
+    def validateUserStatus(self, userToUpdate):
+        if userToUpdate.status != "VERIFICADO":
+            userToUpdate.token = None
+            userToUpdate.expireAt = None
+            db.session.commit()
+            logging.error(f"{LOG} User Info [{userSchema.dump(userToUpdate)}]")
+            raise InvalidUserStatus
     
     # Función que realiza la autenticación del usuario
     def execute(self):
         try:
+            logging.info(f"{LOG} Transaction request => ")
+            logging.info(self.data)
             userToUpdate = self.validateUserName(self.username)
+            self.validateUserStatus(userToUpdate)
             password = self.generatePassword(userToUpdate.salt)
             self.validatePassword(self.username, password)
             userToUpdate.token = self.generateToken()
             userToUpdate.expireAt = self.generateExpirationDateTime()
             db.session.commit()
-            return userToUpdate
+            userTokenResponse = jsonify({'id': userToUpdate.id, 'token': userToUpdate.token, 'expireAt': formatDateTimeToUTC(str(userToUpdate.createdAt))})
+            logging.info(f"{LOG} Transaction response => ")
+            logging.info(userTokenResponse)
+            return userTokenResponse
         except SQLAlchemyError as e:# pragma: no cover
-            traceback.print_exc()
+            logging.error(e)
             raise ApiError(e)

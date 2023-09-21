@@ -5,6 +5,7 @@ from commands.reset import ResetUsers
 from commands.authenticate import Authenticate
 from queries.detail import GetUserDetail
 from commands.update import UpdateUser
+from commands.verify import VerifyUser
 from utilities.utilities import formatDateTimeToUTC
 
 users_blueprint = Blueprint('users', __name__)
@@ -24,15 +25,19 @@ def reset():
 @users_blueprint.route('/users/auth', methods=['POST'])
 def authenticate():
     data = request.get_json()
-    result = Authenticate(data).execute()
-    return jsonify({'id': result.id, 'token': result.token, 'expireAt': formatDateTimeToUTC(str(result.createdAt))})
+    return Authenticate(data).execute()
 
 # Recurso que expone la funcionalidad detail user
 @users_blueprint.route('/users/me', methods=['GET'])
 def detail():
     data = request.headers
-    result = GetUserDetail(data).query()
-    return jsonify({'id': result.id, 'username': result.username, 'email': result.email, 'fullName': result.fullName, 'dni': result.dni, 'phoneNumber': result.phoneNumber, 'status': result.status})
+    return GetUserDetail(data).query()
+
+# Recurso que expone la funcionalidad de callback para TrueNative
+@users_blueprint.route('/users/native/callback', methods=['PATCH'])
+def callback():
+    data = request.get_json()
+    return VerifyUser(data).execute()
 
 # Recurso que expone la funcionalidad update user
 @users_blueprint.route('/users/<string:userId>', methods=['PATCH'])

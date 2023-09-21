@@ -1,4 +1,5 @@
 # Importación de dependencias
+import datetime
 from commands.base_command import BaseCommannd
 from errors.errors import ApiError, UserNameNotExists, BadRequest
 from validators.validators import validateSchema, updateUserSchema
@@ -10,6 +11,10 @@ import traceback
 class UpdateUser(BaseCommannd):
     def __init__(self, userId, data):
         self.userId = userId
+        self.dni = None
+        self.fullName = None
+        self.phoneNumber = None
+        self.status = None
         self.validateRequest(data)
 
     # Función que valida si existe un usuario por el id
@@ -44,15 +49,16 @@ class UpdateUser(BaseCommannd):
     def execute(self):
         try:
             userToUpdate = self.validateUser(self.userId)
-            if self.dni:
+            if self.dni != None:
                 userToUpdate.dni = self.dni
-            if self.fullName:
+            if self.fullName != None:
                 userToUpdate.fullName = self.fullName
-            if self.phoneNumber:
+            if self.phoneNumber != None:
                 userToUpdate.phoneNumber = self.phoneNumber
-            if self.status:
+            if self.status != None:
                 userToUpdate.status = self.status
             db.session.commit()
+            userToUpdate.updatedAt = datetime.datetime.now()
             return userToUpdate
         except SQLAlchemyError as e:
             traceback.print_exc()
