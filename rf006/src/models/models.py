@@ -13,17 +13,17 @@ db = SQLAlchemy()
 # Clase que cotiene la definición del modelo de base de datos
 class TarjetaCredito(db.Model):
     __tablename__ = "tarjetaCredito"
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    token = db.Column(db.String(256), nullable=False)
+    id = db.Column(UUID(as_uuid=True), primary_key=True)
+    token = db.Column(db.String(256), nullable=True)
     userId = db.Column(UUID(as_uuid=True), nullable=False)
     lastFourDigits = db.Column(db.String(4), nullable=False)
-    ruv = db.Column(db.String(64), nullable=False)  # Pendiente corroborar longitud de cadena de caracteres
-    issuer = db.Column(db.String(20), nullable=False)
+    ruv = db.Column(db.String(256), nullable=True)
+    issuer = db.Column(db.String(20), nullable=True)
     status = db.Column(db.String(20), nullable=False)
-    createdAt = db.Column(DateTime, default=datetime.utcnow)
+    createdAt = db.Column(DateTime, nullable=False)
     updateAt = db.Column(DateTime, nullable=True)
     
 class TarjetaCreditoSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = TarjetaCredito
-        id = fields.String() 
+        id = fields.String()

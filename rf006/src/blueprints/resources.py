@@ -1,43 +1,61 @@
 from flask import request, Blueprint
 from flask.json import jsonify
-
+from commands.create import CrearTarjetaCredito
+from commands.query import TarjetaCreditoOnProcess
+from commands.update import TarjetaCreditoUpdate
+from models.models import TarjetaCreditoSchema
+from validators.validators import validateToken
 
 
 tarjetaCredito_blueprint = Blueprint('tarjetaCredito', __name__)
-
+tarjeta_schema = TarjetaCreditoSchema()
 
 @tarjetaCredito_blueprint.route('/credit-cards', methods=['POST'])
 def create():
-    pass
+    userId = validateToken(request.headers)
+    creditCardObj = CrearTarjetaCredito(userId=userId, post_request_json=request.get_json())
+    creditCard_resp = creditCardObj.execute()
+    return jsonify(creditCard_resp), 201
 
-@tarjetaCredito_blueprint.route('/credit-cards', methods=['GET'])
-def get():
-    pass
+
+# @tarjetaCredito_blueprint.route('/credit-cards', methods=['GET'])
+# def get():
+#     pass
 
 @tarjetaCredito_blueprint.route('/credit-cards/ping', methods=['GET'])
 def health():
     return "pong"
 
-@tarjetaCredito_blueprint.route('/credit-cards/reset', methods=['POST'])
-def reset():
-    pass
+# @tarjetaCredito_blueprint.route('/credit-cards/reset', methods=['POST'])
+# def reset():
+#     pass
 
-@tarjetaCredito_blueprint.route('/native/cards', methods=['POST'])
-def registartarjeta():
-    pass
+@tarjetaCredito_blueprint.route('/credit-cards/on-process', methods=['GET'])
+def query():
+    cardOnProcessObj = TarjetaCreditoOnProcess(status='POR_VERIFICAR')
+    tarjetas_resp = cardOnProcessObj.execute()
+    return [tarjeta_schema.dump(tarjeta) for tarjeta in tarjetas_resp], 200
 
-@tarjetaCredito_blueprint.route('/native/cards/<string:ruv>', methods=['GET'])
-def verificarSolicitud(ruv):
-    pass
+@tarjetaCredito_blueprint.route('/credit-cards/update', methods=['POST'])
+def update():
+    id = request.get_json()['id']
+    status = request.get_json()['status']
+    cardUpdateObj = TarjetaCreditoUpdate(id=id, status=status)
+    cardUpdate_resp = cardUpdateObj.execute()
+    return tarjeta_schema.dump(cardUpdate_resp), 200
 
-@tarjetaCredito_blueprint.route('native/cards/log', methods=['GET'])
-def listaSolicitudes():
-    pass
+# @tarjetaCredito_blueprint.route('/native/cards/<string:ruv>', methods=['GET'])
+# def verificarSolicitud(ruv):
+#     pass
 
-@tarjetaCredito_blueprint.route('native/cards/log/<string:ruv>', methods=['GET'])
-def detalleSolicitud(ruv):
-    pass
+# @tarjetaCredito_blueprint.route('native/cards/log', methods=['GET'])
+# def listaSolicitudes():
+#     pass
 
-@tarjetaCredito_blueprint.route('native/cards/log', methods=['DELETE'])
-def deleteSolicitudes():
-    pass
+# @tarjetaCredito_blueprint.route('native/cards/log/<string:ruv>', methods=['GET'])
+# def detalleSolicitud(ruv):
+#     pass
+
+# @tarjetaCredito_blueprint.route('native/cards/log', methods=['DELETE'])
+# def deleteSolicitudes():
+#     pass

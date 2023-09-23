@@ -18,3 +18,17 @@ class BadRequest(ApiError):
     code = 400
     description = "Párametros de entrada invalidos"
 
+# Clase que contiene la estructura de un error cuando ya existe la tarje de credito
+class CreditCardRepeated(ApiError):
+    code = 409
+    description = "Ya existe esa tarjeta de credito"
+
+# Clase que contiene la estructura de error cuando la tarjeta de credito esta vencida
+class CreditCardExpired(ApiError):
+    code = 412
+    description = "Tarjeta de credita expirada"
+
+# Clase que contiene la estructura de error cuando TrueNative no genera token de la tarjeta
+class MissingTrueNativeToken(ApiError):
+    code = 400
+    description = "TrueNative no genero token de la tarjeta"

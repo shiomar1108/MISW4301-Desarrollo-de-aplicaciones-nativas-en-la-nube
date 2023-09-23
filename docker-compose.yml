@@ -245,6 +245,74 @@ services:
     depends_on:
       - scores_db
 
+  rf006_db:
+    container_name: rf006_db  
+    image: postgres:14.1-alpine
+    ports:
+      - "5437:5432"
+    environment:
+      POSTGRES_DB: rf006db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    restart: always
+    networks:
+      - rf006_net 
+
+  rf006:
+    container_name: rf006
+    build: 
+      context: ./rf006
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "3008:3000"
+    environment:
+      DB_NAME: rf006db
+      DB_HOST: rf006_db
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: admin
+      USERS_PATH: "http://users:3000"
+      TRUENATIVE_PATH: "http://truenative:3000"
+      TRUENATIVE_TOKEN: qwerty
+    restart: always
+    networks:
+      - rf006_net
+      - app_net
+    depends_on:
+      - rf006_db
+      - users
+      - truenative
+
+  rf006_poll:
+    container_name: rf006_poll
+    build: 
+      context: ./rf006_poll
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "3010:3000"
+    environment:
+      RF006_PATH: "http://rf006:3000"
+      TRUENATIVE_PATH: "http://truenative:3000"
+      TRUENATIVE_TOKEN: qwerty
+    restart: always
+    networks:
+      - app_net
+    depends_on:
+      - rf006
+
+  truenative:
+    container_name: truenative
+    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/true-native:2.0.0
+    ports:
+      - "3009:3000"
+    environment:
+      SECRET_TOKEN: qwerty
+    restart: always
+    networks:
+      - app_net
+
 networks:
   app_net:
     driver: bridge
@@ -257,4 +325,6 @@ networks:
   post_net:
     driver: bridge
   rf005_net:
+    driver: bridge
+  rf006_net:
     driver: bridge
