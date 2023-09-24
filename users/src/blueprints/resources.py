@@ -7,6 +7,7 @@ from queries.detail import GetUserDetail
 from commands.update import UpdateUser
 from commands.verify import VerifyUser
 from utilities.utilities import formatDateTimeToUTC
+from externals.truenative import verifyUserExternal
 
 users_blueprint = Blueprint('users', __name__)
 
@@ -51,4 +52,5 @@ def update(userId):
 def create():
     data = request.get_json()
     result = CreateUser(data).execute()
+    verifyUserExternal(result.id, data, request.headers)
     return jsonify({'id': result.id, 'createdAt': formatDateTimeToUTC(str(result.createdAt))}), 201
