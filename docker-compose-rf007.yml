@@ -27,7 +27,10 @@ services:
       DB_PORT: 5432
       DB_USER: admin
       DB_PASSWORD: admin
-      SCORE_VALIDATE: 80
+      USERS_PATH: "http://users:3000"
+      TRUENATIVE_PATH: "http://truenative:3000"
+      SECRET_TOKEN: "d5f14860-f674-4248-be61-18bed307a49f"
+      SEND_EMAIL_PATH: "https://us-central1-misw-app-nativas-nube.cloudfunctions.net/function-send-mail"
     restart: always
     networks:
       - user_net 
@@ -77,12 +80,12 @@ services:
     ports:
       - "3001:3000"
     environment:
-      SECRET_TOKEN: d5f14860-f674-4248-be61-18bed307a49f
+      SECRET_TOKEN: "d5f14860-f674-4248-be61-18bed307a49f"
     restart: always
     networks:
       - app_net
     depends_on:
-      - users_db  
+      - users  
 
   nginx_proxy:
     image: nginx:latest

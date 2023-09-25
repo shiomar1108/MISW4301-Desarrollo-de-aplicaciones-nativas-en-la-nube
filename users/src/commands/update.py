@@ -3,13 +3,21 @@ import datetime
 from commands.base_command import BaseCommannd
 from errors.errors import ApiError, UserNameNotExists, BadRequest
 from validators.validators import validateSchema, updateUserSchema
-from models.models import db, User
+from models.models import UserSchema, db, User
 from sqlalchemy.exc import SQLAlchemyError
 import traceback
+import logging
+
+# Esquemas
+userSchema = UserSchema()
+
+# Constantes
+LOG = "[Update User]"
 
 # Clase que contiene la logica de creción de usuarios
 class UpdateUser(BaseCommannd):
     def __init__(self, userId, data):
+        self.data = data
         self.userId = userId
         self.dni = None
         self.fullName = None
@@ -48,6 +56,8 @@ class UpdateUser(BaseCommannd):
     # Función que realiza la actualización del usuario
     def execute(self):
         try:
+            logging.info(f"{LOG} Transaction request => ")
+            logging.info(self.data)
             userToUpdate = self.validateUser(self.userId)
             if self.dni != None:
                 userToUpdate.dni = self.dni
@@ -57,8 +67,10 @@ class UpdateUser(BaseCommannd):
                 userToUpdate.phoneNumber = self.phoneNumber
             if self.status != None:
                 userToUpdate.status = self.status
-            db.session.commit()
             userToUpdate.updatedAt = datetime.datetime.now()
+            db.session.commit()
+            logging.info(f"{LOG} Transaction Response => ")
+            logging.info(userSchema.dump(userToUpdate))
             return userToUpdate
         except SQLAlchemyError as e:
             traceback.print_exc()
