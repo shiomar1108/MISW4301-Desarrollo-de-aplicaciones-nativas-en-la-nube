@@ -14,7 +14,7 @@ def email(name,dni,ruv,estado,createAt, emailTo):
     # setup the parameters of the message 
     password = "jmek wgba shnf msdr"
     msg['From'] = "misopruebas@gmail.com"
-    msg['To'] = "stonejfg@yahoo.es"
+    msg['To'] = emailTo
     msg['Subject'] = "Miso Notificaciones"
     # add in the message body 
     msg.add_header('Content-Type', 'text/html')
