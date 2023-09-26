@@ -14,8 +14,8 @@ import os
 CrearTarjetaSchema = {
     "type": "object",
     "properties": {
-        "cardNumber": {"type": "string", "minimum": 16, "maximum": 16, "pattern": "^\d{16}$"},
-        "cvv": {"type": "string", "minimum": 3, "maximum": 3, "pattern": "^\d{3}$"},
+        "cardNumber": {"type": "string", "minimum": 15, "maximum": 16, "pattern": "^\d{15,16}$"},
+        "cvv": {"type": "string", "minimum": 3, "maximum": 4, "pattern": "^\d{3,4}$"},
         "expirationDate":  {"type": "string", "minimum": 5, "maximum": 5, "pattern": "^\d{2}/\d{2}$"},
         "cardHolderName": {"type": "string", "minimum": 4, "maximum": 20}
     },

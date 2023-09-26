@@ -1,8 +1,9 @@
 from flask import request, Blueprint
 from flask.json import jsonify
 from commands.create import CrearTarjetaCredito
-from commands.query import TarjetaCreditoOnProcess
+from commands.query import TarjetaCreditoOnProcess, TarjetaCreditoUsuario
 from commands.update import TarjetaCreditoUpdate
+from commands.reset import ResetCards
 from models.models import TarjetaCreditoSchema
 from validators.validators import validateToken
 
@@ -18,17 +19,21 @@ def create():
     return jsonify(creditCard_resp), 201
 
 
-# @tarjetaCredito_blueprint.route('/credit-cards', methods=['GET'])
-# def get():
-#     pass
+@tarjetaCredito_blueprint.route('/credit-cards', methods=['GET'])
+def get():
+    userId = validateToken(request.headers)
+    cardUserObj = TarjetaCreditoUsuario(userId=userId)
+    tarjetas_user = cardUserObj.execute()
+    return [tarjeta_schema.dump(tarjeta) for tarjeta in tarjetas_user], 200
 
 @tarjetaCredito_blueprint.route('/credit-cards/ping', methods=['GET'])
 def health():
     return "pong"
 
-# @tarjetaCredito_blueprint.route('/credit-cards/reset', methods=['POST'])
-# def reset():
-#     pass
+@tarjetaCredito_blueprint.route('/credit-cards/reset', methods=['POST'])
+def reset():
+    ResetCards().execute()
+    return jsonify({'msg': 'Todos los datos fueron eliminados'}), 200
 
 @tarjetaCredito_blueprint.route('/credit-cards/on-process', methods=['GET'])
 def query():
@@ -43,19 +48,3 @@ def update():
     cardUpdateObj = TarjetaCreditoUpdate(id=id, status=status)
     cardUpdate_resp = cardUpdateObj.execute()
     return tarjeta_schema.dump(cardUpdate_resp), 200
-
-# @tarjetaCredito_blueprint.route('/native/cards/<string:ruv>', methods=['GET'])
-# def verificarSolicitud(ruv):
-#     pass
-
-# @tarjetaCredito_blueprint.route('native/cards/log', methods=['GET'])
-# def listaSolicitudes():
-#     pass
-
-# @tarjetaCredito_blueprint.route('native/cards/log/<string:ruv>', methods=['GET'])
-# def detalleSolicitud(ruv):
-#     pass
-
-# @tarjetaCredito_blueprint.route('native/cards/log', methods=['DELETE'])
-# def deleteSolicitudes():
-#     pass
