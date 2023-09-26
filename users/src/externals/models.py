@@ -1,8 +1,4 @@
 
-from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-
-
 class UserNative():
     email : str
     dni : str
@@ -35,7 +31,6 @@ class TrueNative():
         self.userWebhook = userWebhook
         self.user = user
         
-    
     def obj_to_dict(self):  # for build json format
         return {
             "transactionIdentifier": self.transactionIdentifier,

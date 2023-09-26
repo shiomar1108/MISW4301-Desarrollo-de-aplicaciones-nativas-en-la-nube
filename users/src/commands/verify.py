@@ -1,5 +1,6 @@
 # Importación de dependencias
 from commands.base_command import BaseCommannd
+from requests.structures import CaseInsensitiveDict
 from errors.errors import ApiError
 from commands.update import UpdateUser
 from models.models import UserSchema
@@ -9,6 +10,7 @@ import logging
 import os
 
 # Constantes
+SECRET_TOKEN = os.getenv("SECRET_TOKEN", default="d5f14860-f674-4248-be61-18bed307a49f")
 SEND_EMAIL_PATH = os.getenv("SEND_EMAIL_PATH")
 LOG = "[Verify User]"
 
@@ -38,11 +40,14 @@ class VerifyUser(BaseCommannd):
         logging.info(SEND_EMAIL_PATH)
         requestSendEmail = self.constructRequest(user, truenative)
         logging.info(f"{LOG} SendEmail Request => ")
-        logging.info(type(requestSendEmail))
         logging.info(requestSendEmail)
+        headers = CaseInsensitiveDict()
+        headers["secret-x"] = SECRET_TOKEN
+        logging.info(f"{LOG} SendEmail Headers Request => ")
+        logging.info(headers)
         # Call to Send Email Service
         responseSendEmail = requests.post(
-            SEND_EMAIL_PATH, json=requestSendEmail)
+            SEND_EMAIL_PATH, json=requestSendEmail, headers=headers)
         if responseSendEmail.status_code != 200:
             logging.error(
                 f"{LOG} SendEmail Status Response => [{responseSendEmail.status_code}]")

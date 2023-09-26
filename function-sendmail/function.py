@@ -1,7 +1,5 @@
 import functions_framework
 # import necessary packages 
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from email.message import EmailMessage
 import smtplib
 
@@ -19,7 +17,6 @@ def email(name,dni,ruv,estado,createAt, emailTo):
     # add in the message body 
     msg.add_header('Content-Type', 'text/html')
     msg.set_payload(message)
-    #msg.attach(MIMEText(message, 'plain'))
     #create server 
     server = smtplib.SMTP('smtp.gmail.com: 587')
     server.starttls()
@@ -34,7 +31,6 @@ def email(name,dni,ruv,estado,createAt, emailTo):
 @functions_framework.http
 def hello_http(request):
   request_json = request.get_json(silent=True)
-  request_args = request.args
   data = request.headers
   name = ''
   
