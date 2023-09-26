@@ -6,6 +6,7 @@ from commands.authenticate import Authenticate
 from queries.detail import GetUserDetail
 from commands.update import UpdateUser
 from commands.verify import VerifyUser
+from queries.get import GetUserById
 from utilities.utilities import formatDateTimeToUTC
 from externals.truenative import verifyUserExternal
 
@@ -46,6 +47,11 @@ def update(userId):
     data = request.get_json()
     UpdateUser(userId, data).execute()
     return jsonify({'msg': 'el usuario ha sido actualizado'})
+
+# Recurso que expone la funcionalidad de consulta de usuario po ID
+@users_blueprint.route('/users/<string:userId>', methods=['GET'])
+def get(userId):
+    return GetUserById(userId).query()
 
 # Recurso que expone la funcionalidad create user
 @users_blueprint.route('/users', methods=['POST'])

@@ -42,3 +42,8 @@ class MissingToken(ApiError):
 class BadRequest(ApiError):
     code = 400
     description = "Párametros de entrada invalidos"
+    
+# Clase que contiene la estructura de un error de tipo Bad Request
+class NotFound(ApiError):
+    code = 404
+    description = "El usuario no se encuentra registrado"    
