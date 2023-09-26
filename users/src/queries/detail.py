@@ -1,10 +1,16 @@
 # Importación de dependencias
 from queries.base_query import BaseQuery
-from errors.errors import ApiError, InvalidToken, MissingToken
-from models.models import User
+from errors.errors import ApiError, InvalidToken, MissingToken, InvalidUserStatus
+from models.models import db, User, UserSchema
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
-import traceback
+import logging
+
+# Constantes
+LOG = "[User Detail]"
+
+# Esquemas
+userSchema = UserSchema()
 
 # Clase que contiene la logica de creción de usuarios
 class GetUserDetail(BaseQuery):
@@ -21,17 +27,26 @@ class GetUserDetail(BaseQuery):
     def validateToken(self):
         userToConsult = User.query.filter(User.token == self.token.replace("Bearer ", "")).first()
         if userToConsult == None:
+            logging.error(f"{LOG} Token [{userToConsult.status}] invalid")
             raise InvalidToken
+        if userToConsult.status != "VERIFICADO":
+            userToConsult.token = None
+            userToConsult.expireAt = None
+            db.session.commit()
+            logging.error(f"{LOG} User with status [{userToConsult.status}]")
+            logging.error(f"{LOG} User information [{userSchema.dump(userToConsult)}]")
+            raise InvalidUserStatus
+        
         expireAt = userToConsult.expireAt
         currentDateTime = datetime.today()
         if expireAt < currentDateTime:
             raise InvalidToken# pragma: no cover
-        return userToConsult
+        return userSchema.dump(userToConsult)
 
-    # Función que realiza creación del usuario
+    # Función que realiza consulta de usuarios
     def query(self):
         try:
             return self.validateToken()
         except SQLAlchemyError as e:# pragma: no cover
-            traceback.print_exc()
+            logging.error(e)
             raise ApiError(e)

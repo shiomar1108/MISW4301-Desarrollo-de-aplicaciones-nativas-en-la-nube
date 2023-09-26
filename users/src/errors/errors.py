@@ -28,6 +28,11 @@ class InvalidToken(ApiError):
     code = 401
     description = "El token no es válido o está vencido" 
     
+# Clase que contiene la estructura de error cuando el usuario esta en estado NO_VERIFICADO
+class InvalidUserStatus(ApiError):
+    code = 401
+    description = "El usuario no esta activo"    
+    
 # Clase que contiene la estructura de error cuando no se envia el token
 class MissingToken(ApiError):
     code = 403
