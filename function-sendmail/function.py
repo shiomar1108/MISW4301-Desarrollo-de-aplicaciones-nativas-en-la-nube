@@ -35,11 +35,18 @@ def email(name,dni,ruv,estado,createAt, emailTo):
 def hello_http(request):
   request_json = request.get_json(silent=True)
   request_args = request.args
-  email(request_json['name'],
-    request_json['dni'],
-    request_json['ruv'],
-    request_json['estado'],
-    request_json['createAt'],
-    request_json['emailTo'])
+  data = request.headers
   name = ''
-  return 'Succes!'.format(name)
+  
+  if data['secret-x'] == 'd5f14860-f674-4248-be61-18bed307a49f':
+    email(request_json['name'],
+      request_json['dni'],
+      request_json['ruv'],
+      request_json['estado'],
+      request_json['createAt'],
+      request_json['emailTo'])
+    return 'Succes!'.format(name)
+  else:
+    return 'Error!'.format(name),500
+  
+  
