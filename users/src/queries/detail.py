@@ -43,7 +43,7 @@ class GetUserDetail(BaseQuery):
             raise InvalidToken# pragma: no cover
         return userSchema.dump(userToConsult)
 
-    # Función que realiza creación del usuario
+    # Función que realiza consulta de usuarios
     def query(self):
         try:
             return self.validateToken()
