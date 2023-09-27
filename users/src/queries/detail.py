@@ -22,7 +22,7 @@ class GetUserDetail(BaseQuery):
     # Función que valida el id en formato UUID
     def validateIDsUUID(self, value):
         try:
-            uuid.UUID(str(value["Authorization"]))
+            uuid.UUID(str(value["Authorization"]).replace("Bearer ", ""))
         except Exception as e:
             logging.error(e)
             raise FormatTokenInvalid
