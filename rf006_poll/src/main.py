@@ -5,6 +5,14 @@ import threading
 from os import environ as env
 import os
 from requests.structures import CaseInsensitiveDict
+import logging
+
+
+# Configuración logger
+logging.basicConfig(level=logging.INFO)
+
+# Constantes
+LOG = "[RF006 Poll]"
 
 app = Flask(__name__)
 
@@ -34,7 +42,25 @@ def estado_solicitud():
     TRUENATIVE_PATH = env["TRUENATIVE_PATH"]
     TRUENATIVE_TOKEN = env["TRUENATIVE_TOKEN"]
     SEND_EMAIL_PATH = env["SEND_EMAIL_PATH"]
+    print("<======== VARIABLES ========> ")
+    print(f"{LOG} RF006_PATH => ")
+    print(RF006_PATH)
+    print(f"{LOG} USERS_PATH => ")
+    print(USERS_PATH)
+    print(f"{LOG} TRUENATIVE_PATH => ")
+    print(TRUENATIVE_PATH)
+    print(f"{LOG} TRUENATIVE_TOKEN => ")
+    print(TRUENATIVE_TOKEN)
+    print(f"{LOG} SEND_EMAIL_PATH => ")
+    print(SEND_EMAIL_PATH)
+    print("<======== FIN VARIABLES ========> ")
     resp_tarjetas_por_verificar = requests.get(f"{RF006_PATH}/credit-cards/on-process")
+    print(f"{LOG} CONSUMO ON PROCESS CREDIT CARD => ")
+    print(f"{RF006_PATH}/credit-cards/on-process")
+    print(resp_tarjetas_por_verificar)
+    
+    
+    
     for tarjeta in resp_tarjetas_por_verificar.json():
         ruv = tarjeta["ruv"]
         resp_trueNative = requests.get(
@@ -72,6 +98,7 @@ def estado_solicitud():
 def timer():
     while True:
         try:
+            print("<=================================>")
             respuesta = estado_solicitud()
             if respuesta is None:
                 print(
