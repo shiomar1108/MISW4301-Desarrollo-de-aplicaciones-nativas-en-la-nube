@@ -16,7 +16,7 @@ LOG = "[RF006 Poll]"
 
 app = Flask(__name__)
 
-SECRET_TOKEN = os.getenv("SECRET_TOKEN", default="d5f14860-f674-4248-be61-18bed307a49f")
+EMAIL_TOKEN = os.getenv("EMAIL_TOKEN", default="d5f14860-f674-4248-be61-18bed307a4a0")
 
 
 @app.route("/poll/ping", methods=["GET"])
@@ -25,11 +25,11 @@ def health():
 
 
 # Función que construye el request de SendEmail
-def constructRequest(user, truenative):
+def constructRequest(user, truenative, tarjeta):
     return {
         "name": f"{user['username']}",
-        "dni": f"{user['dni']}",
-        "ruv": f"{truenative['RUV']}",
+        "lastFourDigits": f"{tarjeta['lastFourDigits']}",
+        "issuer": f"{tarjeta['issuer']}",
         "estado": f"{truenative['status']}",
         "createAt": f"{truenative['createdAt']}",
         "emailTo": f"{user['email']}",
@@ -43,9 +43,7 @@ def estado_solicitud():
     TRUENATIVE_TOKEN = env["TRUENATIVE_TOKEN"]
     SEND_EMAIL_PATH = env["SEND_EMAIL_PATH"]
     resp_tarjetas_por_verificar = requests.get(f"{RF006_PATH}/credit-cards/on-process")
-    
-    
-    
+
     for tarjeta in resp_tarjetas_por_verificar.json():
         ruv = tarjeta["ruv"]
         resp_trueNative = requests.get(
@@ -64,11 +62,18 @@ def estado_solicitud():
             # Se envia correo
             infousers = requests.get(f"{USERS_PATH}/users/{tarjeta['userId']}")
             headers = CaseInsensitiveDict()
-            headers["secret-x"] = SECRET_TOKEN
-            requestSendEmail = constructRequest(infousers.json(), resp_trueNative.json())
+            headers["secret-x"] = EMAIL_TOKEN
+            requestSendEmail = constructRequest(
+                infousers.json(), resp_trueNative.json(), tarjeta
+            )
+            print("Email Request ========>")
+            print(requestSendEmail)
             responseSendEmail = requests.post(
                 SEND_EMAIL_PATH, json=requestSendEmail, headers=headers
             )
+            print("Email Response ========>")
+            print(responseSendEmail.text)
+            print(responseSendEmail.status_code)
             if responseSendEmail.status_code != 200:
                 resp_actualizar_tarjeta = "Error al enviar el correo"
         elif resp_trueNative.status_code == 202:
@@ -99,7 +104,7 @@ def timer():
                 print(f"Connection established --> {respuesta}", flush=True)
         except:
             print("Connection NOT established", flush=True)
-        time.sleep(5)
+        time.sleep(1)
 
 
 t = threading.Thread(target=timer)

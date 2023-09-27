@@ -21,7 +21,7 @@ class TarjetaCredito(db.Model):
     issuer = db.Column(db.String(20), nullable=True)
     status = db.Column(db.String(20), nullable=False)
     createdAt = db.Column(DateTime, nullable=False)
-    updateAt = db.Column(DateTime, nullable=True)
+    updatedAt = db.Column(DateTime, nullable=True)
     
 class TarjetaCreditoSchema(SQLAlchemyAutoSchema):
     class Meta:

@@ -15,7 +15,7 @@ class TarjetaCreditoUpdate(BaseCommannd):
         try:
             card_to_update = TarjetaCredito.query.filter(TarjetaCredito.id == self.id).first()
             card_to_update.status = self.status
-            card_to_update.updateAt = datetime.now()
+            card_to_update.updatedAt = datetime.now()
             db.session.commit()
             return card_to_update
         except SQLAlchemyError as e:
