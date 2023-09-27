@@ -27,6 +27,10 @@ services:
       DB_PORT: 5432
       DB_USER: admin
       DB_PASSWORD: admin
+      USERS_PATH: "http://users:3000"
+      TRUENATIVE_PATH: "http://truenative:3000"
+      SECRET_TOKEN: "d5f14860-f674-4248-be61-18bed307a49f"
+      SEND_EMAIL_PATH: "https://us-central1-misw-app-nativas-nube.cloudfunctions.net/function-send-mail"
     restart: always
     networks:
       - user_net 
@@ -274,7 +278,9 @@ services:
       DB_PASSWORD: admin
       USERS_PATH: "http://users:3000"
       TRUENATIVE_PATH: "http://truenative:3000"
-      TRUENATIVE_TOKEN: qwerty
+      TRUENATIVE_TOKEN: d5f14860-f674-4248-be61-18bed307a49f
+      SECRET_TOKEN: "d5f14860-f674-4248-be61-18bed307a49f"
+      SEND_EMAIL_PATH: "https://us-central1-misw-app-nativas-nube.cloudfunctions.net/function-send-mail"
     restart: always
     networks:
       - rf006_net
@@ -295,9 +301,10 @@ services:
     environment:
       RF006_PATH: "http://rf006:3000"
       TRUENATIVE_PATH: "http://truenative:3000"
-      TRUENATIVE_TOKEN: qwerty
+      TRUENATIVE_TOKEN: d5f14860-f674-4248-be61-18bed307a49f
     restart: always
     networks:
+      - rf006_net
       - app_net
     depends_on:
       - rf006
@@ -308,10 +315,25 @@ services:
     ports:
       - "3009:3000"
     environment:
-      SECRET_TOKEN: qwerty
+      SECRET_TOKEN: d5f14860-f674-4248-be61-18bed307a49f
     restart: always
     networks:
       - app_net
+
+  nginx_proxy:
+    image: nginx:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    container_name: nginx_proxy
+    restart: always
+    networks:
+      - app_net
+    depends_on:
+      - users
+      - routes
+      - truenative
 
 networks:
   app_net:
