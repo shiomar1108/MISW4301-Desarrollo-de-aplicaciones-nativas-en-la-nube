@@ -42,22 +42,7 @@ def estado_solicitud():
     TRUENATIVE_PATH = env["TRUENATIVE_PATH"]
     TRUENATIVE_TOKEN = env["TRUENATIVE_TOKEN"]
     SEND_EMAIL_PATH = env["SEND_EMAIL_PATH"]
-    print("<======== VARIABLES ========> ")
-    print(f"{LOG} RF006_PATH => ")
-    print(RF006_PATH)
-    print(f"{LOG} USERS_PATH => ")
-    print(USERS_PATH)
-    print(f"{LOG} TRUENATIVE_PATH => ")
-    print(TRUENATIVE_PATH)
-    print(f"{LOG} TRUENATIVE_TOKEN => ")
-    print(TRUENATIVE_TOKEN)
-    print(f"{LOG} SEND_EMAIL_PATH => ")
-    print(SEND_EMAIL_PATH)
-    print("<======== FIN VARIABLES ========> ")
     resp_tarjetas_por_verificar = requests.get(f"{RF006_PATH}/credit-cards/on-process")
-    print(f"{LOG} CONSUMO ON PROCESS CREDIT CARD => ")
-    print(f"{RF006_PATH}/credit-cards/on-process")
-    print(resp_tarjetas_por_verificar)
     
     
     
@@ -80,12 +65,12 @@ def estado_solicitud():
             infousers = requests.get(f"{USERS_PATH}/users/{tarjeta['userId']}")
             headers = CaseInsensitiveDict()
             headers["secret-x"] = SECRET_TOKEN
-            requestSendEmail = constructRequest(infousers, resp_trueNative)
+            requestSendEmail = constructRequest(infousers.json(), resp_trueNative.json())
             responseSendEmail = requests.post(
                 SEND_EMAIL_PATH, json=requestSendEmail, headers=headers
             )
-        if responseSendEmail.status_code != 200:
-            resp_actualizar_tarjeta = "Error al enviar el correo"
+            if responseSendEmail.status_code != 200:
+                resp_actualizar_tarjeta = "Error al enviar el correo"
         elif resp_trueNative.status_code == 202:
             resp_actualizar_tarjeta = "Solicitud en proceso"
         elif resp_trueNative.status_code == 404:

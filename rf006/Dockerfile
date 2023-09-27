@@ -1,4 +1,5 @@
 FROM python:3.10 AS base
+ENV PYTHONUNBUFFERED 1 
 LABEL author="s.salazarc@uniandes.edu.co/jm.carrillo@uniandes.edu.co"
 RUN apt-get update && apt-get install -y
 RUN apt-get install telnet -y
