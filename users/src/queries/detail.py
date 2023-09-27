@@ -1,6 +1,7 @@
 # Importación de dependencias
+import uuid
 from queries.base_query import BaseQuery
-from errors.errors import ApiError, InvalidToken, MissingToken, InvalidUserStatus
+from errors.errors import ApiError, InvalidToken, MissingToken, InvalidUserStatus, FormatTokenInvalid
 from models.models import db, User, UserSchema
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
@@ -16,6 +17,15 @@ userSchema = UserSchema()
 class GetUserDetail(BaseQuery):
     def __init__(self, headers):
         self.validateHeaders(headers)
+        self.validateIDsUUID(headers)
+
+    # Función que valida el id en formato UUID
+    def validateIDsUUID(self, value):
+        try:
+            uuid.UUID(str(value["Authorization"]))
+        except Exception as e:
+            logging.error(e)
+            raise FormatTokenInvalid
 
     # Función que valida los headers
     def validateHeaders(self, headers):

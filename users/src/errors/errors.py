@@ -33,6 +33,11 @@ class InvalidUserStatus(ApiError):
     code = 401
     description = "El usuario no esta activo"    
     
+# Clase que contiene la estructura de error cuando la estructura del token es invalida
+class FormatTokenInvalid(ApiError):
+    code = 401
+    description = "El formato del token es invalido"       
+    
 # Clase que contiene la estructura de error cuando no se envia el token
 class MissingToken(ApiError):
     code = 403
