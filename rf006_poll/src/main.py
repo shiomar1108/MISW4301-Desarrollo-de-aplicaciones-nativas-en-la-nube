@@ -66,14 +66,9 @@ def estado_solicitud():
             requestSendEmail = constructRequest(
                 infousers.json(), resp_trueNative.json(), tarjeta
             )
-            print("Email Request ========>")
-            print(requestSendEmail)
             responseSendEmail = requests.post(
                 SEND_EMAIL_PATH, json=requestSendEmail, headers=headers
             )
-            print("Email Response ========>")
-            print(responseSendEmail.text)
-            print(responseSendEmail.status_code)
             if responseSendEmail.status_code != 200:
                 resp_actualizar_tarjeta = "Error al enviar el correo"
         elif resp_trueNative.status_code == 202:
