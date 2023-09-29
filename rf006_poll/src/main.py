@@ -5,24 +5,15 @@ import threading
 from os import environ as env
 import os
 from requests.structures import CaseInsensitiveDict
-import logging
-
-
-# Configuración logger
-logging.basicConfig(level=logging.INFO)
-
-# Constantes
-LOG = "[RF006 Poll]"
 
 app = Flask(__name__)
 
 EMAIL_TOKEN = os.getenv("EMAIL_TOKEN", default="d5f14860-f674-4248-be61-18bed307a4a0")
-
+APP_PORT =  int(os.getenv("APP_PORT", default=3000))
 
 @app.route("/poll/ping", methods=["GET"])
 def health():
     return "pong"
-
 
 # Función que construye el request de SendEmail
 def constructRequest(user, truenative, tarjeta):
@@ -104,3 +95,5 @@ def timer():
 
 t = threading.Thread(target=timer)
 t.start()
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=APP_PORT)
