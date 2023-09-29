@@ -4,6 +4,7 @@ from errors.errors import ApiError, UserNameExists, UserEmailExists
 from validators.validators import validateSchema, createUserSchema
 from models.models import db, User
 from sqlalchemy.exc import SQLAlchemyError
+import traceback
 import hashlib
 import uuid
 

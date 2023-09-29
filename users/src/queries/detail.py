@@ -16,6 +16,8 @@ userSchema = UserSchema()
 # Clase que contiene la logica de creción de usuarios
 class GetUserDetail(BaseQuery):
     def __init__(self, headers):
+        logging.info(f"{LOG} Transaction request => ")
+        logging.info(headers)
         self.validateHeaders(headers)
         self.validateIDsUUID(headers)
 
@@ -24,12 +26,15 @@ class GetUserDetail(BaseQuery):
         try:
             uuid.UUID(str(value["Authorization"]).replace("Bearer ", ""))
         except Exception as e:
-            logging.error(e)
+            logging.error(f"{LOG} Error [validateIDsUUID] => ")
+            logging.error(FormatTokenInvalid.description)
             raise FormatTokenInvalid
 
     # Función que valida los headers
     def validateHeaders(self, headers):
         if not "Authorization" in headers:
+            logging.error(f"{LOG} Error [validateHeaders] => ")
+            logging.error(MissingToken.description)
             raise MissingToken
         self.token = headers["Authorization"]
 
@@ -51,6 +56,8 @@ class GetUserDetail(BaseQuery):
         currentDateTime = datetime.today()
         if expireAt < currentDateTime:
             raise InvalidToken# pragma: no cover
+        logging.info(f"{LOG} Transaction response => ")
+        logging.info(userSchema.dump(userToConsult))
         return userSchema.dump(userToConsult)
 
     # Función que realiza consulta de usuarios
@@ -58,5 +65,6 @@ class GetUserDetail(BaseQuery):
         try:
             return self.validateToken()
         except SQLAlchemyError as e:# pragma: no cover
+            logging.error(f"{LOG} Error [SQLAlchemyError] => ")
             logging.error(e)
             raise ApiError(e)

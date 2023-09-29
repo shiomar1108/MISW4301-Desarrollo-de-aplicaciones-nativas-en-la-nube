@@ -10,11 +10,12 @@ from models.models import UserSchema
 from flask.json import jsonify
 import logging
 import hashlib
+import json
 import uuid
 import os
 
 # Constantes
-TOKEN_DURATION_MIN =  os.getenv("TOKEN_DURATION_MIN", default=10)
+TOKEN_DURATION_MIN =  os.getenv("TOKEN_DURATION_MIN", default=360)
 LOG = "[Authenticate]"
 
 # Esquemas 
@@ -73,6 +74,8 @@ class Authenticate(BaseCommannd):
     # Función que realiza la autenticación del usuario
     def execute(self):
         try:
+            logging.info(f"{LOG} Variable [TOKEN_DURATION_MIN] => ")
+            logging.info(TOKEN_DURATION_MIN)
             logging.info(f"{LOG} Transaction request => ")
             logging.info(self.data)
             userToUpdate = self.validateUserName(self.username)
@@ -82,10 +85,11 @@ class Authenticate(BaseCommannd):
             userToUpdate.token = self.generateToken()
             userToUpdate.expireAt = self.generateExpirationDateTime()
             db.session.commit()
-            userTokenResponse = jsonify({'id': userToUpdate.id, 'token': userToUpdate.token, 'expireAt': formatDateTimeToUTC(str(userToUpdate.createdAt))})
+            userTokenResponse = {'id': str(userToUpdate.id), 'token': str(userToUpdate.token), 'expireAt': formatDateTimeToUTC(str(userToUpdate.createdAt))}
             logging.info(f"{LOG} Transaction response => ")
             logging.info(userTokenResponse)
-            return userTokenResponse
+            return jsonify(userTokenResponse)
         except SQLAlchemyError as e:# pragma: no cover
+            logging.error(f"{LOG} Error => ")
             logging.error(e)
             raise ApiError(e)
