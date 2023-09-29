@@ -158,7 +158,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: appsecrets 
-                  key: USERS_PATH
+                  key: USERS_PATH                
             - name: "TRUENATIVE_TOKEN"
               valueFrom:
                 secretKeyRef:
