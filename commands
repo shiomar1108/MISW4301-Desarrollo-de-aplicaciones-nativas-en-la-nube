@@ -161,12 +161,9 @@
 	kubectl apply -f k8s-new-services-deployment.yaml	
 
 -> Aplicar deployment servicios entrega 3:
-	kubectl apply -f k8s-new-services-deployment.yaml		
-	
--> Aplicar ingress con todos los servicios:
 	kubectl apply -f k8s-true-native-deployment.yaml
-	kubectl apply -f k8s-componentes-entrega-3.yaml
-
+	kubectl apply -f k8s-componentes-entrega-3.yaml	
+	
 -> Aplicar ingress con todos los servicios:
 	kubectl apply -f k8s-ingress-deloyment.yaml	
 
