@@ -38,42 +38,6 @@ services:
     depends_on:
       - users_db
 
-  routes_db:    
-    container_name: routes_db
-    image: postgres:14.1-alpine
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_DB: routesdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin  
-    restart: always
-    networks:
-      - route_net
-  
-  routes:
-    container_name: routes
-    build: 
-      context: ./routes
-      dockerfile: Dockerfile
-      target: prod     
-    environment:
-      DB_NAME: routesdb
-      DB_HOST: routes_db
-      DB_PORT: 5432
-      DB_USER: admin
-      DB_PASSWORD: admin
-      USERS_PATH: "http://users:3000"
-    ports:
-      - "3002:3000"
-    restart: always      
-    networks:
-      - route_net
-      - app_net      
-    depends_on:
-      - routes_db
-      - users      
-
   rf006_db:
     container_name: rf006_db  
     image: postgres:14.1-alpine
@@ -160,7 +124,6 @@ services:
       - app_net
     depends_on:
       - users
-      - routes
       - rf006
       - rf006_poll
       - truenative
@@ -170,7 +133,5 @@ networks:
     driver: bridge
   user_net:
     driver: bridge
-  route_net:
-    driver: bridge    
   rf006_net:
     driver: bridge

@@ -98,6 +98,7 @@
 	gcloud compute networks subnets create red-s202314-proyecto-grupo8 --range=192.168.32.0/19 --network=vpn-s202314-proyecto-grupo8 --region=us-central1 --project=s202314-proyecto-grupo8
 
 	gcloud compute networks subnets create red-misw-app-nativas-nube-proyecto-grupo8 --range=192.168.32.0/19 --network=vpn-misw-app-nativas-nube-grupo8 --region=us-central1 --project=misw-app-nativas-nube
+	
 -> Crear Kubernetes:
 	Nombre Kubernetes: misw-app-nativas-nube-proyecto-grupo8-k8s
 	Red: vpn-misw-app-nativas-nube-grupo8
