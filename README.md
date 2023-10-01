@@ -201,7 +201,7 @@ docker-compose -f "docker-compose.yml" up -d
 
 Una vez se realice el despliegue correspondiente, se debe visualizar en el Docker Desktop lo siguiente:
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/0d92fb6d-7926-4843-b7a5-aa6419214e7c" alt="DockerComposeSuccesfull" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/6ceabebd-72a1-45d9-b8ba-d2dc4098cd9f" alt="DockerComposeSuccesfull" width="800">
 
 ## Pre-requisitos para el despliegue en Google Kubernetes Engine
 - **Descargar o clonar el proyecto**: Para ello clonaremos o descargaremos el proyecto del repositorio público, a través del siguiente enlace: https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8.git
@@ -216,7 +216,7 @@ Una vez se realice el despliegue correspondiente, se debe visualizar en el Docke
 - **Habilitar el Cloud Functions**: Se comparte el siguiente enlace:
   - [Habilitar servicio](https://console.cloud.google.com/apis/library/cloudfunctions.googleapis.com?hl=es-EC)
 
-## Despliegue del Proyecto en GKE
+## Despliegue del Proyecto en Google Kubernetes Engine
 
 - Inicialmente se debe realizar la creación del repositorio donde subiremos nuestras imágenes del proyecto, se deben seguir los pasos [Creación repositorio estándar Artifact Registry](https://cloud.google.com/artifact-registry/docs/repositories/create-repos?hl=es-419). 
   
@@ -268,6 +268,7 @@ docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-micro
 docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf006_poll:1.0
 ```
 Se debe ver en Artifact Registry las imágenes:
+
 <img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/2335c27b-fab5-4d9b-828e-56470d29ec51" alt="Screenshot" width="800">
 
 - A continuación, se procede con la creación de la red virtual del proyecto:
@@ -318,7 +319,7 @@ gcloud services vpc-peerings connect --service=servicenetworking.googleapis.com 
 ```bash
 gcloud compute firewall-rules create allow-db-ingress --direction=INGRESS --priority=1000 --network={red_virtual} --action=ALLOW --rules=tcp:5432 --source-ranges=192.168.1.0/24 --target-tags=basesdedatos --project={proyecto}
 ```
-```
+
 Ejemplo:
 
 ```bash
@@ -354,23 +355,27 @@ Seguiremos la siguiente configuración para la creación de la BD:
 	Rango de IP asignado: red-dbs-misw-app-nativas-nube-proyecto-grupo8
 ```
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/8e69ccdd-f8fc-4d31-b6c1-1290cc49c9f5" alt="Screenshot" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/400dfc82-4b55-419f-b5cf-a7b5bbc76c99" alt="Screenshot" width="800">
+
+Después de unos minutos, debería visualizar la base de datos de la siguiente forma:
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/673876d9-a01a-4ccb-9a5b-8820044f8c5d" alt="Screenshot" width="800">
 
 - Desplegamos la Cloud Function para realizar el envió de emails. Ejecutamos desde la terminal el siguiente comando:
 
 ```bash
 gcloud functions deploy function-send-mail --entry-point hello_http --runtime python39 --trigger-http --allow-unauthenticated --memory 128MB --region{region} --timeout 60 --min-instances 0 --max-instances 1
 ```
-```
+
 Ejemplo:
 
 ```bash
 gcloud functions deploy function-send-mail --entry-point hello_http --runtime python39 --trigger-http --allow-unauthenticated --memory 128MB --region us-central1 --timeout 60 --min-instances 0 --max-instances 1
 ```
 
-Validamos función en Cloud Functions
+Validamos la función en Cloud Functions
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/99d33208-2fd8-4635-aaa8-828250faafa9" alt="Screenshot" width="400">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/99d33208-2fd8-4635-aaa8-828250faafa9" alt="Screenshot" width="800">
 
 - Ahora realizaremos la creación de nuestro Clúster de Kubernentes:
 
@@ -395,13 +400,15 @@ Rango de direcciones del servicio: 192.168.72.0/21
 
 <img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/2d767952-8f4b-47ed-b803-54c15525717a" alt="Screenshot" width="800">
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/58c92bae-c5dd-4ef0-ab48-b5412b4bf409" alt="Screenshot" width="800">
+Una vez se cree el Clúster se debe ver de la siguiente manera:
+
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/5a57f3ec-511c-4892-bc1e-7c6a456fc40d" alt="Screenshot" width="800">
 
 - Antes de lanzar el despliegue de los servicios y el ingress del proyecto, se debe modificar la información del archivo **secrets.yml** cambiando el valor de las variables que están resaltadas en rojo:
 
 Variable **DB_HOST**, la tomamos de la **Dirección IP privada** de nuestra base de datos:
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/a578e4ca-f717-4adb-a40d-caa4d11bcd80" alt="Screenshot" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/0324bb6b-6b28-4774-ba4f-765c9c40455c" alt="Screenshot" width="800">
 
 Variable **SEND_EMAIL_PATH**, la tomamos de la **URL del activador** de nuestra función:
 
@@ -409,7 +416,7 @@ Variable **SEND_EMAIL_PATH**, la tomamos de la **URL del activador** de nuestra 
 
 El resultado del archivo **secrets.yml** debe quedar de la siguiente manera:
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/1224467b-c86a-48c3-b278-d7e874cf9e5e" alt="Screenshot" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/dff7e519-b48a-45b4-9373-b377eb2cc70b" alt="Screenshot" width="800">
 
 - Realizamos la implementación de los secrets a través del siguiente comando. Se debe estar en la raíz del proyecto:
 
@@ -457,7 +464,7 @@ kubectl apply -f k8s-ingress-deloyment.yaml
 
 Después de unos minutos, procedemos con la validación en GKE del ingress generado:
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/0169931f-6af1-4219-be4a-256757bb0343" alt="Screenshot" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/1a9315ca-fbb1-46a8-a2b2-8a2a0ed348d3" alt="Screenshot" width="800">
 
 ## Ejecución de Pruebas con Postman
 
@@ -467,9 +474,9 @@ Para probar los servicios API expuestos por cada microservicio, se deben seguir 
 
 <img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/60091d90-b0da-4c4f-b79e-8f2a2ad6634b" alt="Screenshot" width="800">
 
-- Actualizar la variable INGRESS_PATH de la colección.
+- Actualizar la variable **INGRESS_PATH** de la colección.
 
-<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/6c2d5554-e101-48c2-8d1e-247e23fb6638" alt="Screenshot" width="800">
+<img src="https://github.com/MISW-4301-Desarrollo-Apps-en-la-Nube/s202314-proyecto-grupo8/assets/110913673/05c99636-beb9-4f81-a094-c35bab8ad6aa" alt="Screenshot" width="800">
 
 - Ejecutar el Collection haciendo clic derecho en su nombre y haciendo clic en el botón "Run collection", esto ejecutará múltiples solicitudes API y también ejecutará algunos assertions que hemos preparado para asegurarnos de que el microservicio esté funcionando como se espera.
 
